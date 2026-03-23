@@ -2,13 +2,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, ChevronDown, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { HERO_HEADLINE_LINES, HERO_STATS } from "../constants/home-content";
 import { useHeroLoaded } from "../hooks/use-hero-loaded";
 import {
   createAnimationDelayStyle,
   homeDisplayFontStyle,
 } from "../utils/home-ui";
+import { Icon } from "@iconify/react";
 
 export function HeroSection() {
   const isHeroLoaded = useHeroLoaded();
@@ -19,7 +20,7 @@ export function HeroSection() {
       style={createAnimationDelayStyle(200)}
     >
       <div className="pointer-events-none absolute inset-0" aria-hidden>
-        <div className="from-primary/10 absolute inset-x-0 top-0 h-36 bg-gradient-to-b to-transparent" />
+        <div className="from-primary/10 absolute inset-x-0 top-0 h-36 bg-linear-to-b to-transparent" />
         <div className="bg-primary/8 absolute -top-8 -right-8 size-40 rounded-full blur-2xl" />
         <div className="absolute bottom-0 left-1/4 h-24 w-48 bg-emerald-400/6 blur-2xl" />
       </div>
@@ -29,8 +30,8 @@ export function HeroSection() {
           className="border-input/70 bg-secondary/60 text-muted-foreground animate-slide-up inline-flex w-fit items-center gap-2 rounded-full border px-3 py-1 text-xs"
           style={createAnimationDelayStyle(100)}
         >
-          <Sparkles className="text-primary size-3.5" />A cleaner way to stay
-          close to your money
+          <Icon icon="mdi:sparkles" className="text-primary size-5" />A cleaner
+          way to stay close to your money
         </div>
 
         <div className="space-y-3">
@@ -60,7 +61,7 @@ export function HeroSection() {
           </h1>
 
           <p
-            className="text-muted-foreground animate-slide-up max-w-[32rem] text-sm leading-6"
+            className="text-muted-foreground animate-slide-up max-w-lg text-sm leading-6"
             style={createAnimationDelayStyle(480)}
           >
             Log transactions, understand cash flow, and build better money
@@ -78,31 +79,34 @@ export function HeroSection() {
               <ArrowRight className="size-4" />
             </Link>
           </Button>
-
-          <Button asChild size="lg" variant="outline" className="rounded-full">
-            <a href="#preview">
-              See preview
-              <ChevronDown className="size-4" />
-            </a>
-          </Button>
         </div>
 
         <div
-          className="animate-slide-up grid grid-cols-3 gap-3"
+          className="animate-slide-up grid grid-cols-2 gap-3"
           style={createAnimationDelayStyle(640)}
         >
-          {HERO_STATS.map((stat) => (
+          {HERO_STATS.map((stat, i) => (
             <div
               key={stat.label}
-              className="bg-secondary/55 border-input/50 hover:bg-secondary/80 hover:border-primary/30 rounded-2xl border p-3 transition-all duration-200"
+              className={cn(
+                "bg-secondary/55 border-input/50 hover:bg-secondary/80 hover:border-primary/30 rounded-2xl border p-3 transition-all duration-200",
+                i === HERO_STATS.length - 1 && "col-span-2",
+              )}
             >
-              <p
-                className="text-primary text-lg font-bold"
-                style={homeDisplayFontStyle}
-              >
-                {stat.value}
-              </p>
-              <p className="text-muted-foreground mt-1 text-xs">{stat.label}</p>
+              <div className="flex items-center gap-4">
+                <div className="bg-primary/10 text-primary flex size-9 shrink-0 items-center justify-center rounded-xl border border-current/10">
+                  <stat.icon className="size-4" />
+                </div>
+                <div>
+                  <p
+                    className="text-primary text-lg font-bold"
+                    style={homeDisplayFontStyle}
+                  >
+                    {stat.value}
+                  </p>
+                  <p className="text-muted-foreground text-xs">{stat.label}</p>
+                </div>
+              </div>
             </div>
           ))}
         </div>

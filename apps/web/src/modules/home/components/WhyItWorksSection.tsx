@@ -9,10 +9,10 @@ import { StaggerSection } from "./StaggerSection";
 
 export function WhyItWorksSection() {
   return (
-    <section className="space-y-3">
+    <section className="space-y-6">
       <StaggerSection>
         <div>
-          <p className="text-sm font-semibold">Why It Works</p>
+          <p className="text-3xl font-semibold">Why It Works</p>
           <p className="text-muted-foreground text-xs">
             Focused enough for daily use, clear enough for better decisions
           </p>

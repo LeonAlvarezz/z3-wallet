@@ -8,7 +8,7 @@ type AnimatedBarsProps = {
 
 export function AnimatedBars({ active }: AnimatedBarsProps) {
   return (
-    <div className="mt-4 flex items-end gap-[6px]">
+    <div className="mt-4 flex items-end gap-2">
       {PREVIEW_BARS.map(({ h, day }, index) => (
         <div
           key={`${day}-${index}`}
@@ -16,7 +16,7 @@ export function AnimatedBars({ active }: AnimatedBarsProps) {
         >
           <div
             className={cn(
-              "bar-animated bg-primary/18 w-full rounded-full",
+              "bar-animated bg-primary/18 w-full rounded-lg",
               index === 5 && "bg-primary",
             )}
             style={

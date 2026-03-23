@@ -1,16 +1,20 @@
 import type { LucideIcon } from "lucide-react";
 import {
+  Clock3,
+  Focus,
   PiggyBank,
   ReceiptText,
   ShieldCheck,
   Target,
   TrendingUp,
+  Waves,
   Wallet,
 } from "lucide-react";
 
 export type FeatureCardColor = "emerald" | "sky" | "rose";
 
 export type HeroStat = {
+  icon: LucideIcon;
   label: string;
   value: string;
 };
@@ -38,9 +42,9 @@ export const HERO_HEADLINE_LINES = [
 ] as const;
 
 export const HERO_STATS: HeroStat[] = [
-  { label: "Setup time", value: "2 min" },
-  { label: "Focus", value: "Daily" },
-  { label: "View", value: "Cash flow" },
+  { icon: Clock3, label: "Setup time", value: "2 min" },
+  { icon: Focus, label: "Focus", value: "Daily" },
+  { icon: Waves, label: "View", value: "Cash flow" },
 ];
 
 export const FEATURE_CARDS: FeatureCard[] = [

@@ -27,7 +27,7 @@ export function MetricCountCard({
   const value = useCountUp(target, active, 1000);
 
   return (
-    <div className={cn("rounded-2xl p-3", ACCENT_CLASSES[accent])}>
+    <div className={cn("rounded-lg p-3", ACCENT_CLASSES[accent])}>
       <p className="text-[11px] opacity-75">{label}</p>
       <p className={cn("mt-2 text-sm font-semibold", active && "stat-val")}>
         {prefix}

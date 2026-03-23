@@ -14,11 +14,11 @@ export function HomeBackground() {
     >
       <div className="animate-blob bg-primary/14 absolute -top-24 left-1/3 h-72 w-72 -translate-x-1/2 rounded-full blur-3xl" />
       <div
-        className="animate-blob-alt absolute top-48 right-[-40px] h-64 w-64 rounded-full bg-emerald-400/10 blur-3xl"
+        className="animate-blob-alt absolute top-48 -right-10 h-64 w-64 rounded-full bg-emerald-400/10 blur-3xl"
         style={BLOB_DELAYS[0]}
       />
       <div
-        className="animate-blob absolute bottom-32 left-[-20px] h-56 w-56 rounded-full bg-sky-500/10 blur-3xl"
+        className="animate-blob absolute bottom-32 -left-5 h-56 w-56 rounded-full bg-sky-500/10 blur-3xl"
         style={BLOB_DELAYS[1]}
       />
       <div

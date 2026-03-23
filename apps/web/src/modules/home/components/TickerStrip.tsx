@@ -4,7 +4,7 @@ import { StaggerSection } from "./StaggerSection";
 export function TickerStrip() {
   return (
     <StaggerSection>
-      <div className="border-input/40 bg-secondary/30 relative overflow-hidden rounded-2xl border py-2.5">
+      <div className="border-input/40 bg-secondary/30 relative overflow-hidden rounded-2xl border mask-x-from-85% py-2.5">
         <div className="ticker-track animate-ticker">
           <div className="ticker-inner">
             {[...TICKER_ITEMS, ...TICKER_ITEMS].map((item, index) => (
@@ -17,10 +17,8 @@ export function TickerStrip() {
               </span>
             ))}
           </div>
+          <div className="h-full w-full bg-black" />
         </div>
-
-        <div className="from-background/80 pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r to-transparent" />
-        <div className="from-background/80 pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l to-transparent" />
       </div>
     </StaggerSection>
   );

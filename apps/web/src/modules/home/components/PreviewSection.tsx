@@ -14,11 +14,11 @@ export function PreviewSection() {
     useInView<HTMLDivElement>(0.2);
 
   return (
-    <section id="preview" className="space-y-3">
+    <section id="preview" className="space-y-6">
       <StaggerSection>
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm font-semibold">Product Preview</p>
+            <p className="text-3xl font-semibold">Product Preview</p>
             <p className="text-muted-foreground text-xs">
               Familiar surfaces, clearer message
             </p>
@@ -33,7 +33,7 @@ export function PreviewSection() {
         <div ref={previewRef}>
           <Card className="glow-card overflow-hidden rounded-3xl">
             <CardContent className="space-y-4 px-5 pt-6 pb-5">
-              <div className="flex items-start justify-between gap-3">
+              <div className="flex items-center justify-between gap-3">
                 <div>
                   <p className="text-muted-foreground text-xs">
                     Current Balance
@@ -42,7 +42,7 @@ export function PreviewSection() {
                     <AnimatedBalance active={previewInView} />
                   </p>
                 </div>
-                <div className="rounded-2xl bg-emerald-500/12 px-3 py-2 text-right">
+                <div className="rounded-lg bg-emerald-500/12 px-3 py-2 text-right">
                   <p className="text-[11px] text-emerald-400">Monthly trend</p>
                   <p className="text-sm font-medium text-emerald-300">+12%</p>
                 </div>
@@ -80,21 +80,6 @@ export function PreviewSection() {
                     Spending rhythm
                   </p>
                   <AnimatedBars active={previewInView} />
-                </div>
-
-                <div className="flex w-28 flex-col gap-3">
-                  <div className="rounded-2xl bg-rose-500/12 p-3">
-                    <p className="text-[11px] text-rose-300">Watchlist</p>
-                    <p className="mt-2 text-sm font-medium">Dining is rising</p>
-                  </div>
-                  <div className="bg-secondary/45 border-input/50 rounded-2xl border p-3">
-                    <p className="text-muted-foreground text-[11px]">
-                      Next step
-                    </p>
-                    <p className="mt-2 text-sm font-medium">
-                      Slow weekend spending
-                    </p>
-                  </div>
                 </div>
               </div>
 

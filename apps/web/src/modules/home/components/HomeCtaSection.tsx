@@ -35,11 +35,6 @@ export function HomeCtaSection() {
                 <ArrowRight className="size-4" />
               </Link>
             </Button>
-            <Button asChild variant="outline" className="rounded-full">
-              <Link to="/auth/login" preload={false}>
-                I already have an account
-              </Link>
-            </Button>
           </div>
         </CardContent>
       </Card>
