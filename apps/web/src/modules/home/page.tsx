@@ -7,7 +7,7 @@ import { HomeFooter } from "./components/HomeFooter";
 import { HomeHeader } from "./components/HomeHeader";
 import { HeroSection } from "./components/HeroSection";
 import { PreviewSection } from "./components/PreviewSection";
-import { TickerStrip } from "./components/TickerStrip";
+import { BenefitMarquee } from "./components/BenefitMarquee";
 import { WhyItWorksSection } from "./components/WhyItWorksSection";
 
 export default function HomePage() {
@@ -18,7 +18,7 @@ export default function HomePage() {
       <div className="relative flex min-h-lvh flex-col gap-10 overflow-y-auto p-4 pb-16">
         <HomeHeader />
         <HeroSection />
-        <TickerStrip />
+        <BenefitMarquee />
         <PreviewSection />
         <WhyItWorksSection />
         <HomeCtaSection />

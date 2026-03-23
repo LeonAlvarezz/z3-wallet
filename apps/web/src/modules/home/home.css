@@ -78,13 +78,13 @@
   }
 }
 
-@keyframes ticker-scroll {
+@keyframes marquee-scroll {
   from {
     transform: translateX(0);
   }
 
   to {
-    transform: translateX(-50%);
+    transform: translateX(calc(-100% - 14rem));
   }
 }
 
@@ -147,11 +147,15 @@
 }
 
 .animate-ticker {
-  animation: ticker-scroll 22s linear infinite;
+  animation: ticker-scroll 5s linear infinite;
 }
 
 .animate-card-float {
   animation: card-float 5s ease-in-out infinite;
+}
+
+.animate-marquee {
+  animation: marquee-scroll var(--marquee-duration, 10s) linear infinite;
 }
 
 .hero-headline {
@@ -217,13 +221,11 @@
   animation: pulse-ring 2.5s cubic-bezier(0.66, 0, 0, 1) infinite;
 }
 
-.ticker-track {
-  display: flex;
-  white-space: nowrap;
-  will-change: transform;
-}
 
-.ticker-inner {
-  display: flex;
-  gap: 0;
+.marquee {
+  /* display: flex; */
+  /* padding-left: 100%; */
+  display: inline-flex;
+  white-space: nowrap;
+
 }
