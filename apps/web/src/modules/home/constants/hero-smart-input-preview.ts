@@ -5,8 +5,8 @@ export type DemoScene = {
   category: string;
   categoryColor: CategoryModel.CategoryColorEnum;
   categoryIcon: string;
-  merchant: string;
-  merchantIcon: string;
+  payee: string;
+  payeeIcon: string;
   price: number;
 };
 
@@ -16,8 +16,8 @@ export const DEMO_SCENES: DemoScene[] = [
     category: "Food & Drinks",
     categoryColor: CategoryModel.CategoryColorEnum.ORANGE,
     categoryIcon: "solar:cup-hot-bold-duotone",
-    merchant: "Starbucks",
-    merchantIcon: "simple-icons:starbucks",
+    payee: "Starbucks",
+    payeeIcon: "simple-icons:starbucks",
     price: 5,
   },
   {
@@ -25,17 +25,17 @@ export const DEMO_SCENES: DemoScene[] = [
     category: "Travel",
     categoryColor: CategoryModel.CategoryColorEnum.BLUE,
     categoryIcon: "solar:compass-bold-duotone",
-    merchant: "Airbnb",
-    merchantIcon: "simple-icons:airbnb",
+    payee: "Airbnb",
+    payeeIcon: "simple-icons:airbnb",
     price: 245,
   },
   {
-    input: "18 Uber Transport",
-    category: "Transport",
+    input: "18 Uber transport",
+    category: "Transportation",
     categoryColor: CategoryModel.CategoryColorEnum.GREEN,
     categoryIcon: "solar:map-arrow-right-bold-duotone",
-    merchant: "Uber",
-    merchantIcon: "simple-icons:uber",
+    payee: "Uber",
+    payeeIcon: "simple-icons:uber",
     price: 18,
   },
   {
@@ -43,8 +43,8 @@ export const DEMO_SCENES: DemoScene[] = [
     category: "Groceries",
     categoryColor: CategoryModel.CategoryColorEnum.PINK,
     categoryIcon: "solar:cart-4-bold-duotone",
-    merchant: "Target",
-    merchantIcon: "simple-icons:target",
+    payee: "Target",
+    payeeIcon: "simple-icons:target",
     price: 62,
   },
 ];

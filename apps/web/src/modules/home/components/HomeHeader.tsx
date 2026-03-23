@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/logo/Logo";
 import { Link } from "@tanstack/react-router";
 import {
   createAnimationDelayStyle,
@@ -12,15 +13,10 @@ export function HomeHeader() {
       style={createAnimationDelayStyle(0)}
     >
       <div className="flex items-center gap-3">
-        <div className="text-primary flex size-12 items-center justify-center rounded-full px-2">
-          <img src="/wallet-logo.svg"></img>
-        </div>
+        <Logo className="text-primary size-12 rounded-full px-2" />
         <div className="flex flex-col">
           <span className="text-sm font-semibold" style={homeDisplayFontStyle}>
             Z3 Wallet
-          </span>
-          <span className="text-muted-foreground text-xs">
-            Personal finance, made calmer
           </span>
         </div>
       </div>

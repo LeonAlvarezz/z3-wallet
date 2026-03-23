@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { DEMO_SCENES } from "../constants/hero-smart-input-preview";
 import {
   CategoryStageItem,
-  MerchantStageItem,
+  PayeeStageItem,
   PriceStageItem,
 } from "./hero-smart-input-preview/StageCards";
 
@@ -53,16 +53,16 @@ export function HeroSmartInputPreview() {
         )}
 
         {revealCards && (
-          <MerchantStageItem
-            merchant={activeScene.merchant}
-            merchantIcon={activeScene.merchantIcon}
+          <PayeeStageItem
+            payee={activeScene.payee}
+            payeeIcon={activeScene.payeeIcon}
             delayMs={320}
           />
         )}
 
         <div className="absolute inset-x-0 bottom-2 z-20 sm:inset-x-4 sm:bottom-8">
           <div className="typewriter border-input/50 bg-card flex h-12 items-center justify-center rounded-lg border px-6 py-4 text-center sm:h-16 sm:px-7">
-            <p>{inputValue}</p>
+            <p>{inputValue}</p>+
           </div>
         </div>
       </div>

@@ -42,26 +42,21 @@ export function CategoryStageItem({
   );
 }
 
-type MerchantStageItemProps = {
-  merchant: string;
-  merchantIcon: string;
+type PayeeStageItemProps = {
+  payee: string;
+  payeeIcon: string;
   delayMs: number;
 };
 
-export function MerchantStageItem({
-  merchant,
-  merchantIcon,
+export function PayeeStageItem({
+  payee,
+  payeeIcon,
   delayMs,
-}: MerchantStageItemProps) {
+}: PayeeStageItemProps) {
   return (
-    <StageItem
-      eyebrow="Merchant"
-      title={merchant}
-      side="right"
-      delayMs={delayMs}
-    >
+    <StageItem eyebrow="payee" title={payee} side="right" delayMs={delayMs}>
       <div className="bg-card border-input/50 text-card-foreground flex h-full w-full flex-col items-center justify-center gap-3 rounded-[1.35rem] border p-4 shadow-xs">
-        <Icon icon={merchantIcon} className="text-foreground size-10" />
+        <Icon icon={payeeIcon} className="text-foreground size-10" />
       </div>
     </StageItem>
   );
