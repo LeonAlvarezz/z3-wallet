@@ -278,5 +278,5 @@
   /* --mobile: 430px; */
   --spacing-mobile: 430px;
   --spacing-bottom-nav-h: var(--bottom-nav-h);
-  --spacing-bottom-nav-total-h: var(--bottom-nav-total-h)
+  --spacing-bottom-nav-total-h: var(--bottom-nav-total-h);
 }

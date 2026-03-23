@@ -21,7 +21,7 @@ export const useSignIn = () => {
         description: `Welcome back, ${user.username}`,
       });
       navigate({
-        to: redirectTo || "/",
+        to: redirectTo || "/dashboard",
       });
     },
   });

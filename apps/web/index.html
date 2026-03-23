@@ -4,6 +4,23 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="application-name" content="My Wallet" />
+    <meta
+      name="description"
+      content="Track spending, monitor cash flow, and manage your personal finances with My Wallet."
+    />
+    <meta property="og:site_name" content="My Wallet" />
+    <meta property="og:title" content="My Wallet" />
+    <meta
+      property="og:description"
+      content="Track spending, monitor cash flow, and manage your personal finances with My Wallet."
+    />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="My Wallet" />
+    <meta
+      name="twitter:description"
+      content="Track spending, monitor cash flow, and manage your personal finances with My Wallet."
+    />
     <script>
       try {
         const storageKey = "vite-ui-theme";
@@ -33,10 +50,19 @@
       href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap"
     />
     <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@100..900&display=swap"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap"
+      rel="stylesheet"
+    />
+    <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap"
       media="print"
-      onload="this.media='all'"
+      onload="this.media = 'all'"
     />
     <noscript>
       <link
@@ -45,7 +71,7 @@
       />
     </noscript>
     <link href="/src/styles/global.css" rel="stylesheet" />
-    <title>web</title>
+    <title>My Wallet</title>
   </head>
   <body>
     <div id="root"></div>

@@ -32,7 +32,7 @@ export async function publicOnly({
     );
 
     throw redirect({
-      to: safeRedirectTarget(redirectParam) || "/",
+      to: safeRedirectTarget(redirectParam) || "/dashboard",
     });
   } catch (error: unknown) {
     const maybeApiError = error as { status?: number };

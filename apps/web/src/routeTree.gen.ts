@@ -11,10 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PublicLayoutRouteRouteImport } from './routes/_publicLayout/route'
 import { Route as HomeLayoutRouteRouteImport } from './routes/_homeLayout/route'
-import { Route as HomeLayoutIndexRouteImport } from './routes/_homeLayout/index'
+import { Route as IndexRouteImport } from './routes/index'
 import { Route as HomeLayoutTransactionIndexRouteImport } from './routes/_homeLayout/transaction/index'
 import { Route as HomeLayoutSettingsIndexRouteImport } from './routes/_homeLayout/settings/index'
 import { Route as HomeLayoutProfileIndexRouteImport } from './routes/_homeLayout/profile/index'
+import { Route as HomeLayoutDashboardIndexRouteImport } from './routes/_homeLayout/dashboard/index'
 import { Route as HomeLayoutProfileEditRouteImport } from './routes/_homeLayout/profile/edit'
 import { Route as HomeLayoutProfileChangePasswordRouteImport } from './routes/_homeLayout/profile/change-password'
 import { Route as PublicLayoutAuthRegisterIndexRouteImport } from './routes/_publicLayout/auth/register/index'
@@ -32,10 +33,10 @@ const HomeLayoutRouteRoute = HomeLayoutRouteRouteImport.update({
   id: '/_homeLayout',
   getParentRoute: () => rootRouteImport,
 } as any)
-const HomeLayoutIndexRoute = HomeLayoutIndexRouteImport.update({
+const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => HomeLayoutRouteRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
 const HomeLayoutTransactionIndexRoute =
   HomeLayoutTransactionIndexRouteImport.update({
@@ -53,6 +54,12 @@ const HomeLayoutProfileIndexRoute = HomeLayoutProfileIndexRouteImport.update({
   path: '/profile/',
   getParentRoute: () => HomeLayoutRouteRoute,
 } as any)
+const HomeLayoutDashboardIndexRoute =
+  HomeLayoutDashboardIndexRouteImport.update({
+    id: '/dashboard/',
+    path: '/dashboard/',
+    getParentRoute: () => HomeLayoutRouteRoute,
+  } as any)
 const HomeLayoutProfileEditRoute = HomeLayoutProfileEditRouteImport.update({
   id: '/profile/edit',
   path: '/profile/edit',
@@ -102,9 +109,10 @@ const HomeLayoutSettingsBudgetGoalsIndexRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof HomeLayoutIndexRoute
+  '/': typeof IndexRoute
   '/profile/change-password': typeof HomeLayoutProfileChangePasswordRoute
   '/profile/edit': typeof HomeLayoutProfileEditRoute
+  '/dashboard/': typeof HomeLayoutDashboardIndexRoute
   '/profile/': typeof HomeLayoutProfileIndexRoute
   '/settings/': typeof HomeLayoutSettingsIndexRoute
   '/transaction/': typeof HomeLayoutTransactionIndexRoute
@@ -116,9 +124,10 @@ export interface FileRoutesByFullPath {
   '/auth/register/': typeof PublicLayoutAuthRegisterIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof HomeLayoutIndexRoute
+  '/': typeof IndexRoute
   '/profile/change-password': typeof HomeLayoutProfileChangePasswordRoute
   '/profile/edit': typeof HomeLayoutProfileEditRoute
+  '/dashboard': typeof HomeLayoutDashboardIndexRoute
   '/profile': typeof HomeLayoutProfileIndexRoute
   '/settings': typeof HomeLayoutSettingsIndexRoute
   '/transaction': typeof HomeLayoutTransactionIndexRoute
@@ -131,11 +140,12 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
   '/_homeLayout': typeof HomeLayoutRouteRouteWithChildren
   '/_publicLayout': typeof PublicLayoutRouteRouteWithChildren
-  '/_homeLayout/': typeof HomeLayoutIndexRoute
   '/_homeLayout/profile/change-password': typeof HomeLayoutProfileChangePasswordRoute
   '/_homeLayout/profile/edit': typeof HomeLayoutProfileEditRoute
+  '/_homeLayout/dashboard/': typeof HomeLayoutDashboardIndexRoute
   '/_homeLayout/profile/': typeof HomeLayoutProfileIndexRoute
   '/_homeLayout/settings/': typeof HomeLayoutSettingsIndexRoute
   '/_homeLayout/transaction/': typeof HomeLayoutTransactionIndexRoute
@@ -152,6 +162,7 @@ export interface FileRouteTypes {
     | '/'
     | '/profile/change-password'
     | '/profile/edit'
+    | '/dashboard/'
     | '/profile/'
     | '/settings/'
     | '/transaction/'
@@ -166,6 +177,7 @@ export interface FileRouteTypes {
     | '/'
     | '/profile/change-password'
     | '/profile/edit'
+    | '/dashboard'
     | '/profile'
     | '/settings'
     | '/transaction'
@@ -177,11 +189,12 @@ export interface FileRouteTypes {
     | '/auth/register'
   id:
     | '__root__'
+    | '/'
     | '/_homeLayout'
     | '/_publicLayout'
-    | '/_homeLayout/'
     | '/_homeLayout/profile/change-password'
     | '/_homeLayout/profile/edit'
+    | '/_homeLayout/dashboard/'
     | '/_homeLayout/profile/'
     | '/_homeLayout/settings/'
     | '/_homeLayout/transaction/'
@@ -194,6 +207,7 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
   HomeLayoutRouteRoute: typeof HomeLayoutRouteRouteWithChildren
   PublicLayoutRouteRoute: typeof PublicLayoutRouteRouteWithChildren
 }
@@ -214,12 +228,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HomeLayoutRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_homeLayout/': {
-      id: '/_homeLayout/'
+    '/': {
+      id: '/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof HomeLayoutIndexRouteImport
-      parentRoute: typeof HomeLayoutRouteRoute
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_homeLayout/transaction/': {
       id: '/_homeLayout/transaction/'
@@ -240,6 +254,13 @@ declare module '@tanstack/react-router' {
       path: '/profile'
       fullPath: '/profile/'
       preLoaderRoute: typeof HomeLayoutProfileIndexRouteImport
+      parentRoute: typeof HomeLayoutRouteRoute
+    }
+    '/_homeLayout/dashboard/': {
+      id: '/_homeLayout/dashboard/'
+      path: '/dashboard'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof HomeLayoutDashboardIndexRouteImport
       parentRoute: typeof HomeLayoutRouteRoute
     }
     '/_homeLayout/profile/edit': {
@@ -302,9 +323,9 @@ declare module '@tanstack/react-router' {
 }
 
 interface HomeLayoutRouteRouteChildren {
-  HomeLayoutIndexRoute: typeof HomeLayoutIndexRoute
   HomeLayoutProfileChangePasswordRoute: typeof HomeLayoutProfileChangePasswordRoute
   HomeLayoutProfileEditRoute: typeof HomeLayoutProfileEditRoute
+  HomeLayoutDashboardIndexRoute: typeof HomeLayoutDashboardIndexRoute
   HomeLayoutProfileIndexRoute: typeof HomeLayoutProfileIndexRoute
   HomeLayoutSettingsIndexRoute: typeof HomeLayoutSettingsIndexRoute
   HomeLayoutTransactionIndexRoute: typeof HomeLayoutTransactionIndexRoute
@@ -315,9 +336,9 @@ interface HomeLayoutRouteRouteChildren {
 }
 
 const HomeLayoutRouteRouteChildren: HomeLayoutRouteRouteChildren = {
-  HomeLayoutIndexRoute: HomeLayoutIndexRoute,
   HomeLayoutProfileChangePasswordRoute: HomeLayoutProfileChangePasswordRoute,
   HomeLayoutProfileEditRoute: HomeLayoutProfileEditRoute,
+  HomeLayoutDashboardIndexRoute: HomeLayoutDashboardIndexRoute,
   HomeLayoutProfileIndexRoute: HomeLayoutProfileIndexRoute,
   HomeLayoutSettingsIndexRoute: HomeLayoutSettingsIndexRoute,
   HomeLayoutTransactionIndexRoute: HomeLayoutTransactionIndexRoute,
@@ -348,6 +369,7 @@ const PublicLayoutRouteRouteWithChildren =
   PublicLayoutRouteRoute._addFileChildren(PublicLayoutRouteRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
   HomeLayoutRouteRoute: HomeLayoutRouteRouteWithChildren,
   PublicLayoutRouteRoute: PublicLayoutRouteRouteWithChildren,
 }

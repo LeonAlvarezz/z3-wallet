@@ -1,22 +1,17 @@
 import { TransactionPage } from "@/modules/transaction";
 import { createFileRoute } from "@tanstack/react-router";
 import { TransactionModel } from "@my-wallet/types";
-
-// const TransactionSearchSchema = z.object({
-//   query: z.preprocess((value) => {
-//     if (typeof value !== "string") return value;
-//     const trimmed = value.trim();
-//     return trimmed.length ? trimmed : undefined;
-//   }, z.string().optional()),
-//   time_frame: z.preprocess((value) => {
-//     if (typeof value !== "string") return value;
-//     const trimmed = value.trim();
-//     return trimmed.length ? trimmed : undefined;
-//   }, z.enum(BaseModel.TimeFrameEnum).optional()),
-// });
+import { buildSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/_homeLayout/transaction/")({
   validateSearch: (search) =>
     TransactionModel.TransactionBaseQuerySchema.parse(search),
+  head: () =>
+    buildSeo({
+      title: "Transactions",
+      description:
+        "Browse, filter, and edit your transaction history in My Wallet.",
+      path: "/transaction/",
+    }),
   component: TransactionPage,
 });

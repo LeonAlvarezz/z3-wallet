@@ -4,7 +4,7 @@ export default function BottomNav() {
   const bottomNavItems: BottomNavItemData[] = [
     {
       title: "Dashboard",
-      to: "/",
+      to: "/dashboard",
       icon: "solar:home-2-line-duotone",
     },
     {

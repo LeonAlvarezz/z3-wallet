@@ -4,6 +4,9 @@ import { guard } from "@/middleware/guard";
 
 export const Route = createFileRoute("/_homeLayout")({
   beforeLoad: guard,
+  head: () => ({
+    meta: [{ name: "robots", content: "noindex, nofollow" }],
+  }),
   component: RouteComponent,
 });
 
