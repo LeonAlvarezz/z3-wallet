@@ -1,4 +1,4 @@
-import { TransactionModel } from "@my-wallet/types";
+import { TransactionModel } from "@z3-wallet/types";
 import type { DailyGroupData } from "@/utils/transaction";
 import { TransactionCard } from "../transaction-card";
 import { AmountDisplay } from "@/components/amount/AmountDisplay";

@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import { categoryRuleTable, categoryTable } from "@/lib/db/schema";
-import { CategoryRuleModel } from "@my-wallet/types";
+import { CategoryRuleModel } from "@z3-wallet/types";
 import { and, count, eq, sql } from "drizzle-orm";
 
 export class CategoryRuleRepository {

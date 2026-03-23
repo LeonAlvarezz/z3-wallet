@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ButtonGroup } from "../ui/button-group";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
-import { BaseModel } from "@my-wallet/types";
+import { BaseModel } from "@z3-wallet/types";
 const items: { label: string; value: BaseModel.TimeFrameEnum }[] = [
   { label: "TD", value: BaseModel.TimeFrameEnum.TODAY },
   { label: "W", value: BaseModel.TimeFrameEnum.WEEK },

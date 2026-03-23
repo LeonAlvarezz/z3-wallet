@@ -4,9 +4,9 @@ import type {
   MetaHTMLAttributes,
 } from "react";
 
-export const SITE_NAME = "My Wallet";
+export const SITE_NAME = "Z3 Wallet";
 export const SITE_DESCRIPTION =
-  "Track spending, monitor cash flow, and manage your personal finances with My Wallet.";
+  "Track spending, monitor cash flow, and manage your personal finances with Z3 Wallet.";
 
 type HeadLink = DetailedHTMLProps<
   LinkHTMLAttributes<HTMLLinkElement>,

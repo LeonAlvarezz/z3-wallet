@@ -4,7 +4,7 @@ import { Icon } from "@iconify/react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { DialogContent } from "@/components/ui/dialog";
 import DailyGroup from "../components/daily-group/DailyGroup";
-import { BaseModel, TransactionModel } from "@my-wallet/types";
+import { BaseModel, TransactionModel } from "@z3-wallet/types";
 import InfiniteScroll from "@/components/infinite-scroll/InfiniteScroll";
 import { Spinner } from "@/components/ui/spinner";
 import { useInfiniteTransactions } from "../hooks/use-infinite-transactions";

@@ -6,7 +6,7 @@ export const Route = createFileRoute("/_homeLayout/profile/edit")({
   head: () =>
     buildSeo({
       title: "Edit Profile",
-      description: "Update your name and avatar in My Wallet.",
+      description: "Update your name and avatar in Z3 Wallet.",
       path: "/profile/edit",
     }),
   component: EditProfilePage,

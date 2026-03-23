@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Icon } from "@iconify/react";
 import { ToggleGroupItem } from "@/components/ui/toggle-group";
-import { CategoryModel } from "@my-wallet/types";
+import { CategoryModel } from "@z3-wallet/types";
 import IconSkeleton from "@/components/icon-skeleton/IconSkeleton";
 import { getCategoryVariantColors } from "@/modules/category/constants/category-color-map";
 

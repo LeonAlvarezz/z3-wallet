@@ -1,7 +1,7 @@
 import Elysia from "elysia";
 import { CategoryService } from "./category.service";
 import { OpenApiKey } from "../app/openapi";
-import { BaseModel, CategoryModel, SuccessSchema } from "@my-wallet/types";
+import { BaseModel, CategoryModel, SuccessSchema } from "@z3-wallet/types";
 import { Success } from "@/core/response";
 
 export const category = new Elysia().group("/categories", (app) => {

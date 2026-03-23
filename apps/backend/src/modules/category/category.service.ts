@@ -1,6 +1,6 @@
-import { NotFoundException } from "@my-wallet/exception";
+import { NotFoundException } from "@z3-wallet/exception";
 import { CategoryRepository } from "./category.repository";
-import { CategoryModel } from "@my-wallet/types";
+import { CategoryModel } from "@z3-wallet/types";
 
 export class CategoryService {
   static async findAll() {

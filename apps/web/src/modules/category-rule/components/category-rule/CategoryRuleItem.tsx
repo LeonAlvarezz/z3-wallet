@@ -2,7 +2,7 @@ import DeleteButton from "@/components/delete-button/DeleteButton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Icon } from "@iconify/react";
-import type { CategoryRuleModel } from "@my-wallet/types";
+import type { CategoryRuleModel } from "@z3-wallet/types";
 import { useState } from "react";
 import { useUpdateCategoryRule } from "../../hooks/use-update-category-rule";
 import { useDeleteCategoryRule } from "../../hooks/use-delete-category-rule";

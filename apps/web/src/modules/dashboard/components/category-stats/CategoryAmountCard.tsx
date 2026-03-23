@@ -1,6 +1,6 @@
 import { Progress } from "@/components/ui/progress";
 import { Icon } from "@iconify/react";
-import { CategoryModel, TransactionModel } from "@my-wallet/types";
+import { CategoryModel, TransactionModel } from "@z3-wallet/types";
 import { getCategoryVariantColors } from "@/modules/category/constants/category-color-map";
 import { AmountDisplay } from "@/components/amount/AmountDisplay";
 

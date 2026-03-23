@@ -1,8 +1,8 @@
-import { BaseModel, SuccessSchema } from "@my-wallet/types";
+import { BaseModel, SuccessSchema } from "@z3-wallet/types";
 import { Success } from "@/core/response";
 import Elysia from "elysia";
 import { OpenApiKey } from "./openapi";
-import { randomNumber } from "@my-wallet/utils/number";
+import { randomNumber } from "@z3-wallet/utils/number";
 
 export const appInfo = new Elysia().get(
   "/health-check",

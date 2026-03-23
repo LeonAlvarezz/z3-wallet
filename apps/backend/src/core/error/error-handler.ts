@@ -4,19 +4,19 @@ import {
   ErrorException,
   InvalidCredentialException,
   UnauthorizedException,
-} from "@my-wallet/exception";
+} from "@z3-wallet/exception";
 import logger from "@/lib/logger";
 import { Fail } from "../response";
 import { RateLimitService } from "@/lib/rate-limit";
 import { ip } from "../request/ip";
-import { getKey } from "@my-wallet/types/enum";
+import { getKey } from "@z3-wallet/types/enum";
 import { isDrizzleError, parseDrizzleError } from "@/lib/db/error";
 import {
   DefaultErrorMessage,
   DefaultErrorMessageKey,
   ErrorCode,
   ErrorCodeKey,
-} from "@my-wallet/types";
+} from "@z3-wallet/types";
 
 export const errorHandler = new Elysia({ name: "error-handling" })
   .use(ip)

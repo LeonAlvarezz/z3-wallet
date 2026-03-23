@@ -9,7 +9,7 @@ import AvatarSelectDrawer from "@/components/system-avatar/AvatarSelectDrawer";
 import { useState } from "react";
 import { Icon } from "@iconify/react";
 import SystemAvatar from "@/components/system-avatar/SystemAvatar";
-import { UserModel } from "@my-wallet/types";
+import { UserModel } from "@z3-wallet/types";
 
 export function EditProfileForm() {
   const { data: me } = useGetMe();

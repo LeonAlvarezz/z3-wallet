@@ -1,6 +1,6 @@
-import { BaseModel, WalletEventModel, WalletModel } from "@my-wallet/types";
+import { BaseModel, WalletEventModel, WalletModel } from "@z3-wallet/types";
 import { WalletRepository } from "./wallet.repository";
-import { NotFoundException } from "@my-wallet/exception";
+import { NotFoundException } from "@z3-wallet/exception";
 import { TransactionRepository } from "../transaction/transaction.repository";
 
 export class WalletService {

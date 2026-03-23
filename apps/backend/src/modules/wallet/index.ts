@@ -1,7 +1,7 @@
 import Elysia from "elysia";
 import { authGuard } from "../auth/guard";
 import { OpenApiKey } from "../app/openapi";
-import { SuccessSchema, WalletModel } from "@my-wallet/types";
+import { SuccessSchema, WalletModel } from "@z3-wallet/types";
 import { WalletService } from "./wallet.service";
 import { Success } from "@/core/response";
 

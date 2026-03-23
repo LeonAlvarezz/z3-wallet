@@ -7,7 +7,7 @@ export const Route = createFileRoute("/_homeLayout/settings/budget-goals/")({
     buildSeo({
       title: "Budget Goals",
       description:
-        "Set and review your category budget goals to stay on track in My Wallet.",
+        "Set and review your category budget goals to stay on track in Z3 Wallet.",
       path: "/settings/budget-goals/",
     }),
   component: BudgetGoalsSettingsPage,

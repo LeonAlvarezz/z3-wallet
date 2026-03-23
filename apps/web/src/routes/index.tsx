@@ -7,7 +7,7 @@ export const Route = createFileRoute("/")({
     buildSeo({
       title: "Track Spending With Clarity",
       description:
-        "Discover My Wallet, a focused personal finance app for tracking transactions, understanding cash flow, and building stronger money habits.",
+        "Discover Z3 Wallet, a focused personal finance app for tracking transactions, understanding cash flow, and building stronger money habits.",
       path: "/",
     }),
   component: HomePage,

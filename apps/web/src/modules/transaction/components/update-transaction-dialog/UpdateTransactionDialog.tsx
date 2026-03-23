@@ -7,7 +7,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { TransactionModel } from "@my-wallet/types";
+import { TransactionModel } from "@z3-wallet/types";
 import { Icon } from "@iconify/react";
 import { useDeleteTransaction } from "../../hooks/use-delete-transaction";
 import DeleteButton from "@/components/delete-button/DeleteButton";

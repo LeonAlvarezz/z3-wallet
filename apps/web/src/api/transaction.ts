@@ -3,7 +3,7 @@ import type {
   CursorPagination,
   SimpleSuccess,
   TransactionModel,
-} from "@my-wallet/types";
+} from "@z3-wallet/types";
 
 const key = "/transactions";
 const transaction = {

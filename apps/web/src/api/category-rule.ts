@@ -1,5 +1,5 @@
 import { requestClient } from "@/lib/request";
-import type { CategoryRuleModel } from "@my-wallet/types";
+import type { CategoryRuleModel } from "@z3-wallet/types";
 
 const key = "/category-rules";
 

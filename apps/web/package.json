@@ -13,8 +13,8 @@
   },
   "dependencies": {
     "@iconify/react": "^6.0.2",
-    "@my-wallet/api-client": "workspace:*",
-    "@my-wallet/types": "workspace:*",
+    "@z3-wallet/api-client": "workspace:*",
+    "@z3-wallet/types": "workspace:*",
     "@radix-ui/react-slot": "^1.2.4",
     "@tailwindcss/vite": "^4.2.0",
     "@tanstack/react-form": "^1.28.3",

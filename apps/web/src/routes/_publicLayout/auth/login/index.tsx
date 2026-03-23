@@ -9,7 +9,7 @@ export const Route = createFileRoute("/_publicLayout/auth/login/")({
     buildSeo({
       title: "Sign In",
       description:
-        "Sign in to My Wallet to review balances, track spending, and manage your personal finances.",
+        "Sign in to Z3 Wallet to review balances, track spending, and manage your personal finances.",
       path: "/auth/login/",
     }),
   component: LoginPage,

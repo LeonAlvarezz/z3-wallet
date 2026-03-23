@@ -1,6 +1,6 @@
 import { db, DrizzleTransaction } from "@/lib/db";
 import { authTable } from "@/lib/db/schema";
-import { AuthModel } from "@my-wallet/types";
+import { AuthModel } from "@z3-wallet/types";
 import { eq } from "drizzle-orm";
 
 export class AuthRepository {

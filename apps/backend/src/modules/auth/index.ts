@@ -5,8 +5,8 @@ import {
   SimpleSuccessSchema,
   SuccessSchema,
   UserModel,
-} from "@my-wallet/types";
-import { BadRequestException } from "@my-wallet/exception";
+} from "@z3-wallet/types";
+import { BadRequestException } from "@z3-wallet/exception";
 import { SimpleSuccess, Success } from "@/core/response";
 import { authGuard } from "./guard";
 import { AuthService } from "./auth.service";

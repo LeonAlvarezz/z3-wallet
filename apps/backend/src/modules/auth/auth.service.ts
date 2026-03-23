@@ -3,7 +3,7 @@ import {
   InvalidCredentialException,
   NotFoundException,
   UnauthorizedException,
-} from "@my-wallet/exception";
+} from "@z3-wallet/exception";
 import { db } from "@/lib/db";
 import { hashPassword, verifyPassword } from "@/util/password";
 import { generateSessionToken, hashSessionToken } from "@/util/session-token";
@@ -12,9 +12,9 @@ import { SessionRepository } from "@/modules/session/session.repository";
 import { SimpleSuccess } from "@/core/response";
 import { UserRepository } from "@/modules/user/user.repository";
 import { RedisService } from "@/lib/redis/redis.service";
-import { AuthModel, UserModel } from "@my-wallet/types";
+import { AuthModel, UserModel } from "@z3-wallet/types";
 import { WalletRepository } from "../wallet/wallet.repository";
-import { randomNumber } from "@my-wallet/utils/number";
+import { randomNumber } from "@z3-wallet/utils/number";
 
 export class AuthService {
   static async signUp(payload: AuthModel.SignUpDto) {

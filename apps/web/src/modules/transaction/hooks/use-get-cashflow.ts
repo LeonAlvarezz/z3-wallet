@@ -2,7 +2,7 @@ import { queryKey } from "@/api/keys";
 import { api } from "@/api";
 import { useGetMe } from "@/modules/auth/hooks/use-get-me";
 import { useQuery } from "@tanstack/react-query";
-import type { TransactionModel } from "@my-wallet/types";
+import type { TransactionModel } from "@z3-wallet/types";
 
 export function useCashflowOverview(
   filter?: TransactionModel.TransactionBaseQuery,

@@ -1,6 +1,6 @@
-import { CategoryRuleModel } from "@my-wallet/types";
+import { CategoryRuleModel } from "@z3-wallet/types";
 import { CategoryRuleRepository } from "./category-rule.repository";
-import { NotFoundException } from "@my-wallet/exception";
+import { NotFoundException } from "@z3-wallet/exception";
 import { CategoryRepository } from "../category/category.repository";
 
 export class CategoryRuleService {

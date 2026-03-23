@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Icon } from "@iconify/react";
 import { useSignIn } from "../../hooks/use-sign-in";
-import { AuthModel } from "@my-wallet/types/auth";
+import { AuthModel } from "@z3-wallet/types/auth";
 
 export default function LoginForm() {
   const signInMutation = useSignIn();

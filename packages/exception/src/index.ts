@@ -2,8 +2,8 @@ import {
   DefaultErrorMessage,
   type DefaultErrorMessageKey,
   ErrorCode,
-} from "@my-wallet/types";
-import { getKey } from "@my-wallet/types/enum";
+} from "@z3-wallet/types";
+import { getKey } from "@z3-wallet/types/enum";
 type ErrorParams = {
   error?: unknown;
   message?: string;

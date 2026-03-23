@@ -1,5 +1,5 @@
 import { Suspense, lazy } from "react";
-import { BaseModel, type TransactionModel } from "@my-wallet/types";
+import { BaseModel, type TransactionModel } from "@z3-wallet/types";
 import Empty from "@/components/empty/Empty";
 import TimeframeButtonGroups from "@/components/time-frame-button-groups/TimeframeButtonGroups";
 import { Skeleton } from "@/components/ui/skeleton";

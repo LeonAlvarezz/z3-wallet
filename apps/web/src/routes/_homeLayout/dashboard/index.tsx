@@ -7,7 +7,7 @@ export const Route = createFileRoute("/_homeLayout/dashboard/")({
     buildSeo({
       title: "Dashboard",
       description:
-        "View your balance, cash flow, and category spending from the My Wallet dashboard.",
+        "View your balance, cash flow, and category spending from the Z3 Wallet dashboard.",
       path: "/dashboard/",
     }),
   component: Dashboard,

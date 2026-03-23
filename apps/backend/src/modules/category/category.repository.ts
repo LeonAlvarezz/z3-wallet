@@ -1,6 +1,6 @@
 import { db, DrizzleTransaction } from "@/lib/db";
 import { categoryTable } from "@/lib/db/schema/category.schema";
-import { CategoryModel } from "@my-wallet/types";
+import { CategoryModel } from "@z3-wallet/types";
 import { eq } from "drizzle-orm";
 
 export class CategoryRepository {

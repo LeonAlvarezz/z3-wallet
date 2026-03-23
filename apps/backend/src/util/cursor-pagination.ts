@@ -1,5 +1,5 @@
-import { BadRequestException } from "@my-wallet/exception";
-import { CursorModel } from "@my-wallet/types";
+import { BadRequestException } from "@z3-wallet/exception";
+import { CursorModel } from "@z3-wallet/types";
 
 export function encodeCursor({ id, created_at }: CursorModel.CursorProps) {
   return btoa(JSON.stringify({ id, created_at }));

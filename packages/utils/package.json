@@ -1,5 +1,5 @@
 {
-  "name": "@my-wallet/utils",
+  "name": "@z3-wallet/utils",
   "type": "module",
   "devDependencies": {
     "@types/bun": "latest"

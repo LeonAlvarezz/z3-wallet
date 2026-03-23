@@ -9,7 +9,7 @@ import {
   SimpleSuccessSchema,
   SuccessSchema,
   TransactionModel,
-} from "@my-wallet/types";
+} from "@z3-wallet/types";
 
 export const transaction = new Elysia()
   .use(authGuard)

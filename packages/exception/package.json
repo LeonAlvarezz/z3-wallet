@@ -1,5 +1,5 @@
 {
-  "name": "@my-wallet/exception",
+  "name": "@z3-wallet/exception",
   "type": "module",
   "devDependencies": {
     "@types/bun": "latest"
@@ -12,7 +12,7 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "@my-wallet/types": "workspace:*"
+    "@z3-wallet/types": "workspace:*"
   },
   "files": [
     "dist"

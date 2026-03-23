@@ -1,6 +1,6 @@
 import { api } from "@/api";
 import { queryKey } from "@/api/keys";
-import type { CategoryRuleModel } from "@my-wallet/types";
+import type { CategoryRuleModel } from "@z3-wallet/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function useUpdateCategoryRule() {

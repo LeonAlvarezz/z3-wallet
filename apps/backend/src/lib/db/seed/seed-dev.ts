@@ -6,7 +6,7 @@ import { walletTable } from "../schema/wallet.schema";
 import { transactionTable } from "../schema/transaction.schema";
 import { hashPassword } from "@/util/password";
 import logger from "@/lib/logger";
-import { CategoryModel, TransactionModel } from "@my-wallet/types";
+import { CategoryModel, TransactionModel } from "@z3-wallet/types";
 import { eq } from "drizzle-orm";
 
 export async function seedDatabaseDev() {

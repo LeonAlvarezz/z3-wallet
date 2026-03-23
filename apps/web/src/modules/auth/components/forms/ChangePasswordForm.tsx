@@ -12,7 +12,7 @@ import {
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field";
-import { AuthModel } from "@my-wallet/types";
+import { AuthModel } from "@z3-wallet/types";
 import { useChangePassword } from "../../hooks/use-change-password";
 
 const changePasswordSchema = AuthModel.ChangePasswordSchema.extend({

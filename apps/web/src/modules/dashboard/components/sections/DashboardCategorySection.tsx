@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BaseModel } from "@my-wallet/types";
+import { BaseModel } from "@z3-wallet/types";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@iconify/react";
 import Empty from "@/components/empty/Empty";

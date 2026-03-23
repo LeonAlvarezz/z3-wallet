@@ -7,7 +7,7 @@ export const Route = createFileRoute("/_homeLayout/settings/")({
     buildSeo({
       title: "Settings",
       description:
-        "Manage budget, notifications, and account preferences in My Wallet.",
+        "Manage budget, notifications, and account preferences in Z3 Wallet.",
       path: "/settings/",
     }),
   component: SettingsHubPage,

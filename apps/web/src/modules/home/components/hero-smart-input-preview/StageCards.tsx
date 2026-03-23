@@ -2,7 +2,7 @@ import { AmountDisplay } from "@/components/amount/AmountDisplay";
 import { cn } from "@/lib/utils";
 import { getCategoryVariantColors } from "@/modules/category/constants/category-color-map";
 import { Icon } from "@iconify/react";
-import { CategoryModel } from "@my-wallet/types";
+import { CategoryModel } from "@z3-wallet/types";
 import { StageItem } from "./StageItem";
 
 type CategoryStageItemProps = {

@@ -2,9 +2,9 @@ import {
   BadRequestException,
   ForbiddenException,
   NotFoundException,
-} from "@my-wallet/exception";
+} from "@z3-wallet/exception";
 import { TransactionRepository } from "./transaction.repository";
-import { TransactionModel } from "@my-wallet/types";
+import { TransactionModel } from "@z3-wallet/types";
 import { processCursorResult } from "@/util/cursor-pagination";
 import { CategoryRepository } from "../category/category.repository";
 import { WalletRepository } from "../wallet/wallet.repository";

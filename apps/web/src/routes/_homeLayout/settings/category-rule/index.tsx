@@ -7,7 +7,7 @@ export const Route = createFileRoute("/_homeLayout/settings/category-rule/")({
     buildSeo({
       title: "Category Rules",
       description:
-        "Create keyword rules that automatically match transactions to categories in My Wallet.",
+        "Create keyword rules that automatically match transactions to categories in Z3 Wallet.",
       path: "/settings/category-rule/",
     }),
   component: CategoryMatchPage,

@@ -2,7 +2,7 @@ import { pgEnum, text } from "drizzle-orm/pg-core";
 import { varchar } from "drizzle-orm/pg-core";
 import { pgTable, serial } from "drizzle-orm/pg-core";
 import { enumToPgEnum, simpleTimestamps } from "../common";
-import { CategoryModel } from "@my-wallet/types";
+import { CategoryModel } from "@z3-wallet/types";
 import { integer } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { transactionTable } from "./transaction.schema";

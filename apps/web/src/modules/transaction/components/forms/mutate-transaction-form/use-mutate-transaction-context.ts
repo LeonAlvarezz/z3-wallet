@@ -1,6 +1,6 @@
 import { createContext, useContext, useRef, useState } from "react";
 import { useForm } from "@tanstack/react-form";
-import { TransactionModel } from "@my-wallet/types";
+import { TransactionModel } from "@z3-wallet/types";
 import { useCategories } from "@/modules/category/hooks/query/use-categories";
 import { toast } from "sonner";
 import z from "zod";

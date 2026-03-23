@@ -1,5 +1,5 @@
 import { requestClient } from "@/lib/request";
-import type { WalletModel } from "@my-wallet/types";
+import type { WalletModel } from "@z3-wallet/types";
 
 const key = "/wallets";
 

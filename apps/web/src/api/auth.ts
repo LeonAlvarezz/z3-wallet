@@ -1,5 +1,5 @@
 import { requestClient } from "@/lib/request";
-import type { AuthModel, SimpleSuccess, UserModel } from "@my-wallet/types";
+import type { AuthModel, SimpleSuccess, UserModel } from "@z3-wallet/types";
 
 const key = "/auth";
 

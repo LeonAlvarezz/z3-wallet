@@ -1,4 +1,4 @@
-import { CategoryModel } from "@my-wallet/types";
+import { CategoryModel } from "@z3-wallet/types";
 
 export type DemoScene = {
   input: string;

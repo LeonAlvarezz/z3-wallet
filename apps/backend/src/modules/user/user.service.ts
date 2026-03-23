@@ -1,6 +1,6 @@
 import { UserRepository } from "./user.repository";
-import { NotFoundException } from "@my-wallet/exception";
-import { UserModel } from "@my-wallet/types";
+import { NotFoundException } from "@z3-wallet/exception";
+import { UserModel } from "@z3-wallet/types";
 
 export class UserService {
   static async findAll() {

@@ -5,7 +5,7 @@ import {
   SESSION_EXPIRES_DATE_MS,
   SESSION_EXTENDS_EXPIRES_DATE_MS,
 } from "@/constant/app";
-import { SessionModel } from "@my-wallet/types";
+import { SessionModel } from "@z3-wallet/types";
 
 export class SessionRepository {
   static async create(payload: SessionModel.CreateSessionDto) {

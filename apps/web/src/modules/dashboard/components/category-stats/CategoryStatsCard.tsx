@@ -1,6 +1,6 @@
 import { Progress } from "@/components/ui/progress";
 import { Icon } from "@iconify/react";
-import { CategoryModel } from "@my-wallet/types";
+import { CategoryModel } from "@z3-wallet/types";
 import { getCategoryVariantColors } from "@/modules/category/constants/category-color-map";
 
 type Props = {

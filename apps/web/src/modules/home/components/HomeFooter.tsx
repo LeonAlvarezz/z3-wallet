@@ -17,7 +17,7 @@ export function HomeFooter() {
             </div>
             <div>
               <p className="text-sm font-semibold" style={homeDisplayFontStyle}>
-                My Wallet
+                Z3 Wallet
               </p>
               <p className="text-muted-foreground text-xs">
                 Personal finance, made calmer
@@ -26,7 +26,7 @@ export function HomeFooter() {
           </div>
         </div>
         <div className="border-input/50 text-muted-foreground relative mt-5 flex flex-col gap-2 border-t pt-4 text-xs sm:flex-row sm:items-center sm:justify-between">
-          <p>© {currentYear} My Wallet. All rights reserved.</p>
+          <p>© {currentYear} Z3 Wallet. All rights reserved.</p>
         </div>
       </footer>
     </StaggerSection>

@@ -1,6 +1,6 @@
-# My Wallet
+# Z3 Wallet
 
-My Wallet is a mobile-first personal finance app built in a Bun-powered monorepo. It includes a React web client and an Elysia API for managing authentication, wallets, transactions, categories, and category rules.
+Z3 Wallet is a mobile-first personal finance app built in a Bun-powered monorepo. It includes a React web client and an Elysia API for managing authentication, wallets, transactions, categories, and category rules.
 
 ## Overview
 
@@ -56,9 +56,9 @@ The current product direction focuses on:
 - Redis
 
 ### Shared Packages
-- `@my-wallet/types`
-- `@my-wallet/exception`
-- `@my-wallet/api-client`
+- `@z3-wallet/types`
+- `@z3-wallet/exception`
+- `@z3-wallet/api-client`
 
 ## Repository Structure
 

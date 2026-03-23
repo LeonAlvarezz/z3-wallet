@@ -7,7 +7,7 @@ export const Route = createFileRoute("/_homeLayout/profile/")({
     buildSeo({
       title: "Profile",
       description:
-        "View your profile details, avatar, and account balance in My Wallet.",
+        "View your profile details, avatar, and account balance in Z3 Wallet.",
       path: "/profile/",
     }),
   component: ProfilePage,

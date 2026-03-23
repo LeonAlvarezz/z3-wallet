@@ -2,7 +2,7 @@ import {
   CategoryRuleModel,
   TransactionModel,
   type CategoryModel,
-} from "@my-wallet/types";
+} from "@z3-wallet/types";
 
 export type SmartInputParseResult = {
   amount?: number;

@@ -1,4 +1,4 @@
-import { DefaultErrorMessage, ErrorCode } from "@my-wallet/exception/type";
+import { DefaultErrorMessage, ErrorCode } from "@z3-wallet/exception/type";
 import { describe, expect, it } from "bun:test";
 import { authHelpers } from "@/test/test-helpers";
 

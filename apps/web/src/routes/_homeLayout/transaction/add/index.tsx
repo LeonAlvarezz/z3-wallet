@@ -7,7 +7,7 @@ export const Route = createFileRoute("/_homeLayout/transaction/add/")({
     buildSeo({
       title: "Add Transaction",
       description:
-        "Record a new income or expense entry in My Wallet.",
+        "Record a new income or expense entry in Z3 Wallet.",
       path: "/transaction/add/",
     }),
   component: AddTransactionPage,

@@ -5,8 +5,8 @@ import type {
 } from "./modules/types";
 
 import axios from "axios";
-import { isFunction } from "@my-wallet/types/is-function";
-import { DefaultErrorMessage } from "@my-wallet/types";
+import { isFunction } from "@z3-wallet/types/is-function";
+import { DefaultErrorMessage } from "@z3-wallet/types";
 
 export const defaultResponseInterceptor = ({
   codeField = "code",

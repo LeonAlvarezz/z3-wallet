@@ -1,4 +1,4 @@
-import type { TransactionModel, WalletEventModel } from "@my-wallet/types";
+import type { TransactionModel, WalletEventModel } from "@z3-wallet/types";
 import { formatDate, getDateLabel } from "./date";
 export type DailyGroupData = {
   day: string; // YYYY-MM-DD (matches backend `extra[].day`)

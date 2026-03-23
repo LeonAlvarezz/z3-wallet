@@ -6,7 +6,7 @@ import { enumToPgEnum, timestamps } from "../common";
 import { relations } from "drizzle-orm";
 import { categoryTable } from "./category.schema";
 import { walletTable } from "./wallet.schema";
-import { TransactionModel } from "@my-wallet/types";
+import { TransactionModel } from "@z3-wallet/types";
 export const transactionType = pgEnum(
   "TransactionTypeEnum",
   enumToPgEnum(TransactionModel.TransactionTypeEnum),

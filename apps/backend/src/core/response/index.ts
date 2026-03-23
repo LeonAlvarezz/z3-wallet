@@ -1,4 +1,4 @@
-import { DefaultErrorMessageKey } from "@my-wallet/types";
+import { DefaultErrorMessageKey } from "@z3-wallet/types";
 
 export const Success = <T>(data: T) => ({ success: true as const, data });
 export const Fail = ({

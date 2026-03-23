@@ -1,5 +1,5 @@
 import { Suspense, lazy, useState } from "react";
-import { BaseModel } from "@my-wallet/types";
+import { BaseModel } from "@z3-wallet/types";
 import CashflowSummary from "./components/cashflow/CashflowSummary";
 import { useGetCashflowSummary } from "./hooks/use-get-cashflow-summary";
 import { useGetMe } from "../auth/hooks/use-get-me";

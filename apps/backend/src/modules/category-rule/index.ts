@@ -6,7 +6,7 @@ import {
   CategoryRuleModel,
   SimpleSuccessSchema,
   SuccessSchema,
-} from "@my-wallet/types";
+} from "@z3-wallet/types";
 import { OpenApiKey } from "../app/openapi";
 import { SimpleSuccess, Success } from "@/core/response";
 

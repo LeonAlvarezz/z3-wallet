@@ -3,7 +3,7 @@ import { Success } from "@/core/response";
 import { authGuard } from "../auth/guard";
 import { OpenApiKey } from "../app/openapi";
 import { UserService } from "./user.service";
-import { BaseModel, SuccessSchema, UserModel } from "@my-wallet/types";
+import { BaseModel, SuccessSchema, UserModel } from "@z3-wallet/types";
 import { RedisService } from "@/lib/redis/redis.service";
 
 export const user = new Elysia().use(authGuard).group("/users", (app) => {

@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { formatTime } from "@/utils/date";
 import { Icon } from "@iconify/react";
-import { TransactionModel, type CategoryModel } from "@my-wallet/types";
+import { TransactionModel, type CategoryModel } from "@z3-wallet/types";
 import { AmountDisplay } from "@/components/amount/AmountDisplay";
 
 type TransactionCardProps = {

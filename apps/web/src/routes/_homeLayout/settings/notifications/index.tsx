@@ -7,7 +7,7 @@ export const Route = createFileRoute("/_homeLayout/settings/notifications/")({
     buildSeo({
       title: "Notification Settings",
       description:
-        "Choose how My Wallet should notify you about budgets and account activity.",
+        "Choose how Z3 Wallet should notify you about budgets and account activity.",
       path: "/settings/notifications/",
     }),
     

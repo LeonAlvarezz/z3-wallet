@@ -1,7 +1,7 @@
 /**
  * 该文件可自行根据业务逻辑进行调整
  */
-import type { RequestClientOptions } from "@my-wallet/api-client";
+import type { RequestClientOptions } from "@z3-wallet/api-client";
 
 // import { useAppConfig } from "@vben/hooks";
 // import { preferences } from "@vben/preferences";
@@ -9,9 +9,9 @@ import {
   //   authenticateResponseInterceptor,
   defaultResponseInterceptor,
   RequestClient,
-} from "@my-wallet/api-client";
-import { errorMessageResponseInterceptor } from "@my-wallet/api-client";
-import type { ApiFail } from "@my-wallet/types";
+} from "@z3-wallet/api-client";
+import { errorMessageResponseInterceptor } from "@z3-wallet/api-client";
+import type { ApiFail } from "@z3-wallet/types";
 import { toast } from "sonner";
 
 let isRedirectingToLogin = false;

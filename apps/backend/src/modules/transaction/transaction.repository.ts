@@ -3,7 +3,7 @@ import { categoryTable, walletTable } from "@/lib/db/schema";
 import { transactionTable } from "@/lib/db/schema/transaction.schema";
 import { decodeCursor } from "@/util/cursor-pagination";
 import { getTimeFrameRange } from "@/util/date";
-import { BaseModel, TransactionModel } from "@my-wallet/types";
+import { BaseModel, TransactionModel } from "@z3-wallet/types";
 import {
   and,
   asc,

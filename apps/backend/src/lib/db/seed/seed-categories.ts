@@ -1,5 +1,5 @@
 import logger from "@/lib/logger";
-import { CategoryModel } from "@my-wallet/types";
+import { CategoryModel } from "@z3-wallet/types";
 import { db, type DrizzleTransaction } from "..";
 import { categoryTable } from "../schema/category.schema";
 

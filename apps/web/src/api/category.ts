@@ -1,6 +1,6 @@
 import { requestClient } from "@/lib/request";
-import { type ApiResult } from "@my-wallet/types";
-import type { CategoryModel } from "@my-wallet/types/category";
+import { type ApiResult } from "@z3-wallet/types";
+import type { CategoryModel } from "@z3-wallet/types/category";
 const key = "/categories";
 const category = {
   getAll: () => {

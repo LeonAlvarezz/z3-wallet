@@ -1,6 +1,6 @@
 import { api } from "@/api";
 import { queryKey } from "@/api/keys";
-import type { TransactionModel } from "@my-wallet/types";
+import type { TransactionModel } from "@z3-wallet/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function useUpdateTransaction() {

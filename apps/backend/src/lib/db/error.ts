@@ -1,4 +1,4 @@
-import { ErrorCode } from "@my-wallet/types";
+import { ErrorCode } from "@z3-wallet/types";
 
 // Format any Drizzle/PG error into a readable message
 export function isDrizzleError(err: unknown): boolean {

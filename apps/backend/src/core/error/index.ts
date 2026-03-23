@@ -1,4 +1,4 @@
-import { ErrorException as BaseException } from "@my-wallet/exception";
+import { ErrorException as BaseException } from "@z3-wallet/exception";
 
 export class ErrorException extends BaseException {
   toResponse() {

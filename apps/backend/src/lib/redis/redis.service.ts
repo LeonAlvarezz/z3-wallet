@@ -1,4 +1,4 @@
-import { UserModel } from "@my-wallet/types";
+import { UserModel } from "@z3-wallet/types";
 import { redis } from "./index";
 import { REDIS_SESSION_EXPERATION, REDIS_SESSION_KEY } from "./redis.constant";
 export class RedisService {

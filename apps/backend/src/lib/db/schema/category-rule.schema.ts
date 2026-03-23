@@ -8,7 +8,7 @@ import {
   text,
   uniqueIndex,
 } from "drizzle-orm/pg-core";
-import { CategoryRuleModel } from "@my-wallet/types";
+import { CategoryRuleModel } from "@z3-wallet/types";
 import { enumToPgEnum, timestamps } from "../common";
 import { categoryTable } from "./category.schema";
 import { userTable } from "./user.schema";

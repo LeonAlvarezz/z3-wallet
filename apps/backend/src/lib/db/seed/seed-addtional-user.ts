@@ -6,7 +6,7 @@ import { categoryTable } from "../schema/category.schema";
 import { transactionTable } from "../schema/transaction.schema";
 import { userTable } from "../schema/user.schema";
 import { walletTable } from "../schema/wallet.schema";
-import { TransactionModel } from "@my-wallet/types";
+import { TransactionModel } from "@z3-wallet/types";
 
 async function seedUserWithTenTransactions() {
   const uniqueId = Date.now();

@@ -1,4 +1,4 @@
-import { BaseModel, type TransactionModel } from "@my-wallet/types";
+import { BaseModel, type TransactionModel } from "@z3-wallet/types";
 import {
   ChartContainer,
   ChartTooltip,

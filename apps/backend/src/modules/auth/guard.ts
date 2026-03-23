@@ -1,7 +1,7 @@
-import { BaseModel } from "@my-wallet/types";
+import { BaseModel } from "@z3-wallet/types";
 import Elysia from "elysia";
 import { AuthService } from "./auth.service";
-import { UnauthorizedException } from "@my-wallet/exception";
+import { UnauthorizedException } from "@z3-wallet/exception";
 import { RedisService } from "@/lib/redis/redis.service";
 import { SessionRepository } from "../session/session.repository";
 import { hashSessionToken } from "@/util/session-token";

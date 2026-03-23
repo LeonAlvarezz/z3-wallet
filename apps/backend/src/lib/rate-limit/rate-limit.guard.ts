@@ -1,6 +1,6 @@
 import Elysia from "elysia";
 import { RateLimitService } from "@/lib/rate-limit";
-import { RateLimitException } from "@my-wallet/exception";
+import { RateLimitException } from "@z3-wallet/exception";
 import { RATE_LIMIT_CONFIG } from "./rate-limit.constant";
 import { RateLimitModel } from "./rate-limit.model";
 import { ip } from "@/core/request/ip";

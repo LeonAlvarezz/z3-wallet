@@ -7,9 +7,9 @@ import qs from "qs";
 import { FileDownloader } from "./downloader";
 import { FileUploader } from "./uploader";
 import type { RequestClientConfig, RequestClientOptions } from "./types";
-import { isString } from "@my-wallet/types/is-string";
+import { isString } from "@z3-wallet/types/is-string";
 import { InterceptorManager } from "./interceptor";
-import type { ApiSuccess } from "@my-wallet/types";
+import type { ApiSuccess } from "@z3-wallet/types";
 
 function getParamsSerializer(
   paramsSerializer: RequestClientOptions["paramsSerializer"],

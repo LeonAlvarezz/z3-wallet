@@ -4,7 +4,7 @@ import {
   // walletEventTable,
   walletTable,
 } from "@/lib/db/schema";
-import { WalletModel } from "@my-wallet/types";
+import { WalletModel } from "@z3-wallet/types";
 import { eq, inArray, sql } from "drizzle-orm";
 
 export class WalletRepository {

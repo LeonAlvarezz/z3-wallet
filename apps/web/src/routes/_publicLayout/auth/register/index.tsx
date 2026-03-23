@@ -9,7 +9,7 @@ export const Route = createFileRoute("/_publicLayout/auth/register/")({
     buildSeo({
       title: "Create Account",
       description:
-        "Create a My Wallet account to start tracking expenses, budgets, and cash flow in one place.",
+        "Create a Z3 Wallet account to start tracking expenses, budgets, and cash flow in one place.",
       path: "/auth/register/",
     }),
   component: RegisterPage,

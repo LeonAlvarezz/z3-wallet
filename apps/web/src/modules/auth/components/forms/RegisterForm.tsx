@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Icon } from "@iconify/react";
 import { useSignUp } from "@/modules/auth/hooks/use-sign-up";
-import { AuthModel } from "@my-wallet/types/auth";
+import { AuthModel } from "@z3-wallet/types/auth";
 import z from "zod";
 
 const formSchema = AuthModel.SignUpSchema.extend({
