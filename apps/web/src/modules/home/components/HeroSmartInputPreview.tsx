@@ -74,8 +74,8 @@ function StageItem({
       className={cn(
         "smart-stage-cluster pointer-events-none absolute flex flex-col gap-3",
         side === "left"
-          ? "top-10 left-0 max-w-44 items-start sm:top-12 sm:left-5"
-          : "top-16 right-0 max-w-48 items-end text-right sm:top-20 sm:right-5",
+          ? "top-10 left-0 max-w-44 items-start sm:top-12 sm:left-0"
+          : "top-16 right-0 max-w-48 items-end text-right sm:top-20 sm:right-0",
       )}
       style={{ animationDelay: `${delayMs}ms` }}
     >
@@ -171,7 +171,7 @@ type PriceStageItemProps = {
 
 function PriceStageItem({ price, delayMs }: PriceStageItemProps) {
   return (
-    <div className="pointer-events-none absolute inset-x-0 bottom-28 z-20 flex justify-center sm:bottom-38">
+    <div className="pointer-events-none absolute inset-x-0 bottom-20 z-20 flex justify-center sm:bottom-38">
       <div
         className="smart-stage-cluster flex flex-col items-center gap-3 text-center"
         style={{ animationDelay: `${delayMs}ms` }}
@@ -255,8 +255,8 @@ export function HeroSmartInputPreview() {
           />
         )}
 
-        <div className="absolute inset-x-4 bottom-4 z-20 sm:inset-x-8 sm:bottom-8">
-          <div className="typewriter border-input/50 bg-card flex h-12 items-center justify-center rounded-lg border px-6 py-4 text-center sm:h-22 sm:px-7">
+        <div className="absolute inset-x-0 bottom-2 z-20 sm:inset-x-4 sm:bottom-8">
+          <div className="typewriter border-input/50 bg-card flex h-12 items-center justify-center rounded-lg border px-6 py-4 text-center sm:h-16 sm:px-7">
             <p>{inputValue}</p>+
           </div>
         </div>
