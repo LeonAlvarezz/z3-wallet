@@ -1,13 +1,10 @@
 import type { LucideIcon } from "lucide-react";
 import {
   Clock3,
-  Focus,
   PiggyBank,
   ReceiptText,
   ShieldCheck,
-  Target,
   TrendingUp,
-  Waves,
   Wallet,
 } from "lucide-react";
 
@@ -36,37 +33,62 @@ export type PreviewBar = {
   day: string;
 };
 
+export type HeroSmartInputSignalAccent = "primary" | "emerald" | "sky";
+
+export type HeroSmartInputSignal = {
+  label: string;
+  value: string;
+  accent: HeroSmartInputSignalAccent;
+};
+
 export const HERO_HEADLINE_LINES = [
-  ["Track", "spending."],
-  ["Stay", "calm."],
+  ["Type", "it", "like", "you", "think."],
+  ["Let", "rules", "sort", "the", "rest."],
 ] as const;
 
 export const HERO_STATS: HeroStat[] = [
-  { icon: Clock3, label: "Setup time", value: "2 min" },
-  { icon: Focus, label: "Focus", value: "Daily" },
-  { icon: Waves, label: "View", value: "Cash flow" },
+  { icon: ReceiptText, label: "Input", value: "Natural language" },
+  { icon: ShieldCheck, label: "Rules", value: "Auto-match" },
+  { icon: Clock3, label: "Workflow", value: "Less tapping" },
+];
+
+export const HERO_SMART_INPUT_SIGNALS: HeroSmartInputSignal[] = [
+  { label: "Amount found", value: "$12.00", accent: "primary" },
+  { label: "Category match", value: "Food & Drinks", accent: "emerald" },
+  { label: "Entry type", value: "Expense", accent: "sky" },
+];
+
+export const HERO_SMART_INPUT_RULE = {
+  keyword: "coffee",
+  category: "Food & Drinks",
+};
+
+export const HERO_SMART_INPUT_EXAMPLES = [
+  "12 Starbucks coffee",
+  "18 Grab ride",
+  "+ 500 cash top up",
 ];
 
 export const FEATURE_CARDS: FeatureCard[] = [
   {
     icon: ReceiptText,
-    title: "Track fast",
+    title: "Smart input first",
     description:
-      "Capture transactions quickly so everyday spending stays visible while it still matters.",
+      "Write transactions in natural language so amount, type, and category context are easier to capture with less tapping.",
     color: "emerald",
   },
   {
-    icon: TrendingUp,
-    title: "Read patterns",
+    icon: ShieldCheck,
+    title: "Rules that remember",
     description:
-      "See how money moves through the month with simple category and cash flow context.",
+      "Save category keywords like coffee or ride so repeated spending lands in the right place more consistently.",
     color: "sky",
   },
   {
-    icon: Target,
-    title: "Adjust early",
+    icon: TrendingUp,
+    title: "Patterns you can trust",
     description:
-      "Notice drift before it becomes a surprise and make smaller, smarter decisions sooner.",
+      "Clean entries lead to clearer cash flow patterns, so it is easier to notice drift and adjust before it hurts.",
     color: "rose",
   },
 ];

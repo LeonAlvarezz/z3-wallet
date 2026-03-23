@@ -130,6 +130,43 @@
   }
 }
 
+@keyframes smart-stage-entry {
+  0% {
+    opacity: 0;
+    transform: translateY(72px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes smart-stage-float {
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--stage-rotate, 0deg));
+  }
+
+  50% {
+    transform: translateY(-10px) rotate(var(--stage-rotate, 0deg));
+  }
+}
+
+@keyframes smart-caret {
+
+  0%,
+  49% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
 .animate-slide-up {
   animation: slide-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
@@ -221,11 +258,69 @@
   animation: pulse-ring 2.5s cubic-bezier(0.66, 0, 0, 1) infinite;
 }
 
+.smart-stage-cluster {
+  animation: smart-stage-entry 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.smart-stage-card {
+  animation: smart-stage-float 5.6s ease-in-out infinite;
+}
+
+.smart-stage-card.is-left {
+  --stage-rotate: -6deg;
+  transform: rotate(-6deg);
+}
+
+.smart-stage-card.is-right {
+  --stage-rotate: 6deg;
+  transform: rotate(6deg);
+}
+
+.smart-demo-caret {
+  animation: smart-caret 1s step-end infinite;
+}
 
 .marquee {
   /* display: flex; */
   /* padding-left: 100%; */
   display: inline-flex;
   white-space: nowrap;
+}
 
+.typewriter p {
+  overflow: hidden;
+  /* Ensures the content is not revealed until the animation */
+  border-right: .15em solid white;
+  /* The typwriter cursor */
+  white-space: nowrap;
+  /* Keeps the content on a single line */
+  margin: 0 auto;
+  /* Adjust as needed */
+  animation:
+    /* typing 3.5s steps(40, end), */
+    blink-caret .75s step-end infinite;
+}
+
+
+@keyframes typing {
+  from {
+    width: 0
+  }
+
+  to {
+    width: 100%
+  }
+}
+
+
+@keyframes blink-caret {
+
+  from,
+  to {
+    border-color: transparent
+  }
+
+  50% {
+    border-color: white;
+  }
 }

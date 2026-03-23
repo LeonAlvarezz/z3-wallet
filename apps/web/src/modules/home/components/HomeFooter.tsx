@@ -1,4 +1,3 @@
-import { Link } from "@tanstack/react-router";
 import { CircleDollarSign } from "lucide-react";
 import { homeDisplayFontStyle } from "../utils/home-ui";
 import { StaggerSection } from "./StaggerSection";
