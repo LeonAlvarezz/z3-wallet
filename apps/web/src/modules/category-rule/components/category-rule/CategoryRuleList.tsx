@@ -1,7 +1,6 @@
 import CategoryRuleItem from "./CategoryRuleItem";
 import { useGetCategoryRuleByCategory } from "../../hooks/use-get-category-rule-by-category";
 import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { useCreateCategoryRule } from "../../hooks/use-create-category-rule";
@@ -12,7 +11,7 @@ type Props = {
 };
 
 export default function CategoryRuleList({ id, enabled = true }: Props) {
-  const { data: rules, isLoading } = useGetCategoryRuleByCategory(id, enabled);
+  const { data: rules } = useGetCategoryRuleByCategory(id, enabled);
   const createMutation = useCreateCategoryRule();
   const [newKeyword, setNewKeyword] = useState("");
   const isEmpty = rules?.length === 0;
@@ -28,10 +27,6 @@ export default function CategoryRuleList({ id, enabled = true }: Props) {
 
     setNewKeyword("");
   };
-
-  if (isLoading) {
-    return <Spinner className="m-auto" />;
-  }
 
   return (
     <div className="space-y-4 rounded-lg py-2">

@@ -9,9 +9,15 @@ import { ThemeProvider } from "@/modules/theme/theme-provider";
 import { Toaster } from "sonner";
 import type { RouterContext } from "@/router-context";
 import { buildSeo } from "@/lib/seo";
+import {
+  NotFoundPage,
+  RouteErrorPage,
+} from "@/modules/error/components/StatusPage";
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   head: () => buildSeo({}),
+  errorComponent: RouteErrorPage,
+  notFoundComponent: () => <NotFoundPage />,
   component: RootComponent,
 });
 

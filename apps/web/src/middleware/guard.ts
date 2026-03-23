@@ -31,6 +31,11 @@ export async function guard({
         },
       });
     }
+    if (maybeApiError?.status === 403) {
+      throw redirect({
+        to: "/forbidden",
+      });
+    }
     throw error;
   }
 }

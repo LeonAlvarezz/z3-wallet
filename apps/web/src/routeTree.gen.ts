@@ -9,6 +9,8 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ForbiddenRouteImport } from './routes/forbidden'
+import { Route as ErrorRouteImport } from './routes/error'
 import { Route as PublicLayoutRouteRouteImport } from './routes/_publicLayout/route'
 import { Route as HomeLayoutRouteRouteImport } from './routes/_homeLayout/route'
 import { Route as IndexRouteImport } from './routes/index'
@@ -25,6 +27,16 @@ import { Route as HomeLayoutSettingsNotificationsIndexRouteImport } from './rout
 import { Route as HomeLayoutSettingsCategoryRuleIndexRouteImport } from './routes/_homeLayout/settings/category-rule/index'
 import { Route as HomeLayoutSettingsBudgetGoalsIndexRouteImport } from './routes/_homeLayout/settings/budget-goals/index'
 
+const ForbiddenRoute = ForbiddenRouteImport.update({
+  id: '/forbidden',
+  path: '/forbidden',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ErrorRoute = ErrorRouteImport.update({
+  id: '/error',
+  path: '/error',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PublicLayoutRouteRoute = PublicLayoutRouteRouteImport.update({
   id: '/_publicLayout',
   getParentRoute: () => rootRouteImport,
@@ -110,6 +122,8 @@ const HomeLayoutSettingsBudgetGoalsIndexRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/error': typeof ErrorRoute
+  '/forbidden': typeof ForbiddenRoute
   '/profile/change-password': typeof HomeLayoutProfileChangePasswordRoute
   '/profile/edit': typeof HomeLayoutProfileEditRoute
   '/dashboard/': typeof HomeLayoutDashboardIndexRoute
@@ -125,6 +139,8 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/error': typeof ErrorRoute
+  '/forbidden': typeof ForbiddenRoute
   '/profile/change-password': typeof HomeLayoutProfileChangePasswordRoute
   '/profile/edit': typeof HomeLayoutProfileEditRoute
   '/dashboard': typeof HomeLayoutDashboardIndexRoute
@@ -143,6 +159,8 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_homeLayout': typeof HomeLayoutRouteRouteWithChildren
   '/_publicLayout': typeof PublicLayoutRouteRouteWithChildren
+  '/error': typeof ErrorRoute
+  '/forbidden': typeof ForbiddenRoute
   '/_homeLayout/profile/change-password': typeof HomeLayoutProfileChangePasswordRoute
   '/_homeLayout/profile/edit': typeof HomeLayoutProfileEditRoute
   '/_homeLayout/dashboard/': typeof HomeLayoutDashboardIndexRoute
@@ -160,6 +178,8 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/error'
+    | '/forbidden'
     | '/profile/change-password'
     | '/profile/edit'
     | '/dashboard/'
@@ -175,6 +195,8 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/error'
+    | '/forbidden'
     | '/profile/change-password'
     | '/profile/edit'
     | '/dashboard'
@@ -192,6 +214,8 @@ export interface FileRouteTypes {
     | '/'
     | '/_homeLayout'
     | '/_publicLayout'
+    | '/error'
+    | '/forbidden'
     | '/_homeLayout/profile/change-password'
     | '/_homeLayout/profile/edit'
     | '/_homeLayout/dashboard/'
@@ -210,10 +234,26 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   HomeLayoutRouteRoute: typeof HomeLayoutRouteRouteWithChildren
   PublicLayoutRouteRoute: typeof PublicLayoutRouteRouteWithChildren
+  ErrorRoute: typeof ErrorRoute
+  ForbiddenRoute: typeof ForbiddenRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/forbidden': {
+      id: '/forbidden'
+      path: '/forbidden'
+      fullPath: '/forbidden'
+      preLoaderRoute: typeof ForbiddenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/error': {
+      id: '/error'
+      path: '/error'
+      fullPath: '/error'
+      preLoaderRoute: typeof ErrorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_publicLayout': {
       id: '/_publicLayout'
       path: ''
@@ -372,6 +412,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   HomeLayoutRouteRoute: HomeLayoutRouteRouteWithChildren,
   PublicLayoutRouteRoute: PublicLayoutRouteRouteWithChildren,
+  ErrorRoute: ErrorRoute,
+  ForbiddenRoute: ForbiddenRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
