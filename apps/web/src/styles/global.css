@@ -279,4 +279,17 @@
   --spacing-mobile: 430px;
   --spacing-bottom-nav-h: var(--bottom-nav-h);
   --spacing-bottom-nav-total-h: var(--bottom-nav-total-h);
+
+
+  --animate-slide-up: slide-up 1s ease forwards;
+
+  @keyframes slide-up {
+    from {
+      transform: translateY(var(--slide-from, 10px));
+    }
+
+    to {
+      transform: translateY(0);
+    }
+  }
 }

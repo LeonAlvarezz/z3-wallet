@@ -3,11 +3,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
-import { useInView } from "../hooks/use-in-view";
 import { AnimatedBalance } from "./AnimatedBalance";
 import { AnimatedBars } from "./AnimatedBars";
 import { MetricCountCard } from "./MetricCountCard";
 import { StaggerSection } from "./StaggerSection";
+import { useInView } from "@/hooks/use-in-view";
 
 export function PreviewSection() {
   const { ref: previewRef, inView: previewInView } =

@@ -6,7 +6,7 @@ import MutateTransactionContext, {
   useMutateTransactionForm,
 } from "../components/forms/mutate-transaction-form/use-mutate-transaction-context";
 import { Button } from "@/components/ui/button";
-import { useRef } from "react";
+import { useRef, useState, type CSSProperties } from "react";
 
 export default function AddTransactionPage() {
   const formHook = useMutateTransactionForm({ action: "create" });
@@ -36,7 +36,28 @@ export default function AddTransactionPage() {
       <MutateTransactionContext.Provider value={{ ...formHook }}>
         <MutateTransactionForm>
           <MutateTransactionFormFooter>
-            <div className="max-w-mobile to-background fixed inset-x-0 bottom-0 m-auto bg-linear-180 px-4 pt-10">
+            <div className="max-w-mobile to-background fixed inset-x-0 bottom-0 m-auto space-y-2 bg-linear-180 px-4 pt-10">
+              {smartText.length > 10 && (
+                <div
+                  className="animate-slide-up flex items-center justify-between rounded-md border px-4 py-2"
+                  style={
+                    {
+                      "--slide-from": "20px",
+                      animationDuration: "300ms",
+                    } as CSSProperties
+                  }
+                >
+                  <p className="text-sm">Save this rule</p>
+                  <div className="space-x-2">
+                    <Button type="button" size="xs">
+                      Save
+                    </Button>
+                    <Button type="button" size="xs" variant="outline">
+                      Not now
+                    </Button>
+                  </div>
+                </div>
+              )}
               <div className="mb-[calc(var(--bottom-nav-total-h)+10px)] flex gap-2">
                 <SmartInput
                   ref={inputRef}
@@ -59,6 +80,13 @@ export default function AddTransactionPage() {
                   Save
                 </Button>
               </div>
+              <Button
+                type="button"
+                onClick={() => setReveal((prev) => !prev)}
+                className="fixed right-0 bottom-0"
+              >
+                Show
+              </Button>
             </div>
           </MutateTransactionFormFooter>
         </MutateTransactionForm>

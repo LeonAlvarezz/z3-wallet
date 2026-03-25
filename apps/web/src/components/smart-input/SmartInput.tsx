@@ -29,10 +29,10 @@ const SmartInput = React.forwardRef<HTMLInputElement, Props>(
             e.preventDefault();
             onSubmit();
           }}
-          className={cn("w-full pr-12")}
+          className={cn("absolute z-20 w-full pr-12")}
         />
         {!hasValue && !isMobile && (
-          <div className="absolute inset-y-1/2 right-8 flex h-fit -translate-y-1/2">
+          <div className="absolute inset-y-1/2 right-8 z-20 flex h-fit -translate-y-1/2">
             <KbdGroup className="bg-muted rounded-sm border p-1">
               <Kbd className="h-fit px-0 text-[10px]">
                 {normalizeShortcut("meta")}
