@@ -35,7 +35,7 @@ export default function TransactionPage() {
   const [selectedTransaction, setSelectedTransaction] =
     useState<TransactionModel.TransactionWithCategoryDto | null>(null);
 
-  const timeFrame = search.time_frame ?? BaseModel.TimeFrameEnum.ALL_TIME;
+  const timeFrame = search.time_frame ?? BaseModel.TimeFrameEnum.TODAY;
 
   const infinite = useInfiniteTransactions({
     page_size: 10,
