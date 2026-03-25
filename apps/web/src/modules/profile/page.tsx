@@ -65,13 +65,9 @@ export function ProfilePage() {
 
           {
             title: "Category Matching",
-            description: "Manage how category will be match",
+            description: "Rules and category preferences",
             icon: "solar:tag-bold-duotone",
-            onClick: () => {
-              navigate({
-                to: "/settings/category-rule",
-              });
-            },
+            to: "/settings/category",
           },
         ]}
       />

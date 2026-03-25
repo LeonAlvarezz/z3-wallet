@@ -1,6 +1,6 @@
 import TopNav from "@/components/top-nav/TopNav";
 import { ToggleRow } from "../components/ToggleRow";
-import { useLocalStorageState } from "../hooks/useLocalStorageState";
+import { useLocalStorageState } from "../../../hooks/use-local-storage";
 
 type NotificationsSettings = {
   expenseAlerts: boolean;

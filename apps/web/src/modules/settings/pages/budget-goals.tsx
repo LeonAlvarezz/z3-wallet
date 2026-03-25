@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { ProgressBar } from "../components/ProgressBar";
-import { useLocalStorageState } from "../hooks/useLocalStorageState";
+import { useLocalStorageState } from "../../../hooks/use-local-storage";
 import TopNav from "@/components/top-nav/TopNav";
 
 type Category = {

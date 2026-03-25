@@ -11,14 +11,14 @@ import { useGetCategoryRuleList } from "@/modules/category-rule/hooks/use-get-ca
 type CreateProps = {
   defaultValue?: TransactionModel.CreateTransactionDto;
   action?: "create";
-  afterSubmit?: () => void;
+  afterSubmit?: (value: TransactionModel.CreateTransactionDto) => void;
 };
 
 type UpdateProps = {
   defaultValue: TransactionModel.CreateTransactionDto;
   transactionId: number;
   action: "update";
-  afterSubmit?: () => void;
+  afterSubmit?: (value: TransactionModel.CreateTransactionDto) => void;
 };
 
 type Props = CreateProps | UpdateProps;
@@ -81,9 +81,9 @@ export const useMutateTransactionForm = (props: Props) => {
           });
           toast.success("Transaction updated");
         }
-        if (props.afterSubmit) {
-          props.afterSubmit();
-        }
+
+        props.afterSubmit?.(value);
+
         formApi.reset();
         setSmartText("");
         setSmartAppliedOnce(false);

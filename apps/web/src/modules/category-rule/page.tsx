@@ -10,7 +10,8 @@ import { cn } from "@/lib/utils";
 import { Icon } from "@iconify/react";
 import { useGetCategoryRuleCount } from "./hooks/use-get-category-rule-count";
 import { getCategoryVariantColors } from "../category/constants/category-color-map";
-import { Skeleton } from "@/components/ui/skeleton";
+import { CategoryRulePageSkeleton } from "./components/skeletons/CategoryRulePageSkeleton";
+import { CategoryRuleListSkeleton } from "./components/skeletons/CategoryRuleListSkeleton";
 
 const CategoryRuleList = lazy(
   () => import("./components/category-rule/CategoryRuleList"),
@@ -26,7 +27,7 @@ export default function CategoryMatchPage() {
 
   return (
     <div className="flex h-full w-full flex-col overflow-y-auto p-4 pb-[calc(var(--bottom-nav-total-h))]">
-      <CommonHeader title="Category Rules" backLabel={true} />
+      <CommonHeader title="Category Rules" />
       <Accordion
         type="single"
         collapsible
@@ -68,53 +69,6 @@ export default function CategoryMatchPage() {
           );
         })}
       </Accordion>
-    </div>
-  );
-}
-
-function CategoryRulePageSkeleton() {
-  return (
-    <div className="flex h-full w-full flex-col overflow-y-auto p-4 pb-[calc(var(--bottom-nav-total-h))]">
-      <CommonHeader title="Category Rules" backLabel={true} />
-      <div className="space-y-2">
-        {Array.from({ length: 5 }).map((_, index) => (
-          <div
-            key={index}
-            className="bg-card border-input/30 flex items-center justify-between rounded-xl border px-4 py-4"
-          >
-            <div className="flex items-center gap-4">
-              <Skeleton className="size-10 rounded-md" />
-              <Skeleton className="h-4 w-28" />
-            </div>
-            <div className="flex items-center gap-2">
-              <Skeleton className="h-6 w-6 rounded-full" />
-              <Skeleton className="size-4" />
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function CategoryRuleListSkeleton() {
-  return (
-    <div className="space-y-4 rounded-lg py-2">
-      <div className="flex items-center gap-2">
-        <Skeleton className="h-8 flex-1 rounded-md" />
-        <Skeleton className="h-8 w-16 rounded-md" />
-      </div>
-      <div className="space-y-2">
-        {Array.from({ length: 3 }).map((_, index) => (
-          <div key={index} className="flex items-center justify-between gap-2">
-            <Skeleton className="h-4 w-32" />
-            <div className="flex items-center gap-2">
-              <Skeleton className="size-8 rounded-md" />
-              <Skeleton className="size-8 rounded-md" />
-            </div>
-          </div>
-        ))}
-      </div>
     </div>
   );
 }

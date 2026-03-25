@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 import { Icon } from "@iconify/react";
+import { useRouter } from "@tanstack/react-router";
 
 type HubSectionItem = {
   title: string;
@@ -14,6 +16,12 @@ type HubSectionItem = {
     checked: boolean;
     onCheckedChange: (checked: boolean) => void;
   };
+
+  inputNumber?: {
+    value: number;
+    onValueChange: (value: number) => void;
+    max?: number;
+  };
 };
 
 export function HubSection({
@@ -23,6 +31,8 @@ export function HubSection({
   title: string;
   items: HubSectionItem[];
 }) {
+  const router = useRouter();
+
   return (
     <section className="flex flex-col gap-2">
       <h2 className="text-muted-foreground text-sm font-semibold uppercase">
@@ -46,7 +56,7 @@ export function HubSection({
                   </div>
                   <div className="flex flex-col gap-0.5 text-left">
                     <p className="text-sm font-medium">{item.title}</p>
-                    <p className="text-muted-foreground max-w-52 overflow-hidden text-xs text-ellipsis">
+                    <p className="text-muted-foreground max-w-52 overflow-hidden text-xs text-nowrap text-ellipsis">
                       {item.description}
                     </p>
                   </div>
@@ -65,6 +75,55 @@ export function HubSection({
             );
           }
 
+          if (item.inputNumber) {
+            return (
+              <div
+                key={item.title}
+                className={cn(
+                  "bg-card flex h-14 w-full items-center justify-between rounded-lg border px-3",
+                  item.disabled && "opacity-60",
+                )}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="bg-secondary flex size-10 items-center justify-center rounded-lg">
+                    <Icon icon={item.icon} className="size-6" />
+                  </div>
+                  <div className="flex flex-col gap-0.5 text-left">
+                    <p className="text-sm font-medium">{item.title}</p>
+                    <p className="text-muted-foreground max-w-52 overflow-hidden text-xs text-nowrap text-ellipsis">
+                      {item.description}
+                    </p>
+                  </div>
+                </div>
+
+                <Input
+                  value={item.inputNumber.value}
+                  onChange={(e) => {
+                    const nextValue = Number(e.target.value);
+
+                    if (Number.isNaN(nextValue)) {
+                      item.inputNumber?.onValueChange(0);
+                      return;
+                    }
+
+                    if (
+                      item.inputNumber?.max !== undefined &&
+                      nextValue >= item.inputNumber.max
+                    ) {
+                      item.inputNumber.onValueChange(item.inputNumber.max);
+                      return;
+                    }
+
+                    item.inputNumber?.onValueChange(nextValue);
+                  }}
+                  className="w-10 text-center text-sm"
+                  maxLength={10}
+                  max={10}
+                />
+              </div>
+            );
+          }
+
           return (
             <Button
               key={item.title}
@@ -72,7 +131,14 @@ export function HubSection({
               variant="outline"
               disabled={item.disabled}
               onClick={() => {
-                if (item.onClick) item.onClick();
+                if (item.onClick) {
+                  item.onClick();
+                  return;
+                }
+
+                if (item.to) {
+                  router.history.push(item.to);
+                }
               }}
               className="h-14 w-full"
             >

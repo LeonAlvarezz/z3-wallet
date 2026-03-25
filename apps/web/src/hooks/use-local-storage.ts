@@ -1,6 +1,6 @@
 import * as React from "react";
 
-export function useLocalStorageState<T>(
+export function useLocalStorage<T>(
   key: string,
   initialValue: T,
 ): [T, React.Dispatch<React.SetStateAction<T>>] {

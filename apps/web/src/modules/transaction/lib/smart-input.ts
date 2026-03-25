@@ -1,3 +1,4 @@
+import { normalizeForMatch } from "@/utils/string";
 import {
   CategoryRuleModel,
   TransactionModel,
@@ -17,17 +18,6 @@ export type SmartInputParseResult = {
   warnings: string[];
   type: TransactionModel.TransactionTypeEnum;
 };
-
-function normalizeForMatch(input: string): string {
-  return (
-    input
-      .trim()
-      .toLowerCase()
-      .replace(/[\s]+/g, " ")
-      // keep letters/numbers/spaces only; makes matching tolerant to punctuation like '&'
-      .replace(/[^\p{L}\p{N} ]+/gu, "")
-  );
-}
 
 function parseAmountToken(token: string): number | undefined {
   const cleaned = token.trim().replace(/[$,]/g, "");
