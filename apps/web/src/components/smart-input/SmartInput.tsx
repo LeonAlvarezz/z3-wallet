@@ -2,6 +2,9 @@ import * as React from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Icon } from "@iconify/react";
+import { KbdGroup, Kbd } from "../ui/kbd";
+import { cn } from "@/lib/utils";
+import useDevice from "@/hooks/use-device";
 
 type Props = {
   value: string;
@@ -11,6 +14,9 @@ type Props = {
 
 const SmartInput = React.forwardRef<HTMLInputElement, Props>(
   ({ onSubmit, value, onChange }, ref) => {
+    const hasValue = value.trim().length > 0;
+    const { isMobile, normalizeShortcut } = useDevice();
+
     return (
       <div className="relative w-full" id="smart-input">
         <Input
@@ -23,12 +29,16 @@ const SmartInput = React.forwardRef<HTMLInputElement, Props>(
             e.preventDefault();
             onSubmit();
           }}
-          className="w-full"
+          className={cn("w-full pr-12")}
         />
-        {(!value || value.length < 0) && (
-          <div className="absolute inset-y-1/2 right-10 flex h-fit -translate-y-1/2 gap-2 rounded-sm border px-2 py-1">
-            <kbd className="text-foreground font-mono text-[10px]">⌘</kbd>
-            <kbd className="text-foreground font-mono text-[10px]">/</kbd>
+        {!hasValue && !isMobile && (
+          <div className="absolute inset-y-1/2 right-8 flex h-fit -translate-y-1/2">
+            <KbdGroup className="bg-muted rounded-sm border p-1">
+              <Kbd className="h-fit px-0 text-[10px]">
+                {normalizeShortcut("meta")}
+              </Kbd>
+              <Kbd className="h-fit px-0 text-[10px]">/</Kbd>
+            </KbdGroup>
           </div>
         )}
         <Button
@@ -37,7 +47,7 @@ const SmartInput = React.forwardRef<HTMLInputElement, Props>(
           className="absolute inset-y-1/2 right-1 z-20 h-fit w-fit -translate-y-1/2 p-2"
           onClick={onSubmit}
         >
-          <Icon icon="solar:arrow-right-up-bold" className="size-5" />
+          <Icon icon="solar:arrow-right-up-bold" className="size-4" />
         </Button>
       </div>
     );
