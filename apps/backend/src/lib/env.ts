@@ -19,6 +19,7 @@ const envSchema = z.object({
   GITHUB_CLIENT_ID: z.string(),
   GITHUB_CLIENT_SECRET: z.string(),
   GITHUB_REDIRECT_URI: z.string(),
+  WEB_APP_URL: z.url().optional(),
 });
 
 // Validate `process.env` against our schema

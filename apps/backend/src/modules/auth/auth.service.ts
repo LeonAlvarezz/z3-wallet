@@ -22,6 +22,7 @@ import {
   getGitHubUser,
   getGitHubVerifiedEmail,
 } from "./lib/github-oauth";
+import env from "@/lib/env";
 
 const GITHUB_PROVIDER = "github";
 const DEFAULT_SESSION_EXPIRES_MS = 1000 * 60 * 60 * 24 * 7;
@@ -55,13 +56,19 @@ function buildOAuthErrorRedirect(
   const path = authPathBySource(source);
   const params = new URLSearchParams();
   params.set("oauth_error", error);
-  return `${path}?${params.toString()}`;
+  return buildFrontendUrl(`${path}?${params.toString()}`);
 }
 
 function normalizeUsernameSeed(seed: string) {
   const trimmed = seed.trim().replace(/\s+/g, " ");
   if (!trimmed.length) return "user";
   return trimmed;
+}
+
+function buildFrontendUrl(path: string) {
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  if (!env.WEB_APP_URL) return normalizedPath;
+  return new URL(normalizedPath, env.WEB_APP_URL).toString();
 }
 
 export class AuthService {
@@ -100,7 +107,8 @@ export class AuthService {
   }
 
   private static getOAuthSuccessRedirect(redirect: null | string) {
-    return safeRedirectTarget(redirect) ?? "/dashboard";
+    const path = safeRedirectTarget(redirect) ?? "/dashboard";
+    return buildFrontendUrl(path);
   }
 
   static async signUp(payload: AuthModel.SignUpDto) {
