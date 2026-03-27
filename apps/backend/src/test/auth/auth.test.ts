@@ -1,6 +1,18 @@
-import { DefaultErrorMessage, ErrorCode } from "@z3-wallet/exception/type";
 import { describe, expect, it } from "bun:test";
 import { authHelpers } from "@/test/test-helpers";
+import { DefaultErrorMessage, ErrorCode } from "@z3-wallet/types";
+
+interface AuthResponse {
+  data?: {
+    email?: string;
+    public_id?: string;
+    username?: string;
+    session_token?: string;
+    expires_at?: string;
+    user?: unknown;
+  };
+  message?: string;
+}
 
 describe("Auth Route", () => {
   it("Sign in fail with wrong password", async () => {
@@ -9,7 +21,7 @@ describe("Auth Route", () => {
       "wrongPassword",
     );
     expect(response.status).toBe(ErrorCode.UNAUTHORIZED);
-    const data = await response.json();
+    const data = (await response.json()) as AuthResponse;
     expect(data.message).toBe(DefaultErrorMessage.INVALID_CREDENTIAL);
   });
 
@@ -19,7 +31,7 @@ describe("Auth Route", () => {
       "Password123!",
     );
     expect(response.status).toBe(200);
-    const data = await response.json();
+    const data = (await response.json()) as AuthResponse;
     expect(data.data).toHaveProperty("session_token");
     expect(data.data).toHaveProperty("expires_at");
     expect(data.data).toHaveProperty("user");
@@ -34,7 +46,7 @@ describe("Auth Route", () => {
 
     const response = await authHelpers.getMe(sessionCookie);
     expect(response.status).toBe(200);
-    const data = await response.json();
+    const data = (await response.json()) as AuthResponse;
     expect(data.data).toHaveProperty("email");
     expect(data.data).toHaveProperty("public_id");
     expect(data.data).toHaveProperty("username");
@@ -43,7 +55,7 @@ describe("Auth Route", () => {
   it("Get me fail with invalid token", async () => {
     const response = await authHelpers.getMe("invalid-cookie");
     expect(response.status).toBe(ErrorCode.UNAUTHORIZED);
-    const data = await response.json();
+    const data = (await response.json()) as AuthResponse;
     expect(data.message).toBe(DefaultErrorMessage.INVALID_CREDENTIAL);
   });
 
@@ -56,7 +68,7 @@ describe("Auth Route", () => {
 
     const response = await authHelpers.signOut(sessionCookie);
     expect(response.status).toBe(200);
-    const data = await response.json();
+    const data = (await response.json()) as AuthResponse;
     expect(data).toHaveProperty("message", "Success");
   });
 });

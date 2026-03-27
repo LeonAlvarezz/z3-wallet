@@ -67,8 +67,9 @@ function normalizeUsernameSeed(seed: string) {
 
 function buildFrontendUrl(path: string) {
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
-  if (!env.WEB_APP_URL) return normalizedPath;
-  return new URL(normalizedPath, env.WEB_APP_URL).toString();
+  const fallbackFrontendOrigin = new URL(env.GITHUB_REDIRECT_URI).origin;
+  const baseUrl = env.WEB_APP_URL ?? fallbackFrontendOrigin;
+  return new URL(normalizedPath, baseUrl).toString();
 }
 
 export class AuthService {
