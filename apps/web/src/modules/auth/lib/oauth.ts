@@ -7,6 +7,12 @@ function safeRedirectTarget(raw: null | string) {
   return raw;
 }
 
+function buildApiUrl(path: string) {
+  const baseUrl = import.meta.env.VITE_API_URL;
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  return `${baseUrl.replace(/\/$/, "")}${normalizedPath}`;
+}
+
 export function buildGithubStartUrl({
   source,
   searchStr,
@@ -22,7 +28,7 @@ export function buildGithubStartUrl({
   if (redirect) {
     params.set("redirect", redirect);
   }
-  return `/api/auth/github/start?${params.toString()}`;
+  return buildApiUrl(`/auth/github/start?${params.toString()}`);
 }
 
 const OAUTH_ERROR_MESSAGES: Record<AuthModel.OAuthErrorDto, string> = {
