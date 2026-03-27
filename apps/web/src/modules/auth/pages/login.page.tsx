@@ -1,7 +1,13 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import LoginForm from "../components/forms/LoginForm";
+import { getOAuthErrorMessage } from "../lib/oauth";
 
 export default function LoginPage() {
+  const {
+    location: { searchStr },
+  } = useRouterState();
+  const oauthErrorMessage = getOAuthErrorMessage(searchStr);
+
   return (
     <div className="flex min-h-lvh w-full flex-col items-center justify-center p-6">
       <div className="absolute inset-0 -z-10 overflow-hidden">
@@ -17,6 +23,11 @@ export default function LoginPage() {
             Sign in to your account to continue
           </p>
         </div>
+        {oauthErrorMessage ? (
+          <div className="bg-destructive/10 text-destructive rounded-lg border border-current/20 px-3 py-2 text-sm">
+            {oauthErrorMessage}
+          </div>
+        ) : null}
         <LoginForm />
         <div className="animate-in fade-in slide-in-from-bottom-2 mt-6 text-center text-sm duration-1000">
           <p className="text-muted-foreground">

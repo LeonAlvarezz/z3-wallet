@@ -19,6 +19,12 @@ export class UserRepository {
     });
   }
 
+  static async findByUsername(username: string) {
+    return await db.query.userTable.findFirst({
+      where: eq(userTable.username, username),
+    });
+  }
+
   static async findById(id: number) {
     return await db.query.userTable.findFirst({
       where: eq(userTable.id, id),

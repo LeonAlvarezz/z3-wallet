@@ -1,4 +1,4 @@
-import Elysia from "elysia";
+import Elysia, { redirect } from "elysia";
 import {
   AuthModel,
   BaseModel,
@@ -72,6 +72,44 @@ export const auth = new Elysia()
         },
 
         response: SuccessSchema(UserModel.UserPublicSessionSchema),
+      },
+    );
+
+    app.get(
+      "/github/start",
+      async ({ query }) => {
+        const redirectTo = await AuthService.startGithubOAuth(query);
+        return redirect(redirectTo);
+      },
+      {
+        query: AuthModel.GitHubStartQuerySchema,
+        detail: {
+          summary: "Start GitHub OAuth flow",
+          tags: [OpenApiKey.Auth],
+        },
+      },
+    );
+
+    app.get(
+      "/github/callback",
+      async ({ query, cookie: { session_token } }) => {
+        const result = await AuthService.handleGithubCallback(query);
+        if (!result.success) return redirect(result.redirect_to);
+
+        session_token.value = result.session.session_token;
+        await RedisService.setSession(
+          result.session.session_token,
+          result.session.user,
+        );
+        return redirect(result.redirect_to);
+      },
+      {
+        query: AuthModel.GitHubCallbackQuerySchema,
+        cookie: BaseModel.CookieSchema,
+        detail: {
+          summary: "GitHub OAuth callback",
+          tags: [OpenApiKey.Auth],
+        },
       },
     );
 
