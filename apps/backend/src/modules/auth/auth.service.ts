@@ -78,8 +78,9 @@ export class AuthService {
   ): Promise<UserModel.UserSessionDto> {
     const sessionToken = generateSessionToken();
     const sessionTokenHash = hashSessionToken(sessionToken);
-    const expiresAt = new Date(Date.now() + DEFAULT_SESSION_EXPIRES_MS)
-      .toISOString();
+    const expiresAt = new Date(
+      Date.now() + DEFAULT_SESSION_EXPIRES_MS,
+    ).toISOString();
 
     await SessionRepository.create({
       user_id: user.id,
@@ -164,8 +165,9 @@ export class AuthService {
       source: payload.source,
       redirect,
     });
-
-    return buildGitHubAuthorizeUrl({ state });
+    const startUrl = buildGitHubAuthorizeUrl({ state });
+    console.log("Generated Github Start URL");
+    return startUrl;
   }
 
   static async handleGithubCallback(
