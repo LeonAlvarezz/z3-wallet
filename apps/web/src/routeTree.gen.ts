@@ -15,7 +15,6 @@ import { Route as PublicLayoutRouteRouteImport } from './routes/_publicLayout/ro
 import { Route as HomeLayoutRouteRouteImport } from './routes/_homeLayout/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as HomeLayoutTransactionIndexRouteImport } from './routes/_homeLayout/transaction/index'
-import { Route as HomeLayoutSettingsIndexRouteImport } from './routes/_homeLayout/settings/index'
 import { Route as HomeLayoutProfileIndexRouteImport } from './routes/_homeLayout/profile/index'
 import { Route as HomeLayoutDashboardIndexRouteImport } from './routes/_homeLayout/dashboard/index'
 import { Route as HomeLayoutProfileEditRouteImport } from './routes/_homeLayout/profile/edit'
@@ -57,11 +56,6 @@ const HomeLayoutTransactionIndexRoute =
     path: '/transaction/',
     getParentRoute: () => HomeLayoutRouteRoute,
   } as any)
-const HomeLayoutSettingsIndexRoute = HomeLayoutSettingsIndexRouteImport.update({
-  id: '/settings/',
-  path: '/settings/',
-  getParentRoute: () => HomeLayoutRouteRoute,
-} as any)
 const HomeLayoutProfileIndexRoute = HomeLayoutProfileIndexRouteImport.update({
   id: '/profile/',
   path: '/profile/',
@@ -135,7 +129,6 @@ export interface FileRoutesByFullPath {
   '/profile/edit': typeof HomeLayoutProfileEditRoute
   '/dashboard/': typeof HomeLayoutDashboardIndexRoute
   '/profile/': typeof HomeLayoutProfileIndexRoute
-  '/settings/': typeof HomeLayoutSettingsIndexRoute
   '/transaction/': typeof HomeLayoutTransactionIndexRoute
   '/settings/category/rule': typeof HomeLayoutSettingsCategoryRuleRoute
   '/settings/budget-goals/': typeof HomeLayoutSettingsBudgetGoalsIndexRoute
@@ -153,7 +146,6 @@ export interface FileRoutesByTo {
   '/profile/edit': typeof HomeLayoutProfileEditRoute
   '/dashboard': typeof HomeLayoutDashboardIndexRoute
   '/profile': typeof HomeLayoutProfileIndexRoute
-  '/settings': typeof HomeLayoutSettingsIndexRoute
   '/transaction': typeof HomeLayoutTransactionIndexRoute
   '/settings/category/rule': typeof HomeLayoutSettingsCategoryRuleRoute
   '/settings/budget-goals': typeof HomeLayoutSettingsBudgetGoalsIndexRoute
@@ -174,7 +166,6 @@ export interface FileRoutesById {
   '/_homeLayout/profile/edit': typeof HomeLayoutProfileEditRoute
   '/_homeLayout/dashboard/': typeof HomeLayoutDashboardIndexRoute
   '/_homeLayout/profile/': typeof HomeLayoutProfileIndexRoute
-  '/_homeLayout/settings/': typeof HomeLayoutSettingsIndexRoute
   '/_homeLayout/transaction/': typeof HomeLayoutTransactionIndexRoute
   '/_homeLayout/settings/category/rule': typeof HomeLayoutSettingsCategoryRuleRoute
   '/_homeLayout/settings/budget-goals/': typeof HomeLayoutSettingsBudgetGoalsIndexRoute
@@ -194,7 +185,6 @@ export interface FileRouteTypes {
     | '/profile/edit'
     | '/dashboard/'
     | '/profile/'
-    | '/settings/'
     | '/transaction/'
     | '/settings/category/rule'
     | '/settings/budget-goals/'
@@ -212,7 +202,6 @@ export interface FileRouteTypes {
     | '/profile/edit'
     | '/dashboard'
     | '/profile'
-    | '/settings'
     | '/transaction'
     | '/settings/category/rule'
     | '/settings/budget-goals'
@@ -232,7 +221,6 @@ export interface FileRouteTypes {
     | '/_homeLayout/profile/edit'
     | '/_homeLayout/dashboard/'
     | '/_homeLayout/profile/'
-    | '/_homeLayout/settings/'
     | '/_homeLayout/transaction/'
     | '/_homeLayout/settings/category/rule'
     | '/_homeLayout/settings/budget-goals/'
@@ -293,13 +281,6 @@ declare module '@tanstack/react-router' {
       path: '/transaction'
       fullPath: '/transaction/'
       preLoaderRoute: typeof HomeLayoutTransactionIndexRouteImport
-      parentRoute: typeof HomeLayoutRouteRoute
-    }
-    '/_homeLayout/settings/': {
-      id: '/_homeLayout/settings/'
-      path: '/settings'
-      fullPath: '/settings/'
-      preLoaderRoute: typeof HomeLayoutSettingsIndexRouteImport
       parentRoute: typeof HomeLayoutRouteRoute
     }
     '/_homeLayout/profile/': {
@@ -387,7 +368,6 @@ interface HomeLayoutRouteRouteChildren {
   HomeLayoutProfileEditRoute: typeof HomeLayoutProfileEditRoute
   HomeLayoutDashboardIndexRoute: typeof HomeLayoutDashboardIndexRoute
   HomeLayoutProfileIndexRoute: typeof HomeLayoutProfileIndexRoute
-  HomeLayoutSettingsIndexRoute: typeof HomeLayoutSettingsIndexRoute
   HomeLayoutTransactionIndexRoute: typeof HomeLayoutTransactionIndexRoute
   HomeLayoutSettingsCategoryRuleRoute: typeof HomeLayoutSettingsCategoryRuleRoute
   HomeLayoutSettingsBudgetGoalsIndexRoute: typeof HomeLayoutSettingsBudgetGoalsIndexRoute
@@ -401,7 +381,6 @@ const HomeLayoutRouteRouteChildren: HomeLayoutRouteRouteChildren = {
   HomeLayoutProfileEditRoute: HomeLayoutProfileEditRoute,
   HomeLayoutDashboardIndexRoute: HomeLayoutDashboardIndexRoute,
   HomeLayoutProfileIndexRoute: HomeLayoutProfileIndexRoute,
-  HomeLayoutSettingsIndexRoute: HomeLayoutSettingsIndexRoute,
   HomeLayoutTransactionIndexRoute: HomeLayoutTransactionIndexRoute,
   HomeLayoutSettingsCategoryRuleRoute: HomeLayoutSettingsCategoryRuleRoute,
   HomeLayoutSettingsBudgetGoalsIndexRoute:

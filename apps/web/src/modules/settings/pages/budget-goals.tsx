@@ -11,8 +11,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { ProgressBar } from "../components/ProgressBar";
-import { useLocalStorageState } from "../../../hooks/use-local-storage";
 import TopNav from "@/components/top-nav/TopNav";
+import { useLocalStorage } from "@/hooks/use-local-storage";
 
 type Category = {
   id: string;
@@ -207,7 +207,7 @@ function BudgetGoalCard({
 }
 
 export default function BudgetGoalsSettingsPage() {
-  const [goals, setGoals] = useLocalStorageState<BudgetGoal[]>(
+  const [goals, setGoals] = useLocalStorage<BudgetGoal[]>(
     "settings.budgetGoals",
     [
       { id: "goal-food", categoryId: "food", monthlyLimit: 500 },

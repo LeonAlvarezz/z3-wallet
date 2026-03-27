@@ -1,6 +1,6 @@
 import TopNav from "@/components/top-nav/TopNav";
 import { ToggleRow } from "../components/ToggleRow";
-import { useLocalStorageState } from "../../../hooks/use-local-storage";
+import { useLocalStorage } from "@/hooks/use-local-storage";
 
 type NotificationsSettings = {
   expenseAlerts: boolean;
@@ -17,7 +17,7 @@ const defaultSettings: NotificationsSettings = {
 };
 
 export default function NotificationsSettingsPage() {
-  const [settings, setSettings] = useLocalStorageState<NotificationsSettings>(
+  const [settings, setSettings] = useLocalStorage<NotificationsSettings>(
     "settings.notifications",
     defaultSettings,
   );
