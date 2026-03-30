@@ -161,7 +161,6 @@ export class AuthService {
       }
       case AuthModel.OAuthProvider.GOOGLE: {
         const accessToken = await exchangeGoogleAccessToken(code);
-        console.log("accessToken:", accessToken);
         if (!accessToken) return null;
 
         const googleUser = await getGoogleUser(accessToken);

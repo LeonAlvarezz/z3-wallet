@@ -3,7 +3,7 @@ import app from "@/app";
 export const authHelpers = {
   async signIn(email: string, password: string) {
     const response = await app.handle(
-      new Request("http://localhost/v1/auths/sign-in", {
+      new Request("http://localhost/v1/auth/sign-in", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -14,7 +14,7 @@ export const authHelpers = {
 
   async signOut(sessionCookie: string) {
     return await app.handle(
-      new Request("http://localhost/v1/auths/sign-out", {
+      new Request("http://localhost/v1/auth/sign-out", {
         method: "POST",
         headers: {
           Cookie: sessionCookie,
@@ -31,7 +31,7 @@ export const authHelpers = {
 
   getMe(sessionCookie: string) {
     return app.handle(
-      new Request("http://localhost/v1/auths/me", {
+      new Request("http://localhost/v1/auth/me", {
         headers: { Cookie: sessionCookie },
       }),
     );

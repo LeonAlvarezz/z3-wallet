@@ -30,8 +30,5 @@ export const rateLimitGuard = new Elysia({ name: "rate-limit-guard" })
           throw new RateLimitException();
         }
       },
-      afterHandle() {
-        console.log("Run after request");
-      },
     }),
   });

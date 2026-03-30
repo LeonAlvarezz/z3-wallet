@@ -112,7 +112,6 @@ export function EditProfileForm() {
         disabled={!form.state.isValid || updateMeMutation.isPending}
         onClick={() => {
           //   e.preventDefault();
-          console.log("Hello");
           form.handleSubmit();
         }}
       >

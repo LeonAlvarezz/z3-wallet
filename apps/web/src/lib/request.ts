@@ -135,8 +135,6 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
 
       // /auth/me is used as a bootstrap/auth-check endpoint by route guards.
       // A 401 here is expected when logged out; don't show a toast.
-      console.log("error:", error);
-      console.log("error.response:", error.response);
       if (
         responseData.error.code === "UNAUTHORIZED" &&
         url?.includes("/auth/me")

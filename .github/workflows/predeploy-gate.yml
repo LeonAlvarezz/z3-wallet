@@ -1,0 +1,78 @@
+name: Predeploy Gate
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  predeploy-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      NODE_ENV: test
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/z3_wallet_test
+      HASH_PASSWORD_ALGORITHM: bcrypt
+      HASH_PASSWORD_COST: "10"
+      REDIS_URL: redis://localhost:6379
+      CORS_ORIGINS: http://localhost:5173
+      WEB_APP_URL: http://localhost:5173
+      GITHUB_CLIENT_ID: test-github-client-id
+      GITHUB_CLIENT_SECRET: test-github-client-secret
+      GITHUB_REDIRECT_URI: http://localhost:4000/v1/auth/github/callback
+      GOOGLE_CLIENT_ID: test-google-client-id
+      GOOGLE_CLIENT_SECRET: test-google-client-secret
+      GOOGLE_REDIRECT_URI: http://localhost:4000/v1/auth/google/callback
+      VITE_APP_NAME: Z3 Wallet
+      VITE_API_URL: /api
+      VITE_SITE_URL: https://wallet.example.com
+      API_BASE_URL: https://api.example.com/v1
+      PREDEPLOY_ENV_MODE: test
+      PGPASSWORD: postgres
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.9
+
+      - name: Create test database
+        run: psql -h localhost -U postgres -tc "SELECT 1 FROM pg_database WHERE datname='z3_wallet_test'" | grep -q 1 || psql -h localhost -U postgres -c "CREATE DATABASE z3_wallet_test"
+
+      - name: Run strict predeploy gate
+        run: bun run verify:predeploy
+
+      - name: Upload backend logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-logs
+          path: |
+            apps/backend/error.log
+            apps/backend/combined.log
+          if-no-files-found: ignore

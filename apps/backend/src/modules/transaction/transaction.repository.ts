@@ -57,7 +57,6 @@ export class TransactionRepository {
   static buildStatisticFilter(filter: TransactionModel.StatisticFilterDto) {
     const where: SQL[] = [];
     if (filter.time_frame) {
-      console.log("filter.time_frame:", filter.time_frame);
       const { start, endExclusive } = getTimeFrameRange(filter.time_frame);
       if (start) {
         where.push(gte(transactionTable.created_at, start.toISOString()));

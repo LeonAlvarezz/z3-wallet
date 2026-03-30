@@ -221,7 +221,6 @@ export function parseSmartInput(
           const tail = tokens.slice(-size).join(" ");
           const tailNormalized = normalizeForMatch(tail);
           const match = bestCategoryMatch(tailNormalized, categories, rules);
-          console.log("match:", match);
           if (match.category) {
             if (match.source === "rule") {
               category = match.category;

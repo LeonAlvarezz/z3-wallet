@@ -9,7 +9,6 @@ describe("App Health Check", () => {
 
     expect(response.status).toBe(200);
     const data = await response.json();
-    console.log("data:", data);
     expect(data).toHaveProperty("success", true);
     expect(data).toHaveProperty("data");
     expect(data.data).toHaveProperty("message", "OK");

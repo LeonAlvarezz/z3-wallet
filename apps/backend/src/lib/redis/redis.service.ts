@@ -38,7 +38,6 @@ export class RedisService {
 
   static async deleteSession(session_token: string) {
     const key = `${REDIS_SESSION_KEY}:${session_token}`;
-    console.log("key:", key);
     await redis.del(key);
   }
 

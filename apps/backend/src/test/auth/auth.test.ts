@@ -1,18 +1,13 @@
 import { describe, expect, it } from "bun:test";
 import { authHelpers } from "@/test/test-helpers";
-import { DefaultErrorMessage, ErrorCode } from "@z3-wallet/types";
-
-interface AuthResponse {
-  data?: {
-    email?: string;
-    public_id?: string;
-    username?: string;
-    session_token?: string;
-    expires_at?: string;
-    user?: unknown;
-  };
-  message?: string;
-}
+import {
+  ApiFail,
+  ApiSuccess,
+  DefaultErrorMessage,
+  ErrorCode,
+  SimpleSuccess,
+  UserModel,
+} from "@z3-wallet/types";
 
 describe("Auth Route", () => {
   it("Sign in fail with wrong password", async () => {
@@ -21,8 +16,8 @@ describe("Auth Route", () => {
       "wrongPassword",
     );
     expect(response.status).toBe(ErrorCode.UNAUTHORIZED);
-    const data = (await response.json()) as AuthResponse;
-    expect(data.message).toBe(DefaultErrorMessage.INVALID_CREDENTIAL);
+    const data = (await response.json()) as ApiFail;
+    expect(data.error.message).toBe(DefaultErrorMessage.INVALID_CREDENTIAL);
   });
 
   it("Sign in success", async () => {
@@ -31,10 +26,11 @@ describe("Auth Route", () => {
       "Password123!",
     );
     expect(response.status).toBe(200);
-    const data = (await response.json()) as AuthResponse;
-    expect(data.data).toHaveProperty("session_token");
-    expect(data.data).toHaveProperty("expires_at");
-    expect(data.data).toHaveProperty("user");
+    const { data } =
+      (await response.json()) as ApiSuccess<UserModel.UserPublicSessionDto>;
+    expect(data).toHaveProperty("session_token");
+    expect(data).toHaveProperty("expires_at");
+    expect(data).toHaveProperty("user");
   });
 
   it("Get me success", async () => {
@@ -46,7 +42,8 @@ describe("Auth Route", () => {
 
     const response = await authHelpers.getMe(sessionCookie);
     expect(response.status).toBe(200);
-    const data = (await response.json()) as AuthResponse;
+    const data =
+      (await response.json()) as ApiSuccess<UserModel.UserPublicSessionDto>;
     expect(data.data).toHaveProperty("email");
     expect(data.data).toHaveProperty("public_id");
     expect(data.data).toHaveProperty("username");
@@ -55,8 +52,8 @@ describe("Auth Route", () => {
   it("Get me fail with invalid token", async () => {
     const response = await authHelpers.getMe("invalid-cookie");
     expect(response.status).toBe(ErrorCode.UNAUTHORIZED);
-    const data = (await response.json()) as AuthResponse;
-    expect(data.message).toBe(DefaultErrorMessage.INVALID_CREDENTIAL);
+    const data = (await response.json()) as ApiFail;
+    expect(data.error.message).toBe(DefaultErrorMessage.UNAUTHORIZED);
   });
 
   it("Sign out success", async () => {
@@ -68,7 +65,7 @@ describe("Auth Route", () => {
 
     const response = await authHelpers.signOut(sessionCookie);
     expect(response.status).toBe(200);
-    const data = (await response.json()) as AuthResponse;
+    const data = (await response.json()) as SimpleSuccess;
     expect(data).toHaveProperty("message", "Success");
   });
 });

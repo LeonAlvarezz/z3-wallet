@@ -70,7 +70,7 @@ export async function seedDatabaseDev() {
   const testUser = {
     username: "Test",
     email: "test@example.com",
-    password: "12345678",
+    password: "Password123!",
   };
 
   const transactionCount = 60;

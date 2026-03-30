@@ -29,7 +29,6 @@ export default function AvatarSelectDrawer({
     if (!selectedAvatar) {
       return;
     }
-    console.log("selectedAvatar:", selectedAvatar);
     onChange?.(selectedAvatar);
     onOpenChange(false);
   };

@@ -25,3 +25,5 @@ dist-ssr
 .tanstack
 .wrangler
 .env.*
+!.env.production.example
+!.env.worker.production.example

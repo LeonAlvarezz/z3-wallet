@@ -3,7 +3,6 @@ import { Elysia } from "elysia";
 import {
   ErrorException,
   InvalidCredentialException,
-  UnauthorizedException,
 } from "@z3-wallet/exception";
 import logger from "@/lib/logger";
 import { Fail } from "../response";
@@ -13,16 +12,13 @@ import { getKey } from "@z3-wallet/types/enum";
 import { isDrizzleError, parseDrizzleError } from "@/lib/db/error";
 import {
   DefaultErrorMessage,
-  DefaultErrorMessageKey,
   ErrorCode,
-  ErrorCodeKey,
 } from "@z3-wallet/types";
 
 export const errorHandler = new Elysia({ name: "error-handling" })
   .use(ip)
   .onError(async ({ error, code, set, ip, request }) => {
     logger.error("🔥 Error occurred", error);
-    console.log("error:", error);
 
     if (code === "VALIDATION") {
       return Fail({

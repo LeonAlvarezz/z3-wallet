@@ -117,6 +117,21 @@ Available database commands:
 - `bun run db:reset` — reset the database
 - `bun run db:seed` — seed development data
 
+### Pre-deploy Commands
+
+Run these from repository root:
+
+- `bun run verify:env` — validate backend/web environment contracts
+- `bun run check-types` — run type checks across workspaces
+- `bun run test` — run integration tests
+- `bun run verify:predeploy` — strict release gate (`install -> env -> lint -> typecheck -> test -> build`)
+
+### Production Migration Policy
+
+- `db:push` is for local development only.
+- Production releases must use generated SQL migrations (`bun run db:gen`) and manual SQL review.
+- Apply migrations in staging first, then apply in production using `bun run db:migrate`.
+
 ### 4. Start development
 
 From the repository root:
