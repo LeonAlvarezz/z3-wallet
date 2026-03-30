@@ -1,5 +1,5 @@
 {
-  "id": "20bfd41e-2d1a-4708-8a90-7e17af6e9868",
+  "id": "acef8901-fade-4888-a994-cfe8823decd5",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -285,7 +285,8 @@
         },
         "provider": {
           "name": "provider",
-          "type": "text",
+          "type": "OAuthProvider",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": true
         },
@@ -788,6 +789,14 @@
         "RED",
         "ORANGE",
         "TEAL"
+      ]
+    },
+    "public.OAuthProvider": {
+      "name": "OAuthProvider",
+      "schema": "public",
+      "values": [
+        "github",
+        "google"
       ]
     },
     "public.TransactionTypeEnum": {

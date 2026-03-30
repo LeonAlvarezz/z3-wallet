@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { publicOnly } from "@/middleware/public-only";
 import { buildSeo } from "@/lib/seo";
 
-export const Route = createFileRoute("/_publicLayout/auth/register/")({
+export const Route = createFileRoute("/_publicLayout/auth/register")({
   beforeLoad: publicOnly,
   head: () =>
     buildSeo({

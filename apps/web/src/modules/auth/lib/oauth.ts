@@ -8,15 +8,18 @@ function safeRedirectTarget(raw: null | string) {
 }
 
 function buildApiUrl(path: string) {
-  const baseUrl = import.meta.env.VITE_API_URL;
+  const configuredBaseUrl = import.meta.env.VITE_API_URL?.trim();
+  const baseUrl = configuredBaseUrl?.length ? configuredBaseUrl : "/api";
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
   return `${baseUrl.replace(/\/$/, "")}${normalizedPath}`;
 }
 
-export function buildGithubStartUrl({
+export function buildOAuthStartUrl({
+  provider,
   source,
   searchStr,
 }: {
+  provider: AuthModel.OAuthProvider;
   source: AuthModel.OAuthSourceDto;
   searchStr?: string;
 }) {
@@ -28,15 +31,15 @@ export function buildGithubStartUrl({
   if (redirect) {
     params.set("redirect", redirect);
   }
-  return buildApiUrl(`/auth/github/start?${params.toString()}`);
+  return buildApiUrl(`/auth/${provider}/start?${params.toString()}`);
 }
 
 const OAUTH_ERROR_MESSAGES: Record<AuthModel.OAuthErrorDto, string> = {
-  cancelled: "GitHub sign-in was cancelled. Please try again.",
-  expired: "GitHub sign-in expired. Please start again.",
+  cancelled: "Sign-in was cancelled. Please try again.",
+  expired: "Sign-in session expired. Please start again.",
   no_verified_email:
-    "Your GitHub account needs a verified email before you can sign in.",
-  failed: "GitHub sign-in failed. Please try again.",
+    "Your provider account needs a verified email before you can sign in.",
+  failed: "Sign-in failed. Please try again.",
 };
 
 export function getOAuthErrorMessage(searchStr?: string) {

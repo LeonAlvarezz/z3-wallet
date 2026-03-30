@@ -1,4 +1,4 @@
-import { UserModel } from "@z3-wallet/types";
+import { AuthModel, UserModel } from "@z3-wallet/types";
 import { redis } from "./index";
 import {
   REDIS_OAUTH_STATE_EXPERATION,
@@ -9,6 +9,7 @@ import {
 import z from "zod";
 
 const OAuthStateSchema = z.object({
+  provider: z.enum([AuthModel.OAuthProvider.GITHUB, AuthModel.OAuthProvider.GOOGLE]),
   source: z.enum(["login", "register"]),
   redirect: z.string().nullable(),
 });

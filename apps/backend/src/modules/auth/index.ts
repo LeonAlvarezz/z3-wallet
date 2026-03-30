@@ -78,11 +78,14 @@ export const auth = new Elysia()
     app.get(
       "/github/start",
       async ({ query }) => {
-        const redirectTo = await AuthService.startGithubOAuth(query);
+        const redirectTo = await AuthService.startOAuth(
+          query,
+          AuthModel.OAuthProvider.GITHUB,
+        );
         return redirect(redirectTo);
       },
       {
-        query: AuthModel.GitHubStartQuerySchema,
+        query: AuthModel.OAuthStartQuerySchema,
         detail: {
           summary: "Start GitHub OAuth flow",
           tags: [OpenApiKey.Auth],
@@ -93,7 +96,10 @@ export const auth = new Elysia()
     app.get(
       "/github/callback",
       async ({ query, cookie: { session_token } }) => {
-        const result = await AuthService.handleGithubCallback(query);
+        const result = await AuthService.handleOAuthCallback(
+          query,
+          AuthModel.OAuthProvider.GITHUB,
+        );
         if (!result.success) return redirect(result.redirect_to);
 
         session_token.value = result.session.session_token;
@@ -104,10 +110,54 @@ export const auth = new Elysia()
         return redirect(result.redirect_to);
       },
       {
-        query: AuthModel.GitHubCallbackQuerySchema,
+        query: AuthModel.OAuthCallbackQuerySchema,
         cookie: BaseModel.CookieSchema,
         detail: {
           summary: "GitHub OAuth callback",
+          tags: [OpenApiKey.Auth],
+        },
+      },
+    );
+
+    app.get(
+      "/google/start",
+      async ({ query }) => {
+        const redirectTo = await AuthService.startOAuth(
+          query,
+          AuthModel.OAuthProvider.GOOGLE,
+        );
+        return redirect(redirectTo);
+      },
+      {
+        query: AuthModel.OAuthStartQuerySchema,
+        detail: {
+          summary: "Start Google OAuth flow",
+          tags: [OpenApiKey.Auth],
+        },
+      },
+    );
+
+    app.get(
+      "/google/callback",
+      async ({ query, cookie: { session_token } }) => {
+        const result = await AuthService.handleOAuthCallback(
+          query,
+          AuthModel.OAuthProvider.GOOGLE,
+        );
+        if (!result.success) return redirect(result.redirect_to);
+
+        session_token.value = result.session.session_token;
+        await RedisService.setSession(
+          result.session.session_token,
+          result.session.user,
+        );
+        return redirect(result.redirect_to);
+      },
+      {
+        query: AuthModel.OAuthCallbackQuerySchema,
+        cookie: BaseModel.CookieSchema,
+        detail: {
+          summary: "Google OAuth callback",
           tags: [OpenApiKey.Auth],
         },
       },

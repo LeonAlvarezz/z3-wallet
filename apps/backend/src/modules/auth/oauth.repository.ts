@@ -1,12 +1,13 @@
 import { DrizzleTransaction, db } from "@/lib/db";
 import { oauthTable } from "@/lib/db/schema";
+import { AuthModel } from "@z3-wallet/types";
 import { and, eq } from "drizzle-orm";
 
 export class OAuthRepository {
   static async create(
     payload: {
       user_id: number;
-      provider: string;
+      provider: AuthModel.OAuthProvider;
       provider_account_id: string;
       provider_login?: string | null;
       provider_email?: string | null;
@@ -14,11 +15,17 @@ export class OAuthRepository {
     tx?: DrizzleTransaction,
   ) {
     const client = tx ?? db;
-    const [result] = await client.insert(oauthTable).values(payload).returning();
+    const [result] = await client
+      .insert(oauthTable)
+      .values(payload)
+      .returning();
     return result;
   }
 
-  static async findByProviderAccountId(provider: string, providerAccountId: string) {
+  static async findByProviderAccountId(
+    provider: AuthModel.OAuthProvider,
+    providerAccountId: string,
+  ) {
     return await db.query.oauthTable.findFirst({
       where: and(
         eq(oauthTable.provider, provider),
@@ -30,9 +37,15 @@ export class OAuthRepository {
     });
   }
 
-  static async findByUserIdAndProvider(userId: number, provider: string) {
+  static async findByUserIdAndProvider(
+    userId: number,
+    provider: AuthModel.OAuthProvider,
+  ) {
     return await db.query.oauthTable.findFirst({
-      where: and(eq(oauthTable.user_id, userId), eq(oauthTable.provider, provider)),
+      where: and(
+        eq(oauthTable.user_id, userId),
+        eq(oauthTable.provider, provider),
+      ),
     });
   }
 

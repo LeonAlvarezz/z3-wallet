@@ -14,7 +14,7 @@ import { useSignUp } from "@/modules/auth/hooks/use-sign-up";
 import { AuthModel } from "@z3-wallet/types/auth";
 import z from "zod";
 import { useRouterState } from "@tanstack/react-router";
-import { buildGithubStartUrl } from "../../lib/oauth";
+import { buildOAuthStartUrl } from "../../lib/oauth";
 
 const formSchema = AuthModel.SignUpSchema.extend({
   confirm_password: z.string(),
@@ -189,35 +189,44 @@ export default function RegisterForm() {
         <Icon icon="solar:user-plus-bold" className="mr-2 size-5" />
         Create Account
       </Button>
-      <div className="mt-6">
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <div className="border-border w-full border-t"></div>
-          </div>
-          <div className="relative flex justify-center text-sm">
-            <span className="bg-background text-muted-foreground px-2">
-              Or sign up with
-            </span>
-          </div>
-        </div>
-        <div className="mt-6">
-          <Button
-            variant="outline"
-            type="button"
-            className="w-full"
-            onClick={() => {
-              window.location.assign(
-                buildGithubStartUrl({
-                  source: "register",
-                  searchStr,
-                }),
-              );
-            }}
-          >
-            <Icon icon="mdi:github" className="size-5 text-white" />
-            Sign up with GitHub
-          </Button>
-        </div>
+      <div className="mt-6 space-y-4">
+        <Button
+          variant="outline"
+          type="button"
+          className="w-full"
+          onClick={() => {
+            window.location.assign(
+              buildOAuthStartUrl({
+                provider: AuthModel.OAuthProvider.GOOGLE,
+                source: "register",
+                searchStr,
+              }),
+            );
+          }}
+        >
+          <Icon
+            icon="material-icon-theme:google"
+            className="size-5 text-white"
+          />
+          Sign in with Google
+        </Button>
+        <Button
+          variant="outline"
+          type="button"
+          className="w-full"
+          onClick={() => {
+            window.location.assign(
+              buildOAuthStartUrl({
+                provider: AuthModel.OAuthProvider.GITHUB,
+                source: "register",
+                searchStr,
+              }),
+            );
+          }}
+        >
+          <Icon icon="mdi:github" className="size-5 text-white" />
+          Sign in with GitHub
+        </Button>
       </div>
     </form>
   );

@@ -1,12 +1,5 @@
 import env from "@/lib/env";
-
-type GitHubTokenResponse = {
-  access_token?: string;
-  token_type?: string;
-  scope?: string;
-  error?: string;
-  error_description?: string;
-};
+import { AuthModel } from "@z3-wallet/types";
 
 type GitHubUser = {
   id: number;
@@ -29,11 +22,7 @@ function getGitHubApiHeaders(token: string) {
   };
 }
 
-export function buildGitHubAuthorizeUrl({
-  state,
-}: {
-  state: string;
-}) {
+export function buildGitHubAuthorizeUrl({ state }: { state: string }) {
   const url = new URL("https://github.com/login/oauth/authorize");
   url.searchParams.set("client_id", env.GITHUB_CLIENT_ID);
   url.searchParams.set("redirect_uri", env.GITHUB_REDIRECT_URI);
@@ -59,7 +48,7 @@ export async function exchangeGitHubAccessToken(code: string) {
   });
 
   if (!response.ok) return null;
-  const data = (await response.json()) as GitHubTokenResponse;
+  const data = (await response.json()) as AuthModel.OAuthTokenResponseDto;
   if (!data.access_token) return null;
   return data.access_token;
 }

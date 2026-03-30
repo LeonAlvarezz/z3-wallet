@@ -11,7 +11,6 @@ import { AuthRepository } from "./auth.repository";
 import { SessionRepository } from "@/modules/session/session.repository";
 import { SimpleSuccess } from "@/core/response";
 import { UserRepository } from "@/modules/user/user.repository";
-import { RedisService } from "@/lib/redis/redis.service";
 import { AuthModel, UserModel } from "@z3-wallet/types";
 import { WalletRepository } from "../wallet/wallet.repository";
 import { randomNumber } from "@z3-wallet/utils/number";
@@ -23,8 +22,13 @@ import {
   getGitHubVerifiedEmail,
 } from "./lib/github-oauth";
 import env from "@/lib/env";
+import {
+  buildGoogleAuthorizeUrl,
+  exchangeGoogleAccessToken,
+  getGoogleUser,
+} from "./lib/google-oauth";
+import { RedisService } from "@/lib/redis/redis.service";
 
-const GITHUB_PROVIDER = "github";
 const DEFAULT_SESSION_EXPIRES_MS = 1000 * 60 * 60 * 24 * 7;
 
 type OAuthCallbackResult =
@@ -38,6 +42,14 @@ type OAuthCallbackResult =
       redirect_to: string;
     };
 
+type OAuthIdentity = {
+  provider_account_id: string;
+  provider_email: string | null;
+  provider_login: string | null;
+  provider_name: string | null;
+  email_verified: boolean;
+};
+
 function safeRedirectTarget(raw: null | string) {
   if (!raw) return null;
   if (!raw.startsWith("/")) return null;
@@ -47,6 +59,16 @@ function safeRedirectTarget(raw: null | string) {
 
 function authPathBySource(source: AuthModel.OAuthSourceDto) {
   return source === "register" ? "/auth/register" : "/auth/login";
+}
+
+function getFrontendBaseUrl() {
+  if (env.WEB_APP_URL) return env.WEB_APP_URL;
+  return new URL(env.GITHUB_REDIRECT_URI).origin;
+}
+
+function buildFrontendUrl(path: string) {
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  return new URL(normalizedPath, getFrontendBaseUrl()).toString();
 }
 
 function buildOAuthErrorRedirect(
@@ -63,13 +85,6 @@ function normalizeUsernameSeed(seed: string) {
   const trimmed = seed.trim().replace(/\s+/g, " ");
   if (!trimmed.length) return "user";
   return trimmed;
-}
-
-function buildFrontendUrl(path: string) {
-  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
-  const fallbackFrontendOrigin = new URL(env.GITHUB_REDIRECT_URI).origin;
-  const baseUrl = env.WEB_APP_URL ?? fallbackFrontendOrigin;
-  return new URL(normalizedPath, baseUrl).toString();
 }
 
 export class AuthService {
@@ -111,6 +126,58 @@ export class AuthService {
   private static getOAuthSuccessRedirect(redirect: null | string) {
     const path = safeRedirectTarget(redirect) ?? "/dashboard";
     return buildFrontendUrl(path);
+  }
+
+  private static async resolveOAuthIdentity(
+    provider: AuthModel.OAuthProvider,
+    code: string,
+  ): Promise<OAuthIdentity | null> {
+    switch (provider) {
+      case AuthModel.OAuthProvider.GITHUB: {
+        const accessToken = await exchangeGitHubAccessToken(code);
+        if (!accessToken) return null;
+
+        const githubUser = await getGitHubUser(accessToken);
+        if (!githubUser) return null;
+
+        const verifiedEmail = await getGitHubVerifiedEmail(accessToken);
+        if (!verifiedEmail) {
+          return {
+            provider_account_id: String(githubUser.id),
+            provider_email: null,
+            provider_login: githubUser.login,
+            provider_name: githubUser.name,
+            email_verified: false,
+          };
+        }
+
+        return {
+          provider_account_id: String(githubUser.id),
+          provider_email: verifiedEmail,
+          provider_login: githubUser.login,
+          provider_name: githubUser.name,
+          email_verified: true,
+        };
+      }
+      case AuthModel.OAuthProvider.GOOGLE: {
+        const accessToken = await exchangeGoogleAccessToken(code);
+        console.log("accessToken:", accessToken);
+        if (!accessToken) return null;
+
+        const googleUser = await getGoogleUser(accessToken);
+        if (!googleUser) return null;
+
+        return {
+          provider_account_id: googleUser.sub,
+          provider_email: googleUser.email ?? null,
+          provider_login: googleUser.email ?? null,
+          provider_name: googleUser.name ?? null,
+          email_verified: Boolean(googleUser.email_verified),
+        };
+      }
+      default:
+        return null;
+    }
   }
 
   static async signUp(payload: AuthModel.SignUpDto) {
@@ -157,21 +224,31 @@ export class AuthService {
     return this.createSessionForUser(user);
   }
 
-  static async startGithubOAuth(payload: AuthModel.GitHubStartQueryDto) {
+  static async startOAuth(
+    payload: AuthModel.OAuthStartQueryDto,
+    provider: AuthModel.OAuthProvider,
+  ) {
     const state = crypto.randomUUID();
     const redirect = safeRedirectTarget(payload.redirect ?? null);
 
     await RedisService.setOAuthState(state, {
+      provider,
       source: payload.source,
       redirect,
     });
-    const startUrl = buildGitHubAuthorizeUrl({ state });
-    console.log("Generated Github Start URL");
-    return startUrl;
+    switch (provider) {
+      case AuthModel.OAuthProvider.GITHUB:
+        return buildGitHubAuthorizeUrl({ state });
+      case AuthModel.OAuthProvider.GOOGLE:
+        return buildGoogleAuthorizeUrl({ state });
+      default:
+        throw new ForbiddenException({ message: "Unsupported provider" });
+    }
   }
 
-  static async handleGithubCallback(
-    payload: AuthModel.GitHubCallbackQueryDto,
+  static async handleOAuthCallback(
+    payload: AuthModel.OAuthCallbackQueryDto,
+    provider: AuthModel.OAuthProvider,
   ): Promise<OAuthCallbackResult> {
     if (!payload.state) {
       return {
@@ -189,7 +266,15 @@ export class AuthService {
     }
 
     await RedisService.deleteOAuthState(payload.state);
+
     const source = oauthState.source;
+
+    if (oauthState.provider !== provider) {
+      return {
+        success: false,
+        redirect_to: buildOAuthErrorRedirect(source, "failed"),
+      };
+    }
 
     if (payload.error) {
       return {
@@ -205,34 +290,24 @@ export class AuthService {
       };
     }
 
-    const accessToken = await exchangeGitHubAccessToken(payload.code);
-    if (!accessToken) {
+    const identity = await this.resolveOAuthIdentity(provider, payload.code);
+    if (!identity) {
       return {
         success: false,
         redirect_to: buildOAuthErrorRedirect(source, "failed"),
       };
     }
 
-    const githubUser = await getGitHubUser(accessToken);
-    if (!githubUser) {
-      return {
-        success: false,
-        redirect_to: buildOAuthErrorRedirect(source, "failed"),
-      };
-    }
-
-    const verifiedEmail = await getGitHubVerifiedEmail(accessToken);
-    if (!verifiedEmail) {
+    if (!identity.provider_email || !identity.email_verified) {
       return {
         success: false,
         redirect_to: buildOAuthErrorRedirect(source, "no_verified_email"),
       };
     }
 
-    const providerAccountId = String(githubUser.id);
     const linkedAccount = await OAuthRepository.findByProviderAccountId(
-      GITHUB_PROVIDER,
-      providerAccountId,
+      provider,
+      identity.provider_account_id,
     );
 
     if (linkedAccount?.user) {
@@ -243,20 +318,22 @@ export class AuthService {
       };
     }
 
-    const existingUser = await UserRepository.findByEmail(verifiedEmail);
+    const existingUser = await UserRepository.findByEmail(
+      identity.provider_email,
+    );
     if (existingUser) {
       const hasLink = await OAuthRepository.findByUserIdAndProvider(
         existingUser.id,
-        GITHUB_PROVIDER,
+        provider,
       );
 
       if (!hasLink) {
         await OAuthRepository.create({
           user_id: existingUser.id,
-          provider: GITHUB_PROVIDER,
-          provider_account_id: providerAccountId,
-          provider_login: githubUser.login,
-          provider_email: verifiedEmail,
+          provider,
+          provider_account_id: identity.provider_account_id,
+          provider_login: identity.provider_login ?? identity.provider_name,
+          provider_email: identity.provider_email,
         });
       }
 
@@ -267,13 +344,17 @@ export class AuthService {
       };
     }
 
-    const usernameSeed = githubUser.name || githubUser.login || "user";
+    const usernameSeed =
+      identity.provider_name ??
+      identity.provider_login ??
+      identity.provider_email.split("@")[0] ??
+      "user";
     const username = await this.generateUniqueUsername(usernameSeed);
 
     const newUser = await db.transaction(async (tx) => {
       const user = await UserRepository.create(
         {
-          email: verifiedEmail,
+          email: identity.provider_email ?? "",
           username,
           public_id: crypto.randomUUID(),
           avatar_url: randomNumber(1, 9).toString(),
@@ -284,10 +365,10 @@ export class AuthService {
       await OAuthRepository.create(
         {
           user_id: user.id,
-          provider: GITHUB_PROVIDER,
-          provider_account_id: providerAccountId,
-          provider_login: githubUser.login,
-          provider_email: verifiedEmail,
+          provider,
+          provider_account_id: identity.provider_account_id,
+          provider_login: identity.provider_login ?? identity.provider_name,
+          provider_email: identity.provider_email,
         },
         tx,
       );
@@ -313,7 +394,6 @@ export class AuthService {
       session.id,
       timeAsNum,
     );
-    // Session was expired and deleted
     if (!updatedExpiresAt) throw new UnauthorizedException();
     return {
       expires_at: updatedExpiresAt,
@@ -326,8 +406,6 @@ export class AuthService {
     const hashedSession = hashSessionToken(sessionToken);
     const session = await SessionRepository.findByToken(hashedSession);
     if (!session) throw new UnauthorizedException();
-    console.log("sessionToken:", sessionToken);
-    console.log("hashedSession:", hashedSession);
     await RedisService.deleteSession(sessionToken);
     await SessionRepository.deleteSessionById(session.id);
   }

@@ -25,6 +25,19 @@ export namespace AuthModel {
       .min(8, { error: "Password must be greater than 8 characters" }),
   });
 
+  export enum OAuthProvider {
+    GITHUB = "github",
+    GOOGLE = "google",
+  }
+
+  export const OAuthTokenResponseSchema = z.object({
+    access_token: z.string().optional(),
+    token_type: z.string().optional(),
+    scope: z.string().optional(),
+    error: z.string().optional(),
+    error_description: z.string().optional(),
+  });
+
   export const OAuthSourceSchema = z.enum(["login", "register"]);
 
   export const OAuthErrorSchema = z.enum([
@@ -34,12 +47,12 @@ export namespace AuthModel {
     "failed",
   ]);
 
-  export const GitHubStartQuerySchema = z.object({
+  export const OAuthStartQuerySchema = z.object({
     source: OAuthSourceSchema,
     redirect: z.string().optional(),
   });
 
-  export const GitHubCallbackQuerySchema = z.object({
+  export const OAuthCallbackQuerySchema = z.object({
     code: z.string().optional(),
     state: z.string().optional(),
     error: z.string().optional(),
@@ -47,11 +60,10 @@ export namespace AuthModel {
 
   export type OAuthSourceDto = z.infer<typeof OAuthSourceSchema>;
   export type OAuthErrorDto = z.infer<typeof OAuthErrorSchema>;
-  export type GitHubStartQueryDto = z.infer<typeof GitHubStartQuerySchema>;
-  export type GitHubCallbackQueryDto = z.infer<
-    typeof GitHubCallbackQuerySchema
-  >;
+  export type OAuthStartQueryDto = z.infer<typeof OAuthStartQuerySchema>;
+  export type OAuthCallbackQueryDto = z.infer<typeof OAuthCallbackQuerySchema>;
 
+  export type OAuthTokenResponseDto = z.infer<typeof OAuthTokenResponseSchema>;
   export type SignUpDto = z.infer<typeof SignUpSchema>;
   export type SignInDto = z.infer<typeof SignInSchema>;
   export type UpsertAuthDto = z.infer<typeof UpsertAuthSchema>;

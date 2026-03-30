@@ -17,10 +17,10 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as HomeLayoutTransactionIndexRouteImport } from './routes/_homeLayout/transaction/index'
 import { Route as HomeLayoutProfileIndexRouteImport } from './routes/_homeLayout/profile/index'
 import { Route as HomeLayoutDashboardIndexRouteImport } from './routes/_homeLayout/dashboard/index'
+import { Route as PublicLayoutAuthRegisterRouteImport } from './routes/_publicLayout/auth/register'
+import { Route as PublicLayoutAuthLoginRouteImport } from './routes/_publicLayout/auth/login'
 import { Route as HomeLayoutProfileEditRouteImport } from './routes/_homeLayout/profile/edit'
 import { Route as HomeLayoutProfileChangePasswordRouteImport } from './routes/_homeLayout/profile/change-password'
-import { Route as PublicLayoutAuthRegisterIndexRouteImport } from './routes/_publicLayout/auth/register/index'
-import { Route as PublicLayoutAuthLoginIndexRouteImport } from './routes/_publicLayout/auth/login/index'
 import { Route as HomeLayoutTransactionAddIndexRouteImport } from './routes/_homeLayout/transaction/add/index'
 import { Route as HomeLayoutSettingsNotificationsIndexRouteImport } from './routes/_homeLayout/settings/notifications/index'
 import { Route as HomeLayoutSettingsCategoryIndexRouteImport } from './routes/_homeLayout/settings/category/index'
@@ -67,6 +67,17 @@ const HomeLayoutDashboardIndexRoute =
     path: '/dashboard/',
     getParentRoute: () => HomeLayoutRouteRoute,
   } as any)
+const PublicLayoutAuthRegisterRoute =
+  PublicLayoutAuthRegisterRouteImport.update({
+    id: '/auth/register',
+    path: '/auth/register',
+    getParentRoute: () => PublicLayoutRouteRoute,
+  } as any)
+const PublicLayoutAuthLoginRoute = PublicLayoutAuthLoginRouteImport.update({
+  id: '/auth/login',
+  path: '/auth/login',
+  getParentRoute: () => PublicLayoutRouteRoute,
+} as any)
 const HomeLayoutProfileEditRoute = HomeLayoutProfileEditRouteImport.update({
   id: '/profile/edit',
   path: '/profile/edit',
@@ -77,18 +88,6 @@ const HomeLayoutProfileChangePasswordRoute =
     id: '/profile/change-password',
     path: '/profile/change-password',
     getParentRoute: () => HomeLayoutRouteRoute,
-  } as any)
-const PublicLayoutAuthRegisterIndexRoute =
-  PublicLayoutAuthRegisterIndexRouteImport.update({
-    id: '/auth/register/',
-    path: '/auth/register/',
-    getParentRoute: () => PublicLayoutRouteRoute,
-  } as any)
-const PublicLayoutAuthLoginIndexRoute =
-  PublicLayoutAuthLoginIndexRouteImport.update({
-    id: '/auth/login/',
-    path: '/auth/login/',
-    getParentRoute: () => PublicLayoutRouteRoute,
   } as any)
 const HomeLayoutTransactionAddIndexRoute =
   HomeLayoutTransactionAddIndexRouteImport.update({
@@ -127,6 +126,8 @@ export interface FileRoutesByFullPath {
   '/forbidden': typeof ForbiddenRoute
   '/profile/change-password': typeof HomeLayoutProfileChangePasswordRoute
   '/profile/edit': typeof HomeLayoutProfileEditRoute
+  '/auth/login': typeof PublicLayoutAuthLoginRoute
+  '/auth/register': typeof PublicLayoutAuthRegisterRoute
   '/dashboard/': typeof HomeLayoutDashboardIndexRoute
   '/profile/': typeof HomeLayoutProfileIndexRoute
   '/transaction/': typeof HomeLayoutTransactionIndexRoute
@@ -135,8 +136,6 @@ export interface FileRoutesByFullPath {
   '/settings/category/': typeof HomeLayoutSettingsCategoryIndexRoute
   '/settings/notifications/': typeof HomeLayoutSettingsNotificationsIndexRoute
   '/transaction/add/': typeof HomeLayoutTransactionAddIndexRoute
-  '/auth/login/': typeof PublicLayoutAuthLoginIndexRoute
-  '/auth/register/': typeof PublicLayoutAuthRegisterIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -144,6 +143,8 @@ export interface FileRoutesByTo {
   '/forbidden': typeof ForbiddenRoute
   '/profile/change-password': typeof HomeLayoutProfileChangePasswordRoute
   '/profile/edit': typeof HomeLayoutProfileEditRoute
+  '/auth/login': typeof PublicLayoutAuthLoginRoute
+  '/auth/register': typeof PublicLayoutAuthRegisterRoute
   '/dashboard': typeof HomeLayoutDashboardIndexRoute
   '/profile': typeof HomeLayoutProfileIndexRoute
   '/transaction': typeof HomeLayoutTransactionIndexRoute
@@ -152,8 +153,6 @@ export interface FileRoutesByTo {
   '/settings/category': typeof HomeLayoutSettingsCategoryIndexRoute
   '/settings/notifications': typeof HomeLayoutSettingsNotificationsIndexRoute
   '/transaction/add': typeof HomeLayoutTransactionAddIndexRoute
-  '/auth/login': typeof PublicLayoutAuthLoginIndexRoute
-  '/auth/register': typeof PublicLayoutAuthRegisterIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -164,6 +163,8 @@ export interface FileRoutesById {
   '/forbidden': typeof ForbiddenRoute
   '/_homeLayout/profile/change-password': typeof HomeLayoutProfileChangePasswordRoute
   '/_homeLayout/profile/edit': typeof HomeLayoutProfileEditRoute
+  '/_publicLayout/auth/login': typeof PublicLayoutAuthLoginRoute
+  '/_publicLayout/auth/register': typeof PublicLayoutAuthRegisterRoute
   '/_homeLayout/dashboard/': typeof HomeLayoutDashboardIndexRoute
   '/_homeLayout/profile/': typeof HomeLayoutProfileIndexRoute
   '/_homeLayout/transaction/': typeof HomeLayoutTransactionIndexRoute
@@ -172,8 +173,6 @@ export interface FileRoutesById {
   '/_homeLayout/settings/category/': typeof HomeLayoutSettingsCategoryIndexRoute
   '/_homeLayout/settings/notifications/': typeof HomeLayoutSettingsNotificationsIndexRoute
   '/_homeLayout/transaction/add/': typeof HomeLayoutTransactionAddIndexRoute
-  '/_publicLayout/auth/login/': typeof PublicLayoutAuthLoginIndexRoute
-  '/_publicLayout/auth/register/': typeof PublicLayoutAuthRegisterIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -183,6 +182,8 @@ export interface FileRouteTypes {
     | '/forbidden'
     | '/profile/change-password'
     | '/profile/edit'
+    | '/auth/login'
+    | '/auth/register'
     | '/dashboard/'
     | '/profile/'
     | '/transaction/'
@@ -191,8 +192,6 @@ export interface FileRouteTypes {
     | '/settings/category/'
     | '/settings/notifications/'
     | '/transaction/add/'
-    | '/auth/login/'
-    | '/auth/register/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -200,6 +199,8 @@ export interface FileRouteTypes {
     | '/forbidden'
     | '/profile/change-password'
     | '/profile/edit'
+    | '/auth/login'
+    | '/auth/register'
     | '/dashboard'
     | '/profile'
     | '/transaction'
@@ -208,8 +209,6 @@ export interface FileRouteTypes {
     | '/settings/category'
     | '/settings/notifications'
     | '/transaction/add'
-    | '/auth/login'
-    | '/auth/register'
   id:
     | '__root__'
     | '/'
@@ -219,6 +218,8 @@ export interface FileRouteTypes {
     | '/forbidden'
     | '/_homeLayout/profile/change-password'
     | '/_homeLayout/profile/edit'
+    | '/_publicLayout/auth/login'
+    | '/_publicLayout/auth/register'
     | '/_homeLayout/dashboard/'
     | '/_homeLayout/profile/'
     | '/_homeLayout/transaction/'
@@ -227,8 +228,6 @@ export interface FileRouteTypes {
     | '/_homeLayout/settings/category/'
     | '/_homeLayout/settings/notifications/'
     | '/_homeLayout/transaction/add/'
-    | '/_publicLayout/auth/login/'
-    | '/_publicLayout/auth/register/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -297,6 +296,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HomeLayoutDashboardIndexRouteImport
       parentRoute: typeof HomeLayoutRouteRoute
     }
+    '/_publicLayout/auth/register': {
+      id: '/_publicLayout/auth/register'
+      path: '/auth/register'
+      fullPath: '/auth/register'
+      preLoaderRoute: typeof PublicLayoutAuthRegisterRouteImport
+      parentRoute: typeof PublicLayoutRouteRoute
+    }
+    '/_publicLayout/auth/login': {
+      id: '/_publicLayout/auth/login'
+      path: '/auth/login'
+      fullPath: '/auth/login'
+      preLoaderRoute: typeof PublicLayoutAuthLoginRouteImport
+      parentRoute: typeof PublicLayoutRouteRoute
+    }
     '/_homeLayout/profile/edit': {
       id: '/_homeLayout/profile/edit'
       path: '/profile/edit'
@@ -310,20 +323,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/profile/change-password'
       preLoaderRoute: typeof HomeLayoutProfileChangePasswordRouteImport
       parentRoute: typeof HomeLayoutRouteRoute
-    }
-    '/_publicLayout/auth/register/': {
-      id: '/_publicLayout/auth/register/'
-      path: '/auth/register'
-      fullPath: '/auth/register/'
-      preLoaderRoute: typeof PublicLayoutAuthRegisterIndexRouteImport
-      parentRoute: typeof PublicLayoutRouteRoute
-    }
-    '/_publicLayout/auth/login/': {
-      id: '/_publicLayout/auth/login/'
-      path: '/auth/login'
-      fullPath: '/auth/login/'
-      preLoaderRoute: typeof PublicLayoutAuthLoginIndexRouteImport
-      parentRoute: typeof PublicLayoutRouteRoute
     }
     '/_homeLayout/transaction/add/': {
       id: '/_homeLayout/transaction/add/'
@@ -396,13 +395,13 @@ const HomeLayoutRouteRouteWithChildren = HomeLayoutRouteRoute._addFileChildren(
 )
 
 interface PublicLayoutRouteRouteChildren {
-  PublicLayoutAuthLoginIndexRoute: typeof PublicLayoutAuthLoginIndexRoute
-  PublicLayoutAuthRegisterIndexRoute: typeof PublicLayoutAuthRegisterIndexRoute
+  PublicLayoutAuthLoginRoute: typeof PublicLayoutAuthLoginRoute
+  PublicLayoutAuthRegisterRoute: typeof PublicLayoutAuthRegisterRoute
 }
 
 const PublicLayoutRouteRouteChildren: PublicLayoutRouteRouteChildren = {
-  PublicLayoutAuthLoginIndexRoute: PublicLayoutAuthLoginIndexRoute,
-  PublicLayoutAuthRegisterIndexRoute: PublicLayoutAuthRegisterIndexRoute,
+  PublicLayoutAuthLoginRoute: PublicLayoutAuthLoginRoute,
+  PublicLayoutAuthRegisterRoute: PublicLayoutAuthRegisterRoute,
 }
 
 const PublicLayoutRouteRouteWithChildren =

@@ -12,7 +12,7 @@ import { Icon } from "@iconify/react";
 import { useSignIn } from "../../hooks/use-sign-in";
 import { AuthModel } from "@z3-wallet/types/auth";
 import { useRouterState } from "@tanstack/react-router";
-import { buildGithubStartUrl } from "../../lib/oauth";
+import { buildOAuthStartUrl } from "@/modules/auth/lib/oauth";
 
 export default function LoginForm() {
   const signInMutation = useSignIn();
@@ -131,14 +131,35 @@ export default function LoginForm() {
             </span>
           </div>
         </div>
-        <div className="mt-6">
+        <div className="mt-6 space-y-4">
           <Button
             variant="outline"
             type="button"
             className="w-full"
             onClick={() => {
               window.location.assign(
-                buildGithubStartUrl({
+                buildOAuthStartUrl({
+                  provider: AuthModel.OAuthProvider.GOOGLE,
+                  source: "login",
+                  searchStr,
+                }),
+              );
+            }}
+          >
+            <Icon
+              icon="material-icon-theme:google"
+              className="size-5 text-white"
+            />
+            Sign in with Google
+          </Button>
+          <Button
+            variant="outline"
+            type="button"
+            className="w-full"
+            onClick={() => {
+              window.location.assign(
+                buildOAuthStartUrl({
+                  provider: AuthModel.OAuthProvider.GITHUB,
                   source: "login",
                   searchStr,
                 }),
@@ -146,7 +167,7 @@ export default function LoginForm() {
             }}
           >
             <Icon icon="mdi:github" className="size-5 text-white" />
-            Login with GitHub
+            Sign in with GitHub
           </Button>
         </div>
       </div>

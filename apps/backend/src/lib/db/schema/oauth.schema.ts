@@ -2,14 +2,19 @@ import { relations } from "drizzle-orm";
 import {
   index,
   integer,
+  pgEnum,
   pgTable,
   serial,
   text,
   uniqueIndex,
 } from "drizzle-orm/pg-core";
-import { simpleTimestamps } from "../common";
+import { enumToPgEnum, simpleTimestamps } from "../common";
 import { userTable } from "./user.schema";
-
+import { AuthModel } from "@z3-wallet/types";
+export const oauthProvider = pgEnum(
+  "OAuthProvider",
+  enumToPgEnum(AuthModel.OAuthProvider),
+);
 export const oauthTable = pgTable(
   "oauths",
   {
@@ -17,7 +22,7 @@ export const oauthTable = pgTable(
     user_id: integer()
       .notNull()
       .references(() => userTable.id, { onDelete: "cascade" }),
-    provider: text().notNull(),
+    provider: oauthProvider().notNull(),
     provider_account_id: text().notNull(),
     provider_login: text(),
     provider_email: text(),

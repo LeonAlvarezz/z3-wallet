@@ -18,7 +18,7 @@ function buildApiUrl(requestUrl: string, apiBaseUrl: string): URL {
   const normalizedPath = url.pathname.replace(/^\/api/, "") || "/";
   return new URL(
     `${normalizedPath.replace(/^\//, "")}${url.search}`,
-    ensureTrailingSlash(apiBaseUrl),
+    ensureTrailingSlash(apiBaseUrl)
   );
 }
 

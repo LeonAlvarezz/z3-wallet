@@ -1,5 +1,6 @@
 CREATE TYPE "public"."CategoryRuleTypeEnum" AS ENUM('SYSTEM', 'USER');--> statement-breakpoint
 CREATE TYPE "public"."CategoryColorEnum" AS ENUM('DEFAULT', 'YELLOW', 'GREEN', 'BLUE', 'GRAY', 'PURPLE', 'PINK', 'RED', 'ORANGE', 'TEAL');--> statement-breakpoint
+CREATE TYPE "public"."OAuthProvider" AS ENUM('github', 'google');--> statement-breakpoint
 CREATE TYPE "public"."TransactionTypeEnum" AS ENUM('TOP_UP', 'EXPENSE');--> statement-breakpoint
 CREATE TABLE "auths" (
 	"id" serial PRIMARY KEY NOT NULL,
@@ -33,7 +34,7 @@ CREATE TABLE "categories" (
 CREATE TABLE "oauths" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"user_id" integer NOT NULL,
-	"provider" text NOT NULL,
+	"provider" "OAuthProvider" NOT NULL,
 	"provider_account_id" text NOT NULL,
 	"provider_login" text,
 	"provider_email" text,
