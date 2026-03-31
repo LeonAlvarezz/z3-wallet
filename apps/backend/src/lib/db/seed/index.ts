@@ -8,9 +8,9 @@ async function main() {
   console.log(`🌱 Running ${mode} seed with ${envFile}...`);
 
   if (mode === "prod") {
-    await $`bun --no-env-file --env-file=${envFile} run src/lib/db/seed/seed-prod.ts`;
+    await $`bun --env-file=${envFile} run src/lib/db/seed/seed-prod.ts`;
   } else {
-    await $`bun --no-env-file --env-file=${envFile} run src/lib/db/seed/seed-dev.ts`;
+    await $`bun --env-file=${envFile} run src/lib/db/seed/seed-dev.ts`;
   }
 
   console.log(`✅ ${mode} seed completed successfully!`);

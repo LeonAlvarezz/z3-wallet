@@ -4,6 +4,9 @@ import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 
+const devApiProxyTarget =
+  process.env.VITE_DEV_API_PROXY_TARGET ?? "http://localhost:4000";
+
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
@@ -18,7 +21,7 @@ export default defineConfig({
     host: true,
     proxy: {
       "/api": {
-        target: "http://localhost:4000",
+        target: devApiProxyTarget,
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, "/v1"),
       },

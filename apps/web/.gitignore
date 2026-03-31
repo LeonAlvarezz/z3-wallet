@@ -24,6 +24,8 @@ dist-ssr
 *.sw?
 .tanstack
 .wrangler
+playwright-report
+test-results
 .env.*
 !.env.production.example
 !.env.worker.production.example
