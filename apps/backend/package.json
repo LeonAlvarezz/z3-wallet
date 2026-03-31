@@ -14,14 +14,15 @@
     "dependencies": {
         "@elysiajs/cors": "^1.4.1",
         "@elysiajs/openapi": "^1.4.14",
+        "@z3-wallet/exception": "workspace:*",
+        "@z3-wallet/types": "workspace:*",
+        "@z3-wallet/utils": "workspace:*",
         "drizzle-orm": "^0.45.1",
         "elysia": "latest",
+        "elysia-prometheus": "^1.1.1",
         "pg": "^8.18.0",
         "winston": "^3.19.0",
-        "zod": "^4.3.6",
-        "@z3-wallet/types": "workspace:*",
-        "@z3-wallet/exception": "workspace:*",
-        "@z3-wallet/utils": "workspace:*"
+        "zod": "^4.3.6"
     },
     "devDependencies": {
         "@biomejs/biome": "2.3.15",

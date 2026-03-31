@@ -7,6 +7,7 @@ import { routeHandler } from "./routes/route-handler";
 import openapi from "@elysiajs/openapi";
 import { ip } from "./core/request/ip";
 import { createScopedLogger } from "./lib/logger";
+import prometheusPlugin from "elysia-prometheus";
 
 const logger = createScopedLogger("app");
 
@@ -14,6 +15,15 @@ const app = new Elysia({
   prefix: "/v1",
 })
   .use(cors())
+  .use(
+    prometheusPlugin({
+      metricsPath: "/metrics",
+      staticLabels: { service: "z3-wallet" },
+      dynamicLabels: {
+        userAgent: (ctx) => ctx.request.headers.get("user-agent") ?? "unknown",
+      },
+    }),
+  )
   .use(openapi())
   .use(ip)
   .use(errorHandler)
