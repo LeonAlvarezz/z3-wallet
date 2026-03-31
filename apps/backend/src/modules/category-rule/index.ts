@@ -113,7 +113,7 @@ export const categoryRule = new Elysia()
           summary: "Delete user category rule by ID",
           tags: [OpenApiKey.CategoryRule],
         },
-        response: SimpleSuccessSchema(),
+        response: SimpleSuccessSchema,
       },
     );
 

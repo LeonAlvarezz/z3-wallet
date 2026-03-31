@@ -193,7 +193,7 @@ export const transaction = new Elysia()
           summary: "Delete transaction by ID",
           tags: [OpenApiKey.Transaction],
         },
-        response: SimpleSuccessSchema(),
+        response: SimpleSuccessSchema,
       },
     );
     return app;

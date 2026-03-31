@@ -21,7 +21,7 @@ export type SmartInputParseResult = {
 
 function parseAmountToken(token: string): number | undefined {
   const cleaned = token.trim().replace(/[$,]/g, "");
-  if (!/\d+(?:\.\d+)?$/.test(cleaned)) return undefined;
+  if (!/^[+-]?\d+(?:\.\d+)?$/.test(cleaned)) return undefined;
   const num = Number.parseFloat(cleaned);
   if (!Number.isFinite(num)) return undefined;
   return num;
@@ -207,10 +207,10 @@ export function parseSmartInput(
         const tag = tokens[tagIndex].slice(1);
         const tagNormalized = normalizeForMatch(tag);
         const match = bestCategoryMatch(tagNormalized, categories, rules);
+        tokens = tokens.filter((_, idx) => idx !== tagIndex);
         if (match.category) {
           category = match.category;
           categorySource = "tag";
-          tokens = tokens.filter((_, idx) => idx !== tagIndex);
         }
       }
 

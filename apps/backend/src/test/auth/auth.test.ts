@@ -25,9 +25,11 @@ describe("Auth Route", () => {
       "test@example.com",
       "Password123!",
     );
+
     expect(response.status).toBe(200);
     const { data } =
       (await response.json()) as ApiSuccess<UserModel.UserPublicSessionDto>;
+
     expect(data).toHaveProperty("session_token");
     expect(data).toHaveProperty("expires_at");
     expect(data).toHaveProperty("user");
@@ -61,6 +63,7 @@ describe("Auth Route", () => {
       "test@example.com",
       "Password123!",
     );
+
     const sessionCookie = authHelpers.extractCookie(signInRes);
 
     const response = await authHelpers.signOut(sessionCookie);

@@ -221,9 +221,7 @@ async function main() {
   }
 }
 
-if (import.meta.main) {
-  main().catch((err) => {
-    logger.error("❌ Unexpected error during seeding:", err);
-    process.exit(1);
-  });
-}
+main().catch((err) => {
+  logger.error("❌ Unexpected error during seeding:", err);
+  process.exit(1);
+});

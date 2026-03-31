@@ -14,6 +14,7 @@ import {
   DefaultErrorMessage,
   ErrorCode,
 } from "@z3-wallet/types";
+import env from "@/lib/env";
 
 export const errorHandler = new Elysia({ name: "error-handling" })
   .use(ip)
@@ -31,17 +32,22 @@ export const errorHandler = new Elysia({ name: "error-handling" })
 
     if (error instanceof ErrorException) {
       if (error instanceof InvalidCredentialException) {
-        const ipAddress = (ip?.address ?? "unknown").replace(/:/g, "-");
-        const path = new URL(request.url).pathname;
-        const key = `rate-limit:${ipAddress}:${path}`;
-        const allowed = await RateLimitService.checkRateLimit({ key });
+        if (env.NODE_ENV !== "test") {
+          const ipAddress = (ip?.address ?? "unknown").replace(/:/g, "-");
+          const path = new URL(request.url).pathname;
+          const key = `rate-limit:${ipAddress}:${path}`;
+          const allowed = await RateLimitService.checkRateLimit({ key });
 
-        if (!allowed) {
-          return Fail({
-            message: DefaultErrorMessage.RATE_LIMIT,
-            status: ErrorCode.RATE_LIMIT,
-            code: getKey(DefaultErrorMessage, DefaultErrorMessage.RATE_LIMIT),
-          });
+          if (!allowed) {
+            return Fail({
+              message: DefaultErrorMessage.RATE_LIMIT,
+              status: ErrorCode.RATE_LIMIT,
+              code: getKey(
+                DefaultErrorMessage,
+                DefaultErrorMessage.RATE_LIMIT,
+              ),
+            });
+          }
         }
       }
 

@@ -48,7 +48,7 @@ export const auth = new Elysia()
           summary: "Sign up",
           tags: [OpenApiKey.Auth],
         },
-        response: SimpleSuccessSchema(),
+        response: SimpleSuccessSchema,
       },
     );
     app.post(
@@ -178,7 +178,7 @@ export const auth = new Elysia()
           summary: "Sign out",
           tags: [OpenApiKey.Auth],
         },
-        response: SimpleSuccessSchema(),
+        response: SimpleSuccessSchema,
       },
     );
 
@@ -196,7 +196,7 @@ export const auth = new Elysia()
           summary: "Change user password",
           tags: [OpenApiKey.Auth],
         },
-        response: SimpleSuccessSchema(),
+        response: SimpleSuccessSchema,
       },
     );
 

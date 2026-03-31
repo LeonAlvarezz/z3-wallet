@@ -29,11 +29,11 @@ export const CursorPaginationSchema = <T, U>(data: T, extra?: U) => {
   }
 };
 
-export const SimpleSuccessSchema = () =>
-  z.object({
-    success: z.boolean().default(true),
-    message: z.string().default("Success"),
-  });
+export const SimpleSuccessSchema = z.object({
+  success: z.boolean().default(true),
+  message: z.string().default("Success"),
+});
+
 export type ApiResult<T> = ApiSuccess<T> | ApiFail;
 
 export type ApiSuccess<T> = {
