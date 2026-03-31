@@ -4,7 +4,7 @@ import {
   ErrorException,
   InvalidCredentialException,
 } from "@z3-wallet/exception";
-import logger from "@/lib/logger";
+import { createScopedLogger } from "@/lib/logger";
 import { Fail } from "../response";
 import { RateLimitService } from "@/lib/rate-limit";
 import { ip } from "../request/ip";
@@ -16,10 +16,18 @@ import {
 } from "@z3-wallet/types";
 import env from "@/lib/env";
 
+const logger = createScopedLogger("error-handler");
+
 export const errorHandler = new Elysia({ name: "error-handling" })
   .use(ip)
   .onError(async ({ error, code, set, ip, request }) => {
-    logger.error("🔥 Error occurred", error);
+    logger.error("🔥 Error occurred", {
+      error,
+      code,
+      method: request.method,
+      path: new URL(request.url).pathname,
+      ip: ip?.address ?? "unknown",
+    });
 
     if (code === "VALIDATION") {
       return Fail({

@@ -6,6 +6,9 @@ import { appInfo } from "./modules/app";
 import { routeHandler } from "./routes/route-handler";
 import openapi from "@elysiajs/openapi";
 import { ip } from "./core/request/ip";
+import { createScopedLogger } from "./lib/logger";
+
+const logger = createScopedLogger("app");
 
 const app = new Elysia({
   prefix: "/v1",
@@ -18,8 +21,9 @@ const app = new Elysia({
   .use(routeHandler)
   .listen(env.PORT);
 
-console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`,
-);
+logger.info("🦊 Elysia is running", {
+  host: app.server?.hostname,
+  port: app.server?.port,
+});
 
 export default app;
