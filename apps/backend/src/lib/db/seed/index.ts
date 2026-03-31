@@ -1,40 +1,23 @@
-import logger from "@/lib/logger";
-import { seedDatabaseDev } from "./seed-dev";
-import { seedDatabaseProd } from "./seed-prod";
-
-function getSeedMode(args: string[]) {
-  if (args.includes("--prod") || args.includes("prod")) {
-    return "prod";
-  }
-
-  if (args.includes("--dev") || args.includes("dev") || args.length === 0) {
-    return "dev";
-  }
-
-  return null;
-}
+import { $ } from "bun";
+import { getMode, getEnvFile } from "../utils/get-mode";
 
 async function main() {
   const args = process.argv.slice(2);
-  const mode = getSeedMode(args);
-
-  if (!mode) {
-    logger.error("❌ Invalid seed mode. Use --dev or --prod.");
-    process.exit(1);
-  }
-
-  logger.info(`🌱 Running ${mode} seed...`);
+  const mode = getMode(args);
+  const envFile = getEnvFile(mode);
+  console.log(`🌱 Running ${mode} seed with ${envFile}...`);
 
   if (mode === "prod") {
-    await seedDatabaseProd();
+    await $`bun --no-env-file --env-file=${envFile} run src/lib/db/seed/seed-prod.ts`;
   } else {
-    await seedDatabaseDev();
+    await $`bun --no-env-file --env-file=${envFile} run src/lib/db/seed/seed-dev.ts`;
   }
 
-  logger.info(`✅ ${mode} seed completed successfully!`);
+  console.log(`✅ ${mode} seed completed successfully!`);
+  process.exit(0);
 }
 
 main().catch((err) => {
-  logger.error("❌ Unexpected error during seeding:", err);
+  console.error("❌ Unexpected error during seeding:", err);
   process.exit(1);
 });

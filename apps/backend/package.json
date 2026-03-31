@@ -9,7 +9,7 @@
         "db:gen": "bunx drizzle-kit generate",
         "db:migrate": "bun --no-env-file run src/lib/db/migrate.ts",
         "db:reset": "bun --no-env-file run src/lib/db/reset/index.ts",
-        "db:seed": "bun run src/lib/db/seed/index.ts"
+        "db:seed": "bun --no-env-file run src/lib/db/seed/index.ts"
     },
     "dependencies": {
         "@elysiajs/cors": "^1.4.1",
