@@ -121,10 +121,9 @@ Available database commands:
 
 Run these from repository root:
 
-- `bun run verify:env` — validate backend/web environment contracts
 - `bun run check-types` — run type checks across workspaces
 - `bun run test` — run integration tests
-- `bun run verify:predeploy` — strict release gate (`install -> env -> lint -> typecheck -> test -> build`)
+- `bun run verify:predeploy` — strict release gate (`install -> lint -> typecheck -> test -> build`)
 
 ### Production Migration Policy
 

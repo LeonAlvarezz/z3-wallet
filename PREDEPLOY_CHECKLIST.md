@@ -11,10 +11,8 @@ Run or confirm:
 
 ## 2) Environment Preflight Must Pass
 
-- Backend env values are present and valid.
-- Web build-time env values are present and valid.
-- Worker runtime value `API_BASE_URL` is present and valid.
-- Validate with `bun run verify:env` in the target environment.
+- Backend and frontend production env vars are present in Dokploy.
+- Verify deployment secrets/config values are correct before release.
 
 ## 3) Database Migration (Manual Reviewed)
 

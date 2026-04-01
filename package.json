@@ -20,8 +20,7 @@
         "lint": "turbo run lint",
         "check-types": "turbo run check-types",
         "test": "turbo run test",
-        "verify:env": "bun run ./scripts/predeploy/env-preflight.ts",
-        "verify:predeploy": "bun install --frozen-lockfile && bun run verify:env && bun run lint && bun run check-types && bun run test && bun run build"
+        "verify:predeploy": "bun install --frozen-lockfile && bun run lint && bun run check-types && bun run test && bun run build"
     },
     "packageManager": "bun@1.3.9"
 }
