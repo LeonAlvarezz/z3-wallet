@@ -1,4 +1,8 @@
-import { CategoryModel, CategoryRuleModel, TransactionModel } from "@z3-wallet/types";
+import {
+  CategoryModel,
+  CategoryRuleModel,
+  TransactionModel,
+} from "@z3-wallet/types";
 import { describe, expect, it } from "vitest";
 import { parseSmartInput } from "./smart-input";
 
@@ -113,7 +117,11 @@ describe("parseSmartInput", () => {
   });
 
   it("falls back to tail/rule matching when explicit tag does not match", () => {
-    const result = parseSmartInput("18 office commute uber #unknown", categories, rules);
+    const result = parseSmartInput(
+      "18 office commute uber #unknown",
+      categories,
+      rules,
+    );
 
     expect(result.amount).toBe(18);
     expect(result.category?.name).toBe("Transportation");
@@ -122,7 +130,11 @@ describe("parseSmartInput", () => {
   });
 
   it("normalizes punctuation in explicit tags", () => {
-    const result = parseSmartInput("7 morning drink #cof-fee", categories, rules);
+    const result = parseSmartInput(
+      "7 morning drink #cof-fee",
+      categories,
+      rules,
+    );
 
     expect(result.amount).toBe(7);
     expect(result.category?.name).toBe("Coffee");

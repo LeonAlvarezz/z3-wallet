@@ -68,11 +68,9 @@ export class CategoryRuleRepository {
       .from(categoryRuleTable)
       .leftJoin(
         categoryTable,
-        and(
-          eq(categoryRuleTable.category_id, categoryTable.id),
-          eq(categoryRuleTable.user_id, user_id),
-        ),
+        and(eq(categoryRuleTable.category_id, categoryTable.id)),
       )
+      .where(eq(categoryRuleTable.user_id, user_id))
       .groupBy(categoryTable.id);
   }
 
