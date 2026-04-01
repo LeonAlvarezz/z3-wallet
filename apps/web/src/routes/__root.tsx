@@ -6,7 +6,7 @@ import {
 } from "@tanstack/react-router";
 import { createPortal } from "react-dom";
 import { ThemeProvider } from "@/modules/theme/theme-provider";
-import { Toaster } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
 import type { RouterContext } from "@/router-context";
 import { buildSeo } from "@/lib/seo";
 import {
