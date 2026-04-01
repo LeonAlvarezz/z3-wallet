@@ -86,9 +86,9 @@ export const FEATURE_CARDS: FeatureCard[] = [
   },
   {
     icon: TrendingUp,
-    title: "Patterns you can trust",
+    title: "Stats you can understand",
     description:
-      "Clean entries lead to clearer cash flow patterns, so it is easier to notice drift and adjust before it hurts.",
+      "See clean, easy-to-read statistics that help you understand your money quickly, take action faster, and stay in control with a user-friendly flow.",
     color: "rose",
   },
 ];
