@@ -64,6 +64,19 @@ function AccordionTrigger({
   );
 }
 
+// const AccordionContent = React.forwardRef<
+//   React.ComponentRef<typeof AccordionPrimitive.Content>,
+//   React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Content>
+// >(({ className, children, ...props }, ref) => (
+//   <AccordionPrimitive.Content
+//     ref={ref}
+//     data-slot="accordion-content"
+//     className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden text-sm transition-all"
+//     {...props}
+//   >
+//     <div className={cn("pt-0 pb-4", className)}>{children}</div>
+//   </AccordionPrimitive.Content>
+// ));
 function AccordionContent({
   className,
   children,

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { useCreateCategoryRule } from "../../hooks/use-create-category-rule";
+import { Spinner } from "@/components/ui/spinner";
 
 type Props = {
   id: number;
@@ -11,7 +12,7 @@ type Props = {
 };
 
 export default function CategoryRuleList({ id, enabled = true }: Props) {
-  const { data: rules } = useGetCategoryRuleByCategory(id, enabled);
+  const { data: rules, isLoading } = useGetCategoryRuleByCategory(id, enabled);
   const createMutation = useCreateCategoryRule();
   const [newKeyword, setNewKeyword] = useState("");
   const isEmpty = rules?.length === 0;
@@ -53,7 +54,9 @@ export default function CategoryRuleList({ id, enabled = true }: Props) {
         </Button>
       </div>
       <ul className="space-y-2">
-        {isEmpty ? (
+        {isLoading ? (
+          <Spinner className="mx-auto" />
+        ) : isEmpty ? (
           <p className="text-muted-foreground border-dashed text-sm">
             No rules yet. Add your first keyword above.
           </p>

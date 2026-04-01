@@ -6,7 +6,7 @@ export function CategoryRulePageSkeleton() {
     <div className="flex h-full w-full flex-col overflow-y-auto p-4 pb-[calc(var(--bottom-nav-total-h))]">
       <CommonHeader title="Category Rules" />
       <div className="space-y-2">
-        {Array.from({ length: 5 }).map((_, index) => (
+        {Array.from({ length: 9 }).map((_, index) => (
           <div
             key={index}
             className="bg-card border-input/30 flex items-center justify-between rounded-xl border px-4 py-4"
