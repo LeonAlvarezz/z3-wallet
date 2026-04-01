@@ -12,6 +12,10 @@ not_found_handling = "single-page-application"
 # Ensure API paths always hit the user worker before SPA asset fallback.
 run_worker_first = ["/api", "/api/*"]
 
+[observability]
+[observability.logs]
+enabled = true
+invocation_logs = true
 # Set `VITE_API_URL=/api` at build time and configure `API_BASE_URL`
 # in your Cloudflare Worker environment to proxy API requests.
 # `API_BASE_URL` may be host-only (e.g. `https://api.example.com`) or include
