@@ -23,7 +23,7 @@ export default function NotificationsSettingsPage() {
   );
 
   return (
-    <div className="flex h-full w-full flex-col gap-6 overflow-y-auto p-4 pb-[calc(var(--bottom-nav-total-h)+1rem)]">
+    <div className="app-page-compact flex h-full flex-col gap-6 overflow-y-auto px-4 py-4 pb-[calc(var(--bottom-nav-total-h)+1rem)] lg:px-6 xl:px-8">
       <TopNav
         title="Notifications"
         back={{

@@ -25,7 +25,7 @@ export default function Dashboard() {
   const { data: summary } = useGetCashflowSummary();
 
   return (
-    <div className="flex h-full w-full flex-col gap-6 overflow-y-auto p-4 pb-[calc(var(--bottom-nav-total-h))]">
+    <div className="flex h-full flex-col gap-6 overflow-y-auto px-4 py-6 pb-[calc(var(--bottom-nav-total-h))] lg:px-8 xl:px-10">
       <div className="flex w-full items-center justify-between">
         <div className="flex flex-col gap-1">
           <p className="text-white/50">Good morning</p>

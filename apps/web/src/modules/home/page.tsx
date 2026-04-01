@@ -12,7 +12,7 @@ import { WhyItWorksSection } from "./components/WhyItWorksSection";
 
 export default function HomePage() {
   return (
-    <main className="wallet-root bg-background text-foreground relative min-h-lvh overflow-hidden">
+    <main className="bg-background text-foreground relative min-h-lvh overflow-hidden">
       <HomeBackground />
 
       <div className="relative flex min-h-lvh flex-col gap-10 overflow-y-auto p-4 pb-16">

@@ -30,11 +30,13 @@ export default function BottomNav() {
         height: "var(--bottom-nav-total-h)",
         paddingBottom: "var(--safe-area-bottom)",
       }}
-      className="bg-secondary max-w-mobile fixed inset-x-0 bottom-0 m-auto flex items-center justify-between sm:px-4"
+      className="bg-secondary fixed inset-x-0 bottom-0 mx-auto w-full border-t"
     >
-      {bottomNavItems.map((item) => (
-        <BottomNavItem key={item.to} {...item} />
-      ))}
+      <div className="mx-auto flex h-full w-full max-w-xl items-center justify-between px-2 sm:px-4">
+        {bottomNavItems.map((item) => (
+          <BottomNavItem key={item.to} {...item} />
+        ))}
+      </div>
     </div>
   );
 }

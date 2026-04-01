@@ -10,7 +10,7 @@ export default function TopNav({ title, back }: TopNavProps) {
       : undefined;
 
   return (
-    <header className="max-w-mobile sticky grid grid-cols-3 p-2">
+    <header className="sticky grid w-full grid-cols-3 p-2">
       <div className="flex items-center">
         {back && <BackButton {...backProps} />}
       </div>
@@ -18,4 +18,3 @@ export default function TopNav({ title, back }: TopNavProps) {
     </header>
   );
 }
- 

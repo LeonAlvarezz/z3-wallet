@@ -38,7 +38,7 @@ export function HeroSmartInputPreview() {
 
   return (
     <div className="relative overflow-hidden rounded-[2.35rem] p-4 sm:p-5">
-      <div className="relative min-h-105 sm:min-h-130">
+      <div className="relative mx-auto min-h-105 max-w-lg sm:min-h-130">
         {revealCards && (
           <PriceStageItem price={activeScene.price} delayMs={60} />
         )}

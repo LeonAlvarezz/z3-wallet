@@ -79,11 +79,11 @@ export default function AddTransactionPage() {
   };
 
   return (
-    <div className="flex h-full w-full flex-col gap-8 overflow-y-auto p-4 py-[calc(var(--bottom-nav-h))]">
+    <div className="app-page-regular flex h-full flex-col gap-8 overflow-y-auto px-4 py-[calc(var(--bottom-nav-h))] lg:px-8 xl:px-10">
       <MutateTransactionContext.Provider value={{ ...formHook }}>
         <MutateTransactionForm>
           <MutateTransactionFormFooter>
-            <div className="max-w-mobile to-background fixed inset-x-0 bottom-0 m-auto space-y-2 bg-linear-180 px-4 pt-10">
+            <div className="to-background fixed inset-x-0 bottom-0 mx-auto w-full max-w-xl space-y-2 bg-linear-180 px-4 pt-10 lg:px-8 xl:px-10">
               {potentialPair && (
                 <div
                   className="animate-slide-up flex items-center justify-between rounded-md border px-4 py-2"

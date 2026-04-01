@@ -14,7 +14,7 @@ export function ProfilePage() {
   const navigate = useNavigate();
 
   return (
-    <div className="flex h-full w-full flex-col gap-6 overflow-y-auto p-4 pb-[calc(var(--bottom-nav-total-h)+1rem)]">
+    <div className="app-page-compact flex h-full flex-col gap-6 overflow-y-auto px-4 py-4 pb-[calc(var(--bottom-nav-total-h)+1rem)] lg:px-6 xl:px-8">
       <section className="flex flex-col gap-3">
         <div className="flex items-center gap-4">
           <SystemAvatar

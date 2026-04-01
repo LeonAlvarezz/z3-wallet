@@ -80,7 +80,7 @@ export default function TransactionPage() {
 
   return (
     <>
-      <div className="flex h-full w-full flex-col gap-6 overflow-y-auto p-4 pb-[calc(var(--bottom-nav-total-h))]">
+      <div className="app-page-wide flex h-full flex-col gap-6 overflow-y-auto px-4 py-4 pb-[calc(var(--bottom-nav-total-h))] lg:px-8 xl:px-10">
         <div className="relative">
           <Input
             placeholder="Search transactions..."

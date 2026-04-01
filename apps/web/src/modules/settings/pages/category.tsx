@@ -5,7 +5,7 @@ import { useSettings } from "../hooks/use-settings";
 export default function CategorySettingsPage() {
   const { settings, setAutoPairEnabled, setAutoPairThreshold } = useSettings();
   return (
-    <div className="flex h-full w-full flex-col overflow-y-auto p-4 pb-[calc(var(--bottom-nav-total-h)+1rem)]">
+    <div className="app-page-compact flex h-full flex-col overflow-y-auto px-4 py-4 pb-[calc(var(--bottom-nav-total-h)+1rem)] lg:px-6 xl:px-8">
       <CommonHeader title="Category" />
       <HubSection
         title="Matching"

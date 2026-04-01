@@ -12,12 +12,11 @@ export const Route = createFileRoute("/_homeLayout")({
 
 function RouteComponent() {
   return (
-    <>
-      {/* <h1>Pathless layout</h1> */}
-      <main className="h-[calc(100vh-var(--bottom-nav-total-h))]">
+    <div className="bg-background relative mx-auto flex min-h-lvh w-full max-w-xl flex-col">
+      <main className="h-[calc(100vh-var(--bottom-nav-total-h))] w-full">
         <Outlet />
       </main>
       <BottomNav />
-    </>
+    </div>
   );
 }

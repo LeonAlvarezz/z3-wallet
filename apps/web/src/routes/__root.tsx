@@ -34,7 +34,7 @@ function RootComponent() {
     <React.Fragment>
       <RouteHeadPortal />
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-        <div className="max-w-mobile relative m-auto flex min-h-lvh flex-col border">
+        <div className="relative flex min-h-lvh flex-col">
           <Outlet />
           <Toaster position="top-center" />
         </div>

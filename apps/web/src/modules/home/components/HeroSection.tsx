@@ -20,7 +20,7 @@ export function HeroSection() {
         </div>
 
         <div
-          className="relative mx-auto flex max-w-2xl flex-col items-center gap-4 px-6 pt-8 text-center sm:px-10 sm:pt-10"
+          className="relative mx-auto flex max-w-xl flex-col items-center gap-4 px-6 pt-8 text-center sm:px-10 sm:pt-10"
           style={createAnimationDelayStyle(180)}
         >
           <div className="space-y-3">

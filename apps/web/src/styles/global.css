@@ -233,6 +233,18 @@
   .card-box {
     @apply bg-card text-card-foreground rounded-xl border;
   }
+
+  .app-page-compact {
+    @apply mx-auto w-full max-w-3xl;
+  }
+
+  .app-page-regular {
+    @apply mx-auto w-full max-w-4xl;
+  }
+
+  .app-page-wide {
+    @apply mx-auto w-full max-w-6xl;
+  }
 }
 
 @theme inline {
@@ -275,8 +287,7 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  /* --mobile: 430px; */
-  --spacing-mobile: 430px;
+  --spacing-app-shell: 72rem;
   --spacing-bottom-nav-h: var(--bottom-nav-h);
   --spacing-bottom-nav-total-h: var(--bottom-nav-total-h);
 

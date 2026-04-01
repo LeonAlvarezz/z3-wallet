@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export function CategoryRulePageSkeleton() {
   return (
-    <div className="flex h-full w-full flex-col overflow-y-auto p-4 pb-[calc(var(--bottom-nav-total-h))]">
+    <div className="app-page-regular flex h-full flex-col overflow-y-auto px-4 py-4 pb-[calc(var(--bottom-nav-total-h))] lg:px-8 xl:px-10">
       <CommonHeader title="Category Rules" />
       <div className="space-y-2">
         {Array.from({ length: 9 }).map((_, index) => (
