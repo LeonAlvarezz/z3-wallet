@@ -36,4 +36,4 @@ Run or confirm:
 - Commit the version update.
 - Create the release tag with `bun run release:tag`.
 - Push the release commit and tag with `git push --follow-tags`.
-- The `Release` GitHub workflow deploys backend first, confirms `/v1/health-check` reports the tagged version, then deploys the web app.
+- The `Release` GitHub workflow waits for backend auto-deploy, confirms `/v1/health-check` reports the tagged version, then deploys the web app.

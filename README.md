@@ -134,11 +134,10 @@ Release versioning is now driven from the repository root `package.json`, and th
 - `bun run release:tag` — create an annotated `vX.Y.Z` tag from the current version
 - `git push --follow-tags` — push the release commit and tag to trigger the GitHub `Release` workflow
 
-The release workflow verifies the tagged commit, deploys the backend first, waits for the backend health check to report the tagged version, then deploys the web app and publishes a GitHub release.
+The release workflow verifies the tagged commit, waits for the backend auto-deploy to report the tagged version on the health check, then deploys the web app and publishes a GitHub release.
 
 Required GitHub secrets for the release workflow:
 
-- `DOKPLOY_BACKEND_DEPLOY_HOOK_URL`
 - `BACKEND_HEALTHCHECK_URL`
 - `CLOUDFLARE_API_TOKEN`
 - `CLOUDFLARE_ACCOUNT_ID`
