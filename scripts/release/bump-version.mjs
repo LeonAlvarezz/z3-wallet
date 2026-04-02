@@ -72,7 +72,11 @@ async function updatePackageVersion(filePath, version) {
 }
 
 async function updateVersionModule(filePath, version) {
-  await writeFile(filePath, `export const APP_VERSION = "${version}";\n`, "utf8");
+  await writeFile(
+    filePath,
+    `export const APP_VERSION = "${version}";\n`,
+    "utf8",
+  );
 }
 
 function refreshLockfile() {
@@ -90,13 +94,13 @@ async function main() {
   const requestedVersion = process.argv[2];
 
   if (!requestedVersion) {
-    throw new Error(
-      "Usage: bun run release:bump -- <patch|minor|major|x.y.z>",
-    );
+    throw new Error("Usage: bun run release:bump -- <patch|minor|major|x.y.z>");
   }
 
   const rootPackageJsonPath = packageJsonPaths[0];
-  const rootPackageJson = JSON.parse(await readFile(rootPackageJsonPath, "utf8"));
+  const rootPackageJson = JSON.parse(
+    await readFile(rootPackageJsonPath, "utf8"),
+  );
   const nextVersion = getNextVersion(rootPackageJson.version, requestedVersion);
 
   for (const packageJsonPath of packageJsonPaths) {
