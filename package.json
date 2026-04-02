@@ -1,7 +1,7 @@
 {
     "name": "z3-wallet-monorepo",
     "private": true,
-    "version": "1.0.1",
+    "version": "1.0.2",
     "workspaces": [
         "apps/web",
         "apps/backend",
@@ -24,7 +24,7 @@
         "release:prepare": "bun run verify:predeploy",
         "release:bump": "bun run ./scripts/release/bump-version.mjs",
         "release:tag": "bun run ./scripts/release/tag-current-version.mjs",
-        "release:deploy:web": "bun --cwd apps/web run cf:deploy",
+        "release:deploy:web": "bun run --cwd apps/web cf:deploy",
         "release:deploy": "bun run release:deploy:web"
     },
     "packageManager": "bun@1.3.9"
