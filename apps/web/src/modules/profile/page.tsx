@@ -6,6 +6,7 @@ import { useGetMe } from "@/modules/auth/hooks/use-get-me";
 import { HubSection } from "@/modules/settings/components/HubSection";
 import { useTheme } from "@/modules/theme/use-theme";
 import SystemAvatar from "@/components/system-avatar/SystemAvatar";
+import { APP_VERSION } from "@/lib/app-version";
 
 export function ProfilePage() {
   const signOutMutation = useSignOut();
@@ -100,6 +101,10 @@ export function ProfilePage() {
         <Icon icon="solar:logout-2-bold" className="size-5" />
         Sign out
       </Button>
+
+      <p className="text-muted-foreground text-center text-xs">
+        Version v{APP_VERSION}
+      </p>
     </div>
   );
 }

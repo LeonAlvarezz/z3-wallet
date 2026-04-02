@@ -20,7 +20,13 @@
         "lint": "turbo run lint",
         "check-types": "turbo run check-types",
         "test": "turbo run test",
-        "verify:predeploy": "bun install --frozen-lockfile && bun run lint && bun run check-types && bun run test && bun run build"
+        "verify:predeploy": "bun install --frozen-lockfile && bun run lint && bun run check-types && bun run test && bun run build",
+        "release:prepare": "bun run verify:predeploy",
+        "release:bump": "bun run ./scripts/release/bump-version.mjs",
+        "release:tag": "bun run ./scripts/release/tag-current-version.mjs",
+        "release:deploy:backend": "bun run ./scripts/release/deploy-backend.mjs",
+        "release:deploy:web": "bun --cwd apps/web run cf:deploy",
+        "release:deploy": "bun run release:deploy:backend && bun run release:deploy:web"
     },
     "packageManager": "bun@1.3.9"
 }

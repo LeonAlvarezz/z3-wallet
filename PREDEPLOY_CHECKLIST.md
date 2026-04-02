@@ -9,12 +9,7 @@ Run or confirm:
 - `bun run verify:predeploy`
 - GitHub Actions `Predeploy Gate` workflow is green on the release commit.
 
-## 2) Environment Preflight Must Pass
-
-- Backend and frontend production env vars are present in Dokploy.
-- Verify deployment secrets/config values are correct before release.
-
-## 3) Database Migration (Manual Reviewed)
+## 2) Database Migration (Manual Reviewed)
 
 - Generate migration SQL: `bun run db:gen` (from `apps/backend`).
 - Review SQL manually before applying.
@@ -22,7 +17,7 @@ Run or confirm:
 - Run smoke tests on staging after migration.
 - Apply to production only after staging validation is complete.
 
-## 4) Staging Smoke Tests
+## 3) Staging Smoke Tests
 
 - Sign in and sign out flow works.
 - `/v1/health-check` responds with success.
@@ -30,7 +25,15 @@ Run or confirm:
 - Transaction CRUD succeeds (create, update, delete).
 - Frontend API proxy path works (`/api/*` to backend `/v1/*`).
 
-## 5) Production Promotion
+## 4) Production Promotion
 
 - Promote only when sections 1-4 pass.
 - Keep rollback-ready artifacts and migration context available during release window.
+
+## 5) Release Trigger
+
+- Bump the shared app version with `bun run release:bump -- <patch|minor|major|x.y.z>`.
+- Commit the version update.
+- Create the release tag with `bun run release:tag`.
+- Push the release commit and tag with `git push --follow-tags`.
+- The `Release` GitHub workflow deploys backend first, confirms `/v1/health-check` reports the tagged version, then deploys the web app.

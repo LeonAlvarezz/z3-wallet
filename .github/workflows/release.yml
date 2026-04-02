@@ -1,0 +1,174 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      NODE_ENV: test
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/z3_wallet_test
+      HASH_PASSWORD_ALGORITHM: bcrypt
+      HASH_PASSWORD_COST: "10"
+      REDIS_URL: redis://localhost:6379
+      CORS_ORIGINS: http://localhost:5173
+      WEB_APP_URL: http://localhost:5173
+      GITHUB_CLIENT_ID: test-github-client-id
+      GITHUB_CLIENT_SECRET: test-github-client-secret
+      GITHUB_REDIRECT_URI: http://localhost:4000/v1/auth/github/callback
+      GOOGLE_CLIENT_ID: test-google-client-id
+      GOOGLE_CLIENT_SECRET: test-google-client-secret
+      GOOGLE_REDIRECT_URI: http://localhost:4000/v1/auth/google/callback
+      VITE_APP_NAME: Z3 Wallet
+      VITE_API_URL: /api
+      VITE_SITE_URL: https://wallet.example.com
+      PGPASSWORD: postgres
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch main branch
+        run: git fetch origin main --depth=1
+
+      - name: Ensure release tag points to a main commit
+        run: git merge-base --is-ancestor "$GITHUB_SHA" origin/main
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.9
+
+      - name: Create test database
+        run: psql -h localhost -U postgres -tc "SELECT 1 FROM pg_database WHERE datname='z3_wallet_test'" | grep -q 1 || psql -h localhost -U postgres -c "CREATE DATABASE z3_wallet_test"
+
+      - name: Run release gate
+        run: bun run release:prepare
+
+  deploy-backend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: verify
+    env:
+      DOKPLOY_BACKEND_DEPLOY_HOOK_URL: ${{ secrets.DOKPLOY_BACKEND_DEPLOY_HOOK_URL }}
+      BACKEND_HEALTHCHECK_URL: ${{ secrets.BACKEND_HEALTHCHECK_URL }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.9
+
+      - name: Trigger backend deploy
+        run: bun run release:deploy:backend
+
+      - name: Smoke test backend health
+        run: |
+          if [ -z "$BACKEND_HEALTHCHECK_URL" ]; then
+            echo "BACKEND_HEALTHCHECK_URL is required for release smoke checks."
+            exit 1
+          fi
+
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent --show-error "$BACKEND_HEALTHCHECK_URL" | tee /tmp/backend-health.json | grep -q '"success":true'; then
+              grep -q "\"version\":\"${GITHUB_REF_NAME#v}\"" /tmp/backend-health.json
+              exit 0
+            fi
+
+            echo "Backend not ready yet (attempt $attempt/30)."
+            sleep 10
+          done
+
+          echo "Backend health check never became ready."
+          exit 1
+
+  deploy-web:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: deploy-backend
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      WEB_RELEASE_SMOKE_URL: ${{ secrets.WEB_RELEASE_SMOKE_URL }}
+      VITE_APP_NAME: Z3 Wallet
+      VITE_API_URL: /api
+      VITE_SITE_URL: ${{ secrets.WEB_RELEASE_SMOKE_URL }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.9
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Deploy web app
+        run: bun run release:deploy:web
+
+      - name: Smoke test web app
+        run: |
+          if [ -z "$WEB_RELEASE_SMOKE_URL" ]; then
+            echo "WEB_RELEASE_SMOKE_URL is required for release smoke checks."
+            exit 1
+          fi
+
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent --show-error "$WEB_RELEASE_SMOKE_URL" >/tmp/web-response.html; then
+              grep -qi "<html" /tmp/web-response.html
+              exit 0
+            fi
+
+            echo "Web app not ready yet (attempt $attempt/30)."
+            sleep 10
+          done
+
+          echo "Web smoke check never became ready."
+          exit 1
+
+  publish-release:
+    runs-on: ubuntu-latest
+    needs: deploy-web
+    steps:
+      - name: Publish GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true

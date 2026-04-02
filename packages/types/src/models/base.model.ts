@@ -21,6 +21,7 @@ export namespace BaseModel {
   export const HealthCheckSchema = z.object({
     uptime: z.number(),
     message: z.string().default("OK"),
+    version: z.string(),
   });
 
   export const CookieSchema = z.object({
@@ -33,6 +34,7 @@ export namespace BaseModel {
 
   export type CookieDto = z.infer<typeof CookieSchema>;
   export type NumberIdDto = z.infer<typeof NumberIdSchema>;
+  export type HealthCheckDto = z.infer<typeof HealthCheckSchema>;
 
   export enum TimeFrameEnum {
     TODAY = "today",

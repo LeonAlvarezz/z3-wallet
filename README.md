@@ -125,6 +125,25 @@ Run these from repository root:
 - `bun run test` — run integration tests
 - `bun run verify:predeploy` — strict release gate (`install -> lint -> typecheck -> test -> build`)
 
+### Release Flow
+
+Release versioning is now driven from the repository root `package.json`, and the same version is synced into `apps/web` and `apps/backend`.
+
+- `bun run release:bump -- patch` — bump the shared app version and refresh `bun.lock`
+- `bun run release:prepare` — run the strict release gate before tagging
+- `bun run release:tag` — create an annotated `vX.Y.Z` tag from the current version
+- `git push --follow-tags` — push the release commit and tag to trigger the GitHub `Release` workflow
+
+The release workflow verifies the tagged commit, deploys the backend first, waits for the backend health check to report the tagged version, then deploys the web app and publishes a GitHub release.
+
+Required GitHub secrets for the release workflow:
+
+- `DOKPLOY_BACKEND_DEPLOY_HOOK_URL`
+- `BACKEND_HEALTHCHECK_URL`
+- `CLOUDFLARE_API_TOKEN`
+- `CLOUDFLARE_ACCOUNT_ID`
+- `WEB_RELEASE_SMOKE_URL`
+
 ### Production Migration Policy
 
 - `db:push` is for local development only.
