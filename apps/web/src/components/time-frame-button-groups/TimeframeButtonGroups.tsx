@@ -41,7 +41,7 @@ export default function TimeframeButtonGroup({
           variant="outline"
           className={cn(
             "px-4 opacity-50",
-            selected === item.value && "opacity-100",
+            selected === item.value && "border! opacity-100",
           )}
           onClick={() => handleSelect(item.value)}
         >

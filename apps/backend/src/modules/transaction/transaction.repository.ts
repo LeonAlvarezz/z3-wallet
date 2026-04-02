@@ -199,7 +199,7 @@ export class TransactionRepository {
     const bucket =
       query.time_frame === BaseModel.TimeFrameEnum.TODAY ||
       query.time_frame === BaseModel.TimeFrameEnum.YESTERDAY
-        ? sql`date_trunc('minute', ${transactionTable.created_at})`
+        ? sql`date_trunc('hour', ${transactionTable.created_at})`
         : query.time_frame === BaseModel.TimeFrameEnum.YEAR ||
             query.time_frame === BaseModel.TimeFrameEnum.ALL_TIME
           ? sql`date_trunc('month', ${transactionTable.created_at})`
