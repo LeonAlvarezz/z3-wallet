@@ -1,5 +1,5 @@
 import { CommonHeader } from "@/components/header/CommonHeader";
-import { lazy, useState } from "react";
+import { useState } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -11,10 +11,7 @@ import { Icon } from "@iconify/react";
 import { useGetCategoryRuleCount } from "./hooks/use-get-category-rule-count";
 import { getCategoryVariantColors } from "../category/constants/category-color-map";
 import { CategoryRulePageSkeleton } from "./components/skeletons/CategoryRulePageSkeleton";
-
-const CategoryRuleList = lazy(
-  () => import("./components/category-rule/CategoryRuleList"),
-);
+import CategoryRuleList from "./components/category-rule/CategoryRuleList";
 
 export default function CategoryMatchPage() {
   const { data, isLoading } = useGetCategoryRuleCount();
