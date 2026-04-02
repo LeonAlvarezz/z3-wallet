@@ -40,10 +40,10 @@ jobs:
           --health-retries 5
     env:
       NODE_ENV: test
-      DATABASE_URL: postgres://postgres:postgres@localhost:5432/z3_wallet_test
+      DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/z3_wallet_test
       HASH_PASSWORD_ALGORITHM: bcrypt
       HASH_PASSWORD_COST: "10"
-      REDIS_URL: redis://localhost:6379
+      REDIS_URL: redis://127.0.0.1:6379
       CORS_ORIGINS: http://localhost:5173
       WEB_APP_URL: http://localhost:5173
       GITHUB_CLIENT_ID: test-github-client-id
@@ -78,7 +78,7 @@ jobs:
 
       - name: Bootstrap backend test database
         run: |
-          psql -h localhost -U postgres -tc "SELECT 1 FROM pg_database WHERE datname='z3_wallet_test'" | grep -q 1 || psql -h localhost -U postgres -c "CREATE DATABASE z3_wallet_test"
+          psql -h 127.0.0.1 -U postgres -tc "SELECT 1 FROM pg_database WHERE datname='z3_wallet_test'" | grep -q 1 || psql -h 127.0.0.1 -U postgres -c "CREATE DATABASE z3_wallet_test"
           bun run --cwd apps/backend db:reset test
           bun run --cwd apps/backend db:migrate test
           bun run --cwd apps/backend db:seed test
