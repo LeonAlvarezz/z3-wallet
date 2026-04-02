@@ -78,7 +78,7 @@ jobs:
 
       - name: Bootstrap backend test database
         run: |
-          psql -h localhost -p 5440 -U root -d test -c "SELECT 1"
+          psql -h localhost -p 5432 -U postgres -d z3_wallet_test -c "SELECT 1"
           bun --cwd apps/backend run db:reset test
           bun --cwd apps/backend run db:migrate test
           bun --cwd apps/backend run db:seed test
