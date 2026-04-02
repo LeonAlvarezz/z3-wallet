@@ -65,8 +65,9 @@ jobs:
       - name: Bootstrap backend test database
         run: |
           psql -h localhost -U postgres -tc "SELECT 1 FROM pg_database WHERE datname='z3_wallet_test'" | grep -q 1 || psql -h localhost -U postgres -c "CREATE DATABASE z3_wallet_test"
-          bun --cwd apps/backend run db:migrate test
-          bun --cwd apps/backend run db:seed test
+          bun run --cwd apps/backend db:reset test
+          bun run --cwd apps/backend db:migrate test
+          bun run --cwd apps/backend db:seed test
 
       - name: Run strict predeploy gate
         run: bun run verify:predeploy
