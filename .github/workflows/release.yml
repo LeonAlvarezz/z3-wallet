@@ -38,24 +38,6 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-    env:
-      NODE_ENV: test
-      DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/z3_wallet_test
-      HASH_PASSWORD_ALGORITHM: bcrypt
-      HASH_PASSWORD_COST: "10"
-      REDIS_URL: redis://127.0.0.1:6379
-      CORS_ORIGINS: http://localhost:5173
-      WEB_APP_URL: http://localhost:5173
-      GITHUB_CLIENT_ID: test-github-client-id
-      GITHUB_CLIENT_SECRET: test-github-client-secret
-      GITHUB_REDIRECT_URI: http://localhost:4000/v1/auth/github/callback
-      GOOGLE_CLIENT_ID: test-google-client-id
-      GOOGLE_CLIENT_SECRET: test-google-client-secret
-      GOOGLE_REDIRECT_URI: http://localhost:4000/v1/auth/google/callback
-      VITE_APP_NAME: Z3 Wallet
-      VITE_API_URL: /api
-      VITE_SITE_URL: https://wallet.example.com
-      PGPASSWORD: postgres
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -76,9 +58,35 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
+      - name: Write test env files
+        run: |
+          printf '%s\n' \
+            'NODE_ENV=test' \
+            'DATABASE_URL=postgres://postgres:postgres@127.0.0.1:5432/z3_wallet_test' \
+            'HASH_PASSWORD_ALGORITHM=bcrypt' \
+            'HASH_PASSWORD_COST=10' \
+            'REDIS_URL=redis://127.0.0.1:6379' \
+            'CORS_ORIGINS=http://localhost:5173' \
+            'WEB_APP_URL=http://localhost:5173' \
+            'GITHUB_CLIENT_ID=test-github-client-id' \
+            'GITHUB_CLIENT_SECRET=test-github-client-secret' \
+            'GITHUB_REDIRECT_URI=http://localhost:4000/v1/auth/github/callback' \
+            'GOOGLE_CLIENT_ID=test-google-client-id' \
+            'GOOGLE_CLIENT_SECRET=test-google-client-secret' \
+            'GOOGLE_REDIRECT_URI=http://localhost:4000/v1/auth/google/callback' \
+            'VITE_APP_NAME=Z3 Wallet' \
+            'VITE_API_URL=/api' \
+            'VITE_SITE_URL=https://wallet.example.com' | tee apps/backend/.env.test > /dev/null
+
+          printf '%s\n' \
+            'NODE_ENV=test' \
+            'VITE_APP_NAME=Z3 Wallet' \
+            'VITE_API_URL=/api' \
+            'VITE_SITE_URL=https://wallet.example.com' | tee apps/web/.env.test > /dev/null
+
       - name: Bootstrap backend test database
         run: |
-          psql -h 127.0.0.1 -U postgres -tc "SELECT 1 FROM pg_database WHERE datname='z3_wallet_test'" | grep -q 1 || psql -h 127.0.0.1 -U postgres -c "CREATE DATABASE z3_wallet_test"
+          PGPASSWORD=postgres psql -h 127.0.0.1 -U postgres -tc "SELECT 1 FROM pg_database WHERE datname='z3_wallet_test'" | grep -q 1 || PGPASSWORD=postgres psql -h 127.0.0.1 -U postgres -c "CREATE DATABASE z3_wallet_test"
           bun run --cwd apps/backend db:reset test
           bun run --cwd apps/backend db:migrate test
           bun run --cwd apps/backend db:seed test
