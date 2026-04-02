@@ -36,7 +36,7 @@ async function signOutSilently(sessionCookie: string) {
   }
 }
 
-(async () => {
+afterEach(async () => {
   if (trackedSessionCookies.size === 0) return;
 
   const cookies = Array.from(trackedSessionCookies);
@@ -61,7 +61,7 @@ export const authHelpers = {
     const response = await app.handle(
       new Request("http://localhost/v1/auth/sign-in", {
         method: "POST",
-        headers: { "Content-Type": "applicafterEachation/json" },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       }),
     );
