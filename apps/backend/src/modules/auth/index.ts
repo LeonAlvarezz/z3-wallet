@@ -56,6 +56,7 @@ export const auth = new Elysia()
       async ({ cookie: { session_token }, body }) => {
         const data = await AuthService.signIn(body);
         session_token.value = data.session_token;
+        session_token.expires = new Date(data.expires_at);
         await RedisService.setSession(data.session_token, data.user);
         const publicData = UserModel.UserPublicSessionSchema.parse(data);
         return Success(publicData);
@@ -103,6 +104,7 @@ export const auth = new Elysia()
         if (!result.success) return redirect(result.redirect_to);
 
         session_token.value = result.session.session_token;
+        session_token.expires = new Date(result.session.expires_at);
         await RedisService.setSession(
           result.session.session_token,
           result.session.user,
@@ -147,6 +149,7 @@ export const auth = new Elysia()
         if (!result.success) return redirect(result.redirect_to);
 
         session_token.value = result.session.session_token;
+        session_token.expires = new Date(result.session.expires_at);
         await RedisService.setSession(
           result.session.session_token,
           result.session.user,
@@ -169,7 +172,7 @@ export const auth = new Elysia()
         if (!session_token.value)
           throw new BadRequestException({ message: "Missing Token" });
         await AuthService.signOut(session_token.value);
-        delete session_token.value;
+        session_token.remove();
         return SimpleSuccess();
       },
       {
@@ -184,8 +187,11 @@ export const auth = new Elysia()
 
     app.post(
       "/change-password",
-      async ({ user, body }) => {
-        await AuthService.changePassword(body, user.id);
+      async ({ user, body, cookie: { session_token } }) => {
+        const data = await AuthService.changePassword(body, user);
+        session_token.value = data.session_token;
+        session_token.expires = new Date(data.expires_at);
+        await RedisService.setSession(data.session_token, data.user);
         return SimpleSuccess();
       },
       {

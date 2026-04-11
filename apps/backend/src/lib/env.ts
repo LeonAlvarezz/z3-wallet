@@ -1,5 +1,17 @@
 import { z } from "zod";
 
+const booleanFlag = z.preprocess((value) => {
+  if (value === undefined) return value;
+  if (typeof value === "boolean") return value;
+  if (typeof value === "string") {
+    const normalized = value.trim().toLowerCase();
+    if (normalized === "true") return true;
+    if (normalized === "false") return false;
+  }
+
+  return value;
+}, z.boolean().optional().default(false));
+
 const envSchema = z.object({
   PORT: z.coerce.number().optional().default(3000),
   NODE_ENV: z
@@ -21,6 +33,8 @@ const envSchema = z.object({
   GOOGLE_CLIENT_ID: z.string(),
   GOOGLE_CLIENT_SECRET: z.string(),
   GOOGLE_REDIRECT_URI: z.string(),
+  METRICS_ENABLED: booleanFlag,
+  METRICS_TOKEN: z.string().min(1).optional(),
 });
 
 function applyRuntimeDefaults(rawEnv: Record<string, string | undefined>) {
@@ -49,6 +63,11 @@ function applyRuntimeDefaults(rawEnv: Record<string, string | undefined>) {
 const parsedEnv = envSchema.parse(
   applyRuntimeDefaults(process.env as Record<string, string | undefined>),
 );
+
+if (parsedEnv.METRICS_ENABLED && !parsedEnv.METRICS_TOKEN) {
+  throw new Error("METRICS_TOKEN is required when METRICS_ENABLED is true.");
+}
+
 const corsOrigins = parsedEnv.CORS_ORIGINS.split(",")
   .map((origin) => origin.trim())
   .filter(Boolean);

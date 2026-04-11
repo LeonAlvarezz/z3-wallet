@@ -39,6 +39,18 @@ export class TransactionService {
     return data;
   }
 
+  static async findByIdForUser(id: number, user_id: number) {
+    const transaction = await TransactionRepository.findById(id);
+    if (!transaction) throw new NotFoundException();
+
+    const wallet = await WalletRepository.findByUserId(user_id);
+    if (!wallet || transaction.wallet_id !== wallet.id) {
+      throw new NotFoundException();
+    }
+
+    return transaction;
+  }
+
   static async findByUserId(user_id: number) {
     return await TransactionRepository.getTransactionsByUserId(user_id);
   }

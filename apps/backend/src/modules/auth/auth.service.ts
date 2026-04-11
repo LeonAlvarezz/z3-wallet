@@ -411,9 +411,9 @@ export class AuthService {
 
   static async changePassword(
     payload: AuthModel.ChangePasswordDto,
-    user_id: number,
-  ) {
-    const auth = await AuthRepository.findByUserId(user_id);
+    user: UserModel.UserSessionDto["user"],
+  ): Promise<UserModel.UserSessionDto> {
+    const auth = await AuthRepository.findByUserId(user.id);
     if (!auth) {
       throw new NotFoundException({
         message: "Authentication record not found",
@@ -429,7 +429,10 @@ export class AuthService {
       });
     }
     const newPasswordHash = await hashPassword(payload.new_password);
-    return AuthRepository.changePassword(newPasswordHash, user_id);
+    await AuthRepository.changePassword(newPasswordHash, user.id);
+    await SessionRepository.deleteSessionsByUserId(user.id);
+
+    return this.createSessionForUser(user);
   }
 
   static async findAll() {

@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { db } from "@/lib/db";
-import { authTable, sessionTable } from "@/lib/db/schema";
+import { sessionTable } from "@/lib/db/schema";
 import {
   SESSION_EXPIRES_DATE_MS,
   SESSION_EXTENDS_EXPIRES_DATE_MS,
@@ -35,6 +35,10 @@ export class SessionRepository {
 
   static async deleteSessionById(sessionId: number) {
     return await db.delete(sessionTable).where(eq(sessionTable.id, sessionId));
+  }
+
+  static async deleteSessionsByUserId(userId: number) {
+    return await db.delete(sessionTable).where(eq(sessionTable.user_id, userId));
   }
 
   static async updateSessionExpiredAt(sessionId: number, expiredAt: string) {

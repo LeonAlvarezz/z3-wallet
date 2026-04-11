@@ -13,27 +13,46 @@ const logger = createScopedLogger("app");
 
 const app = new Elysia({
   prefix: "/v1",
+  cookie: {
+    httpOnly: true,
+    path: "/",
+    sameSite: "lax",
+    secure: env.NODE_ENV === "production",
+  },
 })
-  .use(cors())
   .use(
-    prometheusPlugin({
-      metricsPath: "/metrics",
-      staticLabels: { service: "z3-wallet" },
-      dynamicLabels: {
-        userAgent: (ctx) => ctx.request.headers.get("user-agent") ?? "unknown",
-      },
+    cors({
+      origin: env.CORS_ORIGINS_LIST,
+      credentials: true,
     }),
-  )
-  .use(openapi())
-  .use(ip)
-  .use(errorHandler)
-  .use(appInfo)
-  .use(routeHandler)
-  .listen(env.PORT);
+  );
 
-logger.info("🦊 Elysia is running", {
-  host: app.server?.hostname,
-  port: app.server?.port,
-});
+if (env.METRICS_ENABLED) {
+  app
+    .onBeforeHandle(({ path, request }) => {
+      if (!path.endsWith("/metrics")) return;
+
+      const authorization = request.headers.get("authorization");
+      if (authorization === `Bearer ${env.METRICS_TOKEN}`) return;
+
+      return new Response("Not Found", { status: 404 });
+    })
+    .use(
+      prometheusPlugin({
+        metricsPath: "/metrics",
+        staticLabels: { service: "z3-wallet" },
+      }),
+    );
+}
+
+app.use(openapi()).use(ip).use(errorHandler).use(appInfo).use(routeHandler);
+
+if (import.meta.main) {
+  app.listen(env.PORT);
+  logger.info("🦊 Elysia is running", {
+    host: app.server?.hostname,
+    port: app.server?.port,
+  });
+}
 
 export default app;

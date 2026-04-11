@@ -40,6 +40,11 @@ describe("Transaction Routes", () => {
       expect(response.status).toBe(ErrorCode.UNAUTHORIZED);
     });
 
+    it("Should return unauthorized when fetching a transaction without token", async () => {
+      const response = await transactionHelpers.getTransactionById(1, "");
+      expect(response.status).toBe(ErrorCode.UNAUTHORIZED);
+    });
+
     it("Should return unauthorized when creating transactions without token", async () => {
       const response = await transactionHelpers.createTransaction("", {
         amount: 12,
@@ -134,6 +139,32 @@ describe("Transaction Routes", () => {
   });
 
   describe("Permission", () => {
+    it("Should return not found when fetching another user's transaction", async () => {
+      const attackerSession = await signInDefaultUser();
+      const victimSession = await signUpAndSignInNewUser();
+      const categoryId = await getFirstCategoryId();
+
+      const created = await transactionHelpers.createTransaction(
+        victimSession,
+        {
+          amount: 22,
+          description: "Victim transaction for read",
+          type: TransactionModel.TransactionTypeEnum.EXPENSE,
+          category_id: categoryId,
+        },
+      );
+      expect(created.status).toBe(200);
+      const createdData =
+        (await created.json()) as ApiSuccess<TransactionModel.TransactionDto>;
+
+      const response = await transactionHelpers.getTransactionById(
+        createdData.data.id,
+        attackerSession,
+      );
+
+      expect(response.status).toBe(ErrorCode.NOT_FOUND);
+    });
+
     it("Should return forbidden when updating another user's transaction", async () => {
       const attackerSession = await signInDefaultUser();
       const victimSession = await signUpAndSignInNewUser();

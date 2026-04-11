@@ -36,7 +36,6 @@ export namespace UserModel {
   });
 
   export const UserPublicSessionSchema = z.object({
-    session_token: z.string(),
     expires_at: z.iso.datetime(),
     user: z.lazy(() => UserPublicSchema),
   });

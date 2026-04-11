@@ -99,6 +99,22 @@ export const authHelpers = {
       }),
     );
   },
+
+  changePassword(
+    sessionCookie: string,
+    payload: { current_password: string; new_password: string },
+  ) {
+    return app.handle(
+      new Request("http://localhost/v1/auth/change-password", {
+        method: "POST",
+        headers: {
+          Cookie: sessionCookie,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      }),
+    );
+  },
 };
 
 export const userHelpers = {
@@ -166,6 +182,16 @@ export const transactionHelpers = {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(payload),
+      }),
+    );
+  },
+
+  getTransactionById(id: number, sessionCookie: string) {
+    const headers = sessionCookie ? { Cookie: sessionCookie } : undefined;
+
+    return app.handle(
+      new Request(`http://localhost/v1/transactions/${id}`, {
+        headers,
       }),
     );
   },

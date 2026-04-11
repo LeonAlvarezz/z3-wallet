@@ -21,55 +21,15 @@
       name="twitter:description"
       content="Track spending, monitor cash flow, and manage your personal finances with Z3 Wallet."
     />
-    <script>
-      try {
-        const storageKey = "vite-ui-theme";
-        const storedTheme = localStorage.getItem(storageKey);
-        const theme =
-          storedTheme === "light" ||
-          storedTheme === "dark" ||
-          storedTheme === "system"
-            ? storedTheme
-            : "dark";
-        const root = document.documentElement;
-        const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
-          .matches
-          ? "dark"
-          : "light";
-        const resolvedTheme = theme === "system" ? systemTheme : theme;
-
-        root.classList.remove("light", "dark");
-        root.classList.add(resolvedTheme);
-      } catch {}
-    </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="preload"
-      as="style"
-      href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap"
-    />
-    <link
-      rel="preload"
-      as="style"
-      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap"
-    />
+    <script src="/theme-init.js"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap"
       rel="stylesheet"
     />
     <link
-      rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap"
-      media="print"
-      onload="this.media = 'all'"
+      rel="stylesheet"
     />
-    <noscript>
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap"
-      />
-    </noscript>
     <link href="/src/styles/global.css" rel="stylesheet" />
     <title>Z3 Wallet</title>
   </head>

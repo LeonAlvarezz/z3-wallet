@@ -54,11 +54,12 @@ export const transaction = new Elysia()
     );
     app.get(
       "/:id",
-      async ({ params: { id } }) => {
-        const data = await TransactionService.findById(id);
+      async ({ params: { id }, user }) => {
+        const data = await TransactionService.findByIdForUser(id, user.id);
         return Success(data);
       },
       {
+        authenticated: true,
         params: BaseModel.NumberIdSchema,
         detail: {
           summary: "Get transaction by ID",
