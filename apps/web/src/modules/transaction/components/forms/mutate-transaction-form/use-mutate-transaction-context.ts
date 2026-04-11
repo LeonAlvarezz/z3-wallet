@@ -8,6 +8,7 @@ import { useUpdateTransaction } from "@/modules/transaction/hooks/use-update-tra
 import { useCreateTransaction } from "@/modules/transaction/hooks/use-create-transaction";
 import { parseSmartInput } from "@/modules/transaction/lib/smart-input";
 import { useGetCategoryRuleList } from "@/modules/category-rule/hooks/use-get-category-rule-list";
+import { prepareTransactionCreatedAt } from "@/modules/transaction/lib/transaction-date";
 type CreateProps = {
   defaultValue?: TransactionModel.CreateTransactionDto;
   action?: "create";
@@ -23,12 +24,25 @@ type UpdateProps = {
 
 type Props = CreateProps | UpdateProps;
 export const useMutateTransactionForm = (props: Props) => {
+  const initialCreatedAtRef = useRef(new Date().toISOString());
   const [smartText, setSmartText] = useState("");
   const [loading, setLoading] = useState(false);
   const [smartAppliedOnce, setSmartAppliedOnce] = useState(false);
   const noteTextareaRef = useRef<HTMLTextAreaElement | null>(null);
   const [isCategoryExpanded, setIsCategoryExpanded] = useState(false);
   const [submitAttempts, setSubmitAttempts] = useState(0);
+  const defaultValues: TransactionModel.CreateTransactionDto = props.defaultValue
+    ? {
+        ...props.defaultValue,
+        created_at: props.defaultValue.created_at ?? initialCreatedAtRef.current,
+      }
+    : {
+        amount: 0,
+        category_id: 0,
+        description: "",
+        type: TransactionModel.TransactionTypeEnum.EXPENSE,
+        created_at: initialCreatedAtRef.current,
+      };
   const resetAll = () => {
     form.reset();
     setSmartText("");
@@ -46,14 +60,7 @@ export const useMutateTransactionForm = (props: Props) => {
   const CATEGORY_PREVIEW_COUNT = 6;
 
   const form = useForm({
-    defaultValues: props.defaultValue
-      ? props.defaultValue
-      : {
-          amount: 0,
-          category_id: 0,
-          description: "",
-          type: TransactionModel.TransactionTypeEnum.EXPENSE,
-        },
+    defaultValues,
 
     validators: {
       onSubmit:
@@ -65,8 +72,12 @@ export const useMutateTransactionForm = (props: Props) => {
     },
     onSubmit: async ({ value, formApi }) => {
       setLoading(true);
+      const created_at = prepareTransactionCreatedAt(value.created_at, {
+        originalCreatedAt: props.defaultValue?.created_at,
+      });
       const payload = {
         ...value,
+        created_at,
         category_id: value.category_id === 0 ? null : value.category_id,
       };
 
@@ -82,9 +93,12 @@ export const useMutateTransactionForm = (props: Props) => {
           toast.success("Transaction updated");
         }
 
-        props.afterSubmit?.(value);
+        props.afterSubmit?.({ ...value, created_at });
 
         formApi.reset();
+        if (props.action !== "update") {
+          formApi.setFieldValue("created_at", created_at);
+        }
         setSmartText("");
         setSmartAppliedOnce(false);
         setSubmitAttempts(0);

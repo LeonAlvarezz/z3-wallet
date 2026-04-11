@@ -1,5 +1,9 @@
 import app from "@/app";
-import { CategoryRuleModel, TransactionModel } from "@z3-wallet/types";
+import {
+  BaseModel,
+  CategoryRuleModel,
+  TransactionModel,
+} from "@z3-wallet/types";
 import { afterEach, expect } from "bun:test";
 
 const trackedSessionCookies = new Set<string>();
@@ -125,6 +129,7 @@ function buildTransactionListUrl(query?: {
   cursor?: string | null;
   page_size?: number;
   query?: string;
+  time_frame?: BaseModel.TimeFrameEnum;
 }) {
   const params = new URLSearchParams();
 
@@ -133,6 +138,7 @@ function buildTransactionListUrl(query?: {
     params.set("page_size", String(query.page_size));
   }
   if (query?.query) params.set("query", query.query);
+  if (query?.time_frame) params.set("time_frame", query.time_frame);
 
   const qs = params.toString();
   return `http://localhost/v1/transactions${qs ? `?${qs}` : ""}`;
@@ -145,6 +151,7 @@ export const transactionHelpers = {
       cursor?: string | null;
       page_size?: number;
       query?: string;
+      time_frame?: BaseModel.TimeFrameEnum;
     },
   ) {
     return app.handle(

@@ -10,6 +10,16 @@ import { CategoryRepository } from "../category/category.repository";
 import { WalletRepository } from "../wallet/wallet.repository";
 
 export class TransactionService {
+  private static assertCreatedAtIsNotFuture(created_at?: string | null) {
+    if (!created_at) return;
+
+    if (new Date(created_at).getTime() > Date.now()) {
+      throw new BadRequestException({
+        message: "created_at cannot be in the future",
+      });
+    }
+  }
+
   static async cPaginate(
     query: TransactionModel.TransactionFilterDto,
     user_id: number,
@@ -73,6 +83,8 @@ export class TransactionService {
     payload: TransactionModel.CreateTransactionDto,
     user_id: number,
   ) {
+    this.assertCreatedAtIsNotFuture(payload.created_at);
+
     switch (payload.type) {
       case TransactionModel.TransactionTypeEnum.TOP_UP: {
         const wallet = await WalletRepository.findByUserId(user_id);
@@ -112,6 +124,7 @@ export class TransactionService {
         message: "You can no permission to edit this transaction",
       });
     }
+    this.assertCreatedAtIsNotFuture(payload.created_at);
 
     return TransactionRepository.update(id, payload);
   }

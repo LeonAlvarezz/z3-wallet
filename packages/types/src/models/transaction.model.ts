@@ -35,6 +35,8 @@ export namespace TransactionModel {
     description: true,
     category_id: true,
     type: true,
+  }).extend({
+    created_at: z.iso.datetime().optional(),
   });
 
   export const UpdateTransactionSchema = CreateTransactionSchema.partial();

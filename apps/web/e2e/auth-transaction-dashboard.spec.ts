@@ -25,7 +25,7 @@ async function signUpUser(request: APIRequestContext, user: E2EUser) {
     data: user,
   });
 
-if (response.ok()) return;
+  if (response.ok()) return;
 
   const body = await response.text();
   throw new Error(
@@ -53,8 +53,12 @@ test("sign in, add transaction, dashboard updates, and sign out", async ({
   await smartInput.fill(`+11.25 ${transactionNote}`);
   await smartInput.press("Enter");
   await expect(page.getByLabel("Note")).toHaveValue(transactionNote);
+  await page.getByRole("button", { name: "Yesterday" }).click();
   await page.getByRole("button", { name: /^Save$/ }).click();
   await expect(page.getByText("Transaction added")).toBeVisible();
+
+  await page.goto("/transaction?time_frame=yesterday");
+  await expect(page.getByText(transactionNote)).toBeVisible();
 
   await page.goto("/dashboard");
   await expect(page.getByRole("heading", { name: "Recent" })).toBeVisible();

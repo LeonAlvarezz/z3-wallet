@@ -34,6 +34,7 @@ export default function UpdateTransactionDialog({
     category_id: transaction?.category?.id ?? 0,
     description: transaction?.description ?? "",
     type: transaction?.type ?? TransactionModel.TransactionTypeEnum.EXPENSE,
+    created_at: transaction?.created_at ?? new Date().toISOString(),
   };
   const formHook = useMutateTransactionForm({
     defaultValue,
