@@ -1,7 +1,7 @@
 {
   "name": "web",
   "private": true,
-  "version": "1.0.7",
+  "version": "1.0.8",
   "type": "module",
   "scripts": {
     "dev": "vite --host",
@@ -14,8 +14,8 @@
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:ui": "playwright test --ui",
     "preview": "vite preview",
-    "cf:dev": "wrangler dev",
-    "cf:deploy": "wrangler deploy"
+    "cf:dev": "bunx --bun wrangler dev",
+    "cf:deploy": "bunx --bun wrangler deploy"
   },
   "dependencies": {
     "@iconify/react": "^6.0.2",
