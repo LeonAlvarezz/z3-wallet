@@ -6,12 +6,22 @@ import MutateTransactionContext, {
   useMutateTransactionForm,
 } from "../components/forms/mutate-transaction-form/use-mutate-transaction-context";
 import { Button } from "@/components/ui/button";
-import { useRef, type CSSProperties } from "react";
+import { useRef, useState, type CSSProperties } from "react";
 import { useAutoPair } from "@/modules/category-rule/hooks/use-auto-pair";
 import { useCreateCategoryRule } from "@/modules/category-rule/hooks/use-create-category-rule";
 import { toast } from "sonner";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Icon } from "@iconify/react";
+import ImportModal from "../components/import-modal/ImportModal";
 
 export default function AddTransactionPage() {
+  const [openImport, setOpenImport] = useState(false);
   const { logPair, deletePair, potentialPair, ignorePair } = useAutoPair();
   const formHook = useMutateTransactionForm({
     action: "create",
@@ -80,6 +90,22 @@ export default function AddTransactionPage() {
 
   return (
     <div className="flex h-full w-full flex-col gap-8 overflow-y-auto p-4 py-[calc(var(--bottom-nav-h))]">
+      <ImportModal open={openImport} onOpenChange={setOpenImport} />
+      <div className="max-w-mobile fixed inset-x-0 top-0 z-30 m-auto flex justify-end px-4 pt-4">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost">
+              <Icon icon="solar:menu-dots-bold-duotone" className="rotate-90" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem onSelect={() => setOpenImport(true)}>
+              Import
+              <DropdownMenuShortcut>⇧⌘I</DropdownMenuShortcut>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
       <MutateTransactionContext.Provider value={{ ...formHook }}>
         <MutateTransactionForm>
           <MutateTransactionFormFooter>

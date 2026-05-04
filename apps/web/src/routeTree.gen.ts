@@ -19,9 +19,9 @@ import { Route as HomeLayoutProfileIndexRouteImport } from './routes/_homeLayout
 import { Route as HomeLayoutDashboardIndexRouteImport } from './routes/_homeLayout/dashboard/index'
 import { Route as PublicLayoutAuthRegisterRouteImport } from './routes/_publicLayout/auth/register'
 import { Route as PublicLayoutAuthLoginRouteImport } from './routes/_publicLayout/auth/login'
+import { Route as HomeLayoutTransactionAddRouteImport } from './routes/_homeLayout/transaction/add'
 import { Route as HomeLayoutProfileEditRouteImport } from './routes/_homeLayout/profile/edit'
 import { Route as HomeLayoutProfileChangePasswordRouteImport } from './routes/_homeLayout/profile/change-password'
-import { Route as HomeLayoutTransactionAddIndexRouteImport } from './routes/_homeLayout/transaction/add/index'
 import { Route as HomeLayoutSettingsNotificationsIndexRouteImport } from './routes/_homeLayout/settings/notifications/index'
 import { Route as HomeLayoutSettingsCategoryIndexRouteImport } from './routes/_homeLayout/settings/category/index'
 import { Route as HomeLayoutSettingsBudgetGoalsIndexRouteImport } from './routes/_homeLayout/settings/budget-goals/index'
@@ -78,6 +78,12 @@ const PublicLayoutAuthLoginRoute = PublicLayoutAuthLoginRouteImport.update({
   path: '/auth/login',
   getParentRoute: () => PublicLayoutRouteRoute,
 } as any)
+const HomeLayoutTransactionAddRoute =
+  HomeLayoutTransactionAddRouteImport.update({
+    id: '/transaction/add',
+    path: '/transaction/add',
+    getParentRoute: () => HomeLayoutRouteRoute,
+  } as any)
 const HomeLayoutProfileEditRoute = HomeLayoutProfileEditRouteImport.update({
   id: '/profile/edit',
   path: '/profile/edit',
@@ -87,12 +93,6 @@ const HomeLayoutProfileChangePasswordRoute =
   HomeLayoutProfileChangePasswordRouteImport.update({
     id: '/profile/change-password',
     path: '/profile/change-password',
-    getParentRoute: () => HomeLayoutRouteRoute,
-  } as any)
-const HomeLayoutTransactionAddIndexRoute =
-  HomeLayoutTransactionAddIndexRouteImport.update({
-    id: '/transaction/add/',
-    path: '/transaction/add/',
     getParentRoute: () => HomeLayoutRouteRoute,
   } as any)
 const HomeLayoutSettingsNotificationsIndexRoute =
@@ -126,6 +126,7 @@ export interface FileRoutesByFullPath {
   '/forbidden': typeof ForbiddenRoute
   '/profile/change-password': typeof HomeLayoutProfileChangePasswordRoute
   '/profile/edit': typeof HomeLayoutProfileEditRoute
+  '/transaction/add': typeof HomeLayoutTransactionAddRoute
   '/auth/login': typeof PublicLayoutAuthLoginRoute
   '/auth/register': typeof PublicLayoutAuthRegisterRoute
   '/dashboard/': typeof HomeLayoutDashboardIndexRoute
@@ -135,7 +136,6 @@ export interface FileRoutesByFullPath {
   '/settings/budget-goals/': typeof HomeLayoutSettingsBudgetGoalsIndexRoute
   '/settings/category/': typeof HomeLayoutSettingsCategoryIndexRoute
   '/settings/notifications/': typeof HomeLayoutSettingsNotificationsIndexRoute
-  '/transaction/add/': typeof HomeLayoutTransactionAddIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -143,6 +143,7 @@ export interface FileRoutesByTo {
   '/forbidden': typeof ForbiddenRoute
   '/profile/change-password': typeof HomeLayoutProfileChangePasswordRoute
   '/profile/edit': typeof HomeLayoutProfileEditRoute
+  '/transaction/add': typeof HomeLayoutTransactionAddRoute
   '/auth/login': typeof PublicLayoutAuthLoginRoute
   '/auth/register': typeof PublicLayoutAuthRegisterRoute
   '/dashboard': typeof HomeLayoutDashboardIndexRoute
@@ -152,7 +153,6 @@ export interface FileRoutesByTo {
   '/settings/budget-goals': typeof HomeLayoutSettingsBudgetGoalsIndexRoute
   '/settings/category': typeof HomeLayoutSettingsCategoryIndexRoute
   '/settings/notifications': typeof HomeLayoutSettingsNotificationsIndexRoute
-  '/transaction/add': typeof HomeLayoutTransactionAddIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -163,6 +163,7 @@ export interface FileRoutesById {
   '/forbidden': typeof ForbiddenRoute
   '/_homeLayout/profile/change-password': typeof HomeLayoutProfileChangePasswordRoute
   '/_homeLayout/profile/edit': typeof HomeLayoutProfileEditRoute
+  '/_homeLayout/transaction/add': typeof HomeLayoutTransactionAddRoute
   '/_publicLayout/auth/login': typeof PublicLayoutAuthLoginRoute
   '/_publicLayout/auth/register': typeof PublicLayoutAuthRegisterRoute
   '/_homeLayout/dashboard/': typeof HomeLayoutDashboardIndexRoute
@@ -172,7 +173,6 @@ export interface FileRoutesById {
   '/_homeLayout/settings/budget-goals/': typeof HomeLayoutSettingsBudgetGoalsIndexRoute
   '/_homeLayout/settings/category/': typeof HomeLayoutSettingsCategoryIndexRoute
   '/_homeLayout/settings/notifications/': typeof HomeLayoutSettingsNotificationsIndexRoute
-  '/_homeLayout/transaction/add/': typeof HomeLayoutTransactionAddIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -182,6 +182,7 @@ export interface FileRouteTypes {
     | '/forbidden'
     | '/profile/change-password'
     | '/profile/edit'
+    | '/transaction/add'
     | '/auth/login'
     | '/auth/register'
     | '/dashboard/'
@@ -191,7 +192,6 @@ export interface FileRouteTypes {
     | '/settings/budget-goals/'
     | '/settings/category/'
     | '/settings/notifications/'
-    | '/transaction/add/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -199,6 +199,7 @@ export interface FileRouteTypes {
     | '/forbidden'
     | '/profile/change-password'
     | '/profile/edit'
+    | '/transaction/add'
     | '/auth/login'
     | '/auth/register'
     | '/dashboard'
@@ -208,7 +209,6 @@ export interface FileRouteTypes {
     | '/settings/budget-goals'
     | '/settings/category'
     | '/settings/notifications'
-    | '/transaction/add'
   id:
     | '__root__'
     | '/'
@@ -218,6 +218,7 @@ export interface FileRouteTypes {
     | '/forbidden'
     | '/_homeLayout/profile/change-password'
     | '/_homeLayout/profile/edit'
+    | '/_homeLayout/transaction/add'
     | '/_publicLayout/auth/login'
     | '/_publicLayout/auth/register'
     | '/_homeLayout/dashboard/'
@@ -227,7 +228,6 @@ export interface FileRouteTypes {
     | '/_homeLayout/settings/budget-goals/'
     | '/_homeLayout/settings/category/'
     | '/_homeLayout/settings/notifications/'
-    | '/_homeLayout/transaction/add/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -310,6 +310,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicLayoutAuthLoginRouteImport
       parentRoute: typeof PublicLayoutRouteRoute
     }
+    '/_homeLayout/transaction/add': {
+      id: '/_homeLayout/transaction/add'
+      path: '/transaction/add'
+      fullPath: '/transaction/add'
+      preLoaderRoute: typeof HomeLayoutTransactionAddRouteImport
+      parentRoute: typeof HomeLayoutRouteRoute
+    }
     '/_homeLayout/profile/edit': {
       id: '/_homeLayout/profile/edit'
       path: '/profile/edit'
@@ -322,13 +329,6 @@ declare module '@tanstack/react-router' {
       path: '/profile/change-password'
       fullPath: '/profile/change-password'
       preLoaderRoute: typeof HomeLayoutProfileChangePasswordRouteImport
-      parentRoute: typeof HomeLayoutRouteRoute
-    }
-    '/_homeLayout/transaction/add/': {
-      id: '/_homeLayout/transaction/add/'
-      path: '/transaction/add'
-      fullPath: '/transaction/add/'
-      preLoaderRoute: typeof HomeLayoutTransactionAddIndexRouteImport
       parentRoute: typeof HomeLayoutRouteRoute
     }
     '/_homeLayout/settings/notifications/': {
@@ -365,6 +365,7 @@ declare module '@tanstack/react-router' {
 interface HomeLayoutRouteRouteChildren {
   HomeLayoutProfileChangePasswordRoute: typeof HomeLayoutProfileChangePasswordRoute
   HomeLayoutProfileEditRoute: typeof HomeLayoutProfileEditRoute
+  HomeLayoutTransactionAddRoute: typeof HomeLayoutTransactionAddRoute
   HomeLayoutDashboardIndexRoute: typeof HomeLayoutDashboardIndexRoute
   HomeLayoutProfileIndexRoute: typeof HomeLayoutProfileIndexRoute
   HomeLayoutTransactionIndexRoute: typeof HomeLayoutTransactionIndexRoute
@@ -372,12 +373,12 @@ interface HomeLayoutRouteRouteChildren {
   HomeLayoutSettingsBudgetGoalsIndexRoute: typeof HomeLayoutSettingsBudgetGoalsIndexRoute
   HomeLayoutSettingsCategoryIndexRoute: typeof HomeLayoutSettingsCategoryIndexRoute
   HomeLayoutSettingsNotificationsIndexRoute: typeof HomeLayoutSettingsNotificationsIndexRoute
-  HomeLayoutTransactionAddIndexRoute: typeof HomeLayoutTransactionAddIndexRoute
 }
 
 const HomeLayoutRouteRouteChildren: HomeLayoutRouteRouteChildren = {
   HomeLayoutProfileChangePasswordRoute: HomeLayoutProfileChangePasswordRoute,
   HomeLayoutProfileEditRoute: HomeLayoutProfileEditRoute,
+  HomeLayoutTransactionAddRoute: HomeLayoutTransactionAddRoute,
   HomeLayoutDashboardIndexRoute: HomeLayoutDashboardIndexRoute,
   HomeLayoutProfileIndexRoute: HomeLayoutProfileIndexRoute,
   HomeLayoutTransactionIndexRoute: HomeLayoutTransactionIndexRoute,
@@ -387,7 +388,6 @@ const HomeLayoutRouteRouteChildren: HomeLayoutRouteRouteChildren = {
   HomeLayoutSettingsCategoryIndexRoute: HomeLayoutSettingsCategoryIndexRoute,
   HomeLayoutSettingsNotificationsIndexRoute:
     HomeLayoutSettingsNotificationsIndexRoute,
-  HomeLayoutTransactionAddIndexRoute: HomeLayoutTransactionAddIndexRoute,
 }
 
 const HomeLayoutRouteRouteWithChildren = HomeLayoutRouteRoute._addFileChildren(

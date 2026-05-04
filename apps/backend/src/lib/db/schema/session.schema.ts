@@ -10,9 +10,7 @@ export const sessionTable = pgTable("sessions", {
   user_id: integer()
     .notNull()
     .references(() => userTable.id, { onDelete: "cascade" }),
-  // Store hashes (not raw tokens) if you’re persisting refresh/session tokens
   session_token_hash: text().notNull().unique(),
-  // Metadata (optional but useful)
   ip: text(),
   user_agent: text(),
   expires_at: timestamp({ mode: "string" }).notNull(),

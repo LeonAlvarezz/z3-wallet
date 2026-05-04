@@ -179,7 +179,7 @@ export const auth = new Elysia()
           tags: [OpenApiKey.Auth],
         },
         response: SimpleSuccessSchema,
-      },
+      }
     );
 
     app.post(
