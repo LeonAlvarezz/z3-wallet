@@ -24,7 +24,7 @@ type UpdateProps = {
 
 type Props = CreateProps | UpdateProps;
 export const useMutateTransactionForm = (props: Props) => {
-  const initialCreatedAtRef = useRef(new Date().toISOString());
+  const [initialCreatedAt] = useState(() => new Date().toISOString());
   const [smartText, setSmartText] = useState("");
   const [loading, setLoading] = useState(false);
   const [smartAppliedOnce, setSmartAppliedOnce] = useState(false);
@@ -34,14 +34,14 @@ export const useMutateTransactionForm = (props: Props) => {
   const defaultValues: TransactionModel.CreateTransactionDto = props.defaultValue
     ? {
         ...props.defaultValue,
-        created_at: props.defaultValue.created_at ?? initialCreatedAtRef.current,
+        created_at: props.defaultValue.created_at ?? initialCreatedAt,
       }
     : {
         amount: 0,
         category_id: 0,
         description: "",
         type: TransactionModel.TransactionTypeEnum.EXPENSE,
-        created_at: initialCreatedAtRef.current,
+        created_at: initialCreatedAt,
       };
   const resetAll = () => {
     form.reset();
