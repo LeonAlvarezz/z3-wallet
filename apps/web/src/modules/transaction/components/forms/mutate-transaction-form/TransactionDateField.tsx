@@ -1,19 +1,11 @@
 import { useState } from "react";
-import { CalendarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
+import DateTimePicker from "@/components/ui/date-time-picker";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import {
   formatTransactionDateLabel,
   getCreatedAtForDateKey,
-  getLocalDateKey,
   getPresetDateKey,
-  getSafeTransactionDateKey,
   getTransactionDatePreset,
   transactionDatePresetOptions,
 } from "@/modules/transaction/lib/transaction-date";
@@ -21,7 +13,7 @@ import { useMutateTransactionContext } from "./use-mutate-transaction-context";
 
 export default function TransactionDateField() {
   const [isCustomDateOpen, setIsCustomDateOpen] = useState(false);
-  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+  const [isDateTimePickerOpen, setIsDateTimePickerOpen] = useState(false);
   const { form, submitAttempts } = useMutateTransactionContext();
 
   return (
@@ -31,11 +23,12 @@ export default function TransactionDateField() {
         const createdAt = field.state.value ?? new Date().toISOString();
         const activePreset = getTransactionDatePreset(createdAt);
         const selectedDate = new Date(createdAt);
-        const selectedCalendarDate = Number.isNaN(selectedDate.getTime())
+        const selectedDateTime = Number.isNaN(selectedDate.getTime())
           ? new Date()
           : selectedDate;
-        const todayEnd = new Date();
-        todayEnd.setHours(23, 59, 59, 999);
+        const now = new Date();
+        const todayEnd = new Date(now);
+        todayEnd.setHours(23, 59, 0, 0);
         const showCustomDate = isCustomDateOpen || activePreset === "custom";
         const isInvalid =
           (field.state.meta.isTouched || submitAttempts > 0) &&
@@ -45,7 +38,7 @@ export default function TransactionDateField() {
           <Field data-invalid={isInvalid}>
             <div className="flex flex-col gap-3">
               <div className="flex items-center justify-between gap-3">
-                <FieldLabel htmlFor={field.name}>Date</FieldLabel>
+                <FieldLabel htmlFor={field.name}>Datetime</FieldLabel>
                 <p className="text-muted-foreground text-sm">
                   {formatTransactionDateLabel(createdAt)}
                 </p>
@@ -65,16 +58,18 @@ export default function TransactionDateField() {
                       onClick={() => {
                         if (option.value === "custom") {
                           setIsCustomDateOpen(true);
-                          setIsDatePickerOpen(true);
+                          setIsDateTimePickerOpen(true);
                           field.handleBlur();
                           return;
                         }
 
                         setIsCustomDateOpen(false);
-                        setIsDatePickerOpen(false);
+                        setIsDateTimePickerOpen(false);
                         field.handleChange(
                           getCreatedAtForDateKey(
                             getPresetDateKey(option.value),
+                            now,
+                            { timeSource: selectedDateTime },
                           ),
                         );
                         field.handleBlur();
@@ -87,43 +82,21 @@ export default function TransactionDateField() {
               </div>
 
               {showCustomDate && (
-                <Popover
-                  open={isDatePickerOpen}
-                  onOpenChange={setIsDatePickerOpen}
-                >
-                  <PopoverTrigger asChild>
-                    <Button
-                      id={field.name}
-                      type="button"
-                      variant="outline"
-                      className="w-full justify-between px-3 font-normal"
-                      onBlur={field.handleBlur}
-                    >
-                      {formatTransactionDateLabel(createdAt)}
-                      <CalendarIcon className="text-muted-foreground size-4" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={selectedCalendarDate}
-                      defaultMonth={selectedCalendarDate}
-                      disabled={{ after: todayEnd }}
-                      onSelect={(date) => {
-                        if (!date) return;
+                <DateTimePicker
+                  id={field.name}
+                  value={selectedDateTime}
+                  open={isDateTimePickerOpen}
+                  onOpenChange={setIsDateTimePickerOpen}
+                  disabledDates={{ after: todayEnd }}
+                  maxDate={now}
+                  onBlur={field.handleBlur}
+                  onChange={(date) => {
+                    if (!date) return;
 
-                        const safeDateKey = getSafeTransactionDateKey(
-                          getLocalDateKey(date),
-                        );
-                        field.handleChange(
-                          getCreatedAtForDateKey(safeDateKey),
-                        );
-                        field.handleBlur();
-                        setIsDatePickerOpen(false);
-                      }}
-                    />
-                  </PopoverContent>
-                </Popover>
+                    field.handleChange(date.toISOString());
+                    field.handleBlur();
+                  }}
+                />
               )}
 
               {isInvalid && <FieldError errors={field.state.meta.errors} />}

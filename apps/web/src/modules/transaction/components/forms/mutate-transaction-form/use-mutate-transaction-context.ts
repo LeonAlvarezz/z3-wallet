@@ -31,18 +31,19 @@ export const useMutateTransactionForm = (props: Props) => {
   const noteTextareaRef = useRef<HTMLTextAreaElement | null>(null);
   const [isCategoryExpanded, setIsCategoryExpanded] = useState(false);
   const [submitAttempts, setSubmitAttempts] = useState(0);
-  const defaultValues: TransactionModel.CreateTransactionDto = props.defaultValue
-    ? {
-        ...props.defaultValue,
-        created_at: props.defaultValue.created_at ?? initialCreatedAt,
-      }
-    : {
-        amount: 0,
-        category_id: 0,
-        description: "",
-        type: TransactionModel.TransactionTypeEnum.EXPENSE,
-        created_at: initialCreatedAt,
-      };
+  const defaultValues: TransactionModel.CreateTransactionDto =
+    props.defaultValue
+      ? {
+          ...props.defaultValue,
+          created_at: props.defaultValue.created_at ?? initialCreatedAt,
+        }
+      : {
+          amount: 0,
+          category_id: 0,
+          description: "",
+          type: TransactionModel.TransactionTypeEnum.EXPENSE,
+          created_at: initialCreatedAt,
+        };
   const resetAll = () => {
     form.reset();
     setSmartText("");
@@ -152,6 +153,12 @@ export const useMutateTransactionForm = (props: Props) => {
       );
     }
 
+    if (result.datetime !== undefined) {
+      console.log({ date: result.datetime });
+
+      form.setFieldValue("created_at", result.datetime);
+    }
+
     if (result.type !== undefined) {
       form.setFieldValue("type", result.type);
     }
@@ -187,10 +194,13 @@ export const useMutateTransactionForm = (props: Props) => {
       return;
     }
 
-    if (isFormComplete()) {
-      form.handleSubmit();
-      return;
-    }
+    // if (isFormComplete()) {
+    //   form.handleSubmit();
+    //   return;
+    // }
+
+    console.log({ payload: form.state.values });
+    toast(JSON.stringify(form.state.values, null, 2));
 
     applySmartInput({ focusNote: false, showToasts: false });
   };

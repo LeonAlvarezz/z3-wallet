@@ -37,6 +37,17 @@ function parseLocalDateKey(dateKey: string) {
   return { year, month, day };
 }
 
+function parseTimeSource(timeSource: Date | string | undefined) {
+  if (!timeSource) return null;
+
+  const date =
+    timeSource instanceof Date ? new Date(timeSource) : new Date(timeSource);
+
+  if (Number.isNaN(date.getTime())) return null;
+
+  return date;
+}
+
 export function getLocalDateKey(date = new Date()) {
   return [
     date.getFullYear(),
@@ -57,6 +68,105 @@ export function getRelativeLocalDateKey(
   referenceDate = new Date(),
 ) {
   return getLocalDateKey(addLocalDays(referenceDate, daysFromToday));
+}
+
+export function getRelativeIsoDateTime(
+  daysFromReference: number,
+  referenceDate = new Date(),
+) {
+  const shiftedDate = new Date(referenceDate);
+  shiftedDate.setDate(shiftedDate.getDate() + daysFromReference);
+  return shiftedDate.toISOString();
+}
+
+function collapseWhitespace(text: string) {
+  return text.replace(/\s+/g, " ").trim();
+}
+
+export function extractRelativeDayOffset(text?: string) {
+  if (!text) {
+    return {
+      cleanedText: "",
+      offset: null,
+    };
+  }
+
+  const todayMatch = text.match(/\btoday\b/i);
+  if (todayMatch) {
+    return {
+      cleanedText: collapseWhitespace(text.replace(todayMatch[0], " ")),
+      offset: 0,
+    };
+  }
+
+  const yesterdayMatch = text.match(/\byesterday\b/i);
+  if (yesterdayMatch) {
+    return {
+      cleanedText: collapseWhitespace(text.replace(yesterdayMatch[0], " ")),
+      offset: -1,
+    };
+  }
+
+  const daysAgoMatch = text.match(/\b(\d+)\s*(?:d|day|days)\s+ago\b/i);
+  if (!daysAgoMatch) {
+    return {
+      cleanedText: collapseWhitespace(text),
+      offset: null,
+    };
+  }
+
+  return {
+    cleanedText: collapseWhitespace(text.replace(daysAgoMatch[0], " ")),
+    offset: -Number(daysAgoMatch[1]),
+  };
+}
+
+export function parseRelativeDayOffset(text?: string) {
+  return extractRelativeDayOffset(text).offset;
+}
+
+export function extractTimeOfDay(text?: string) {
+  if (!text) {
+    return {
+      cleanedText: "",
+      time: null,
+    };
+  }
+
+  const twelveHourMatch = text.match(
+    /\b(1[0-2]|0?[1-9])(?::([0-5]\d))?\s*([ap]m)\b/i,
+  );
+  if (twelveHourMatch) {
+    const hours = Number(twelveHourMatch[1]);
+    const minutes = twelveHourMatch[2] ? Number(twelveHourMatch[2]) : 0;
+    const meridiem = twelveHourMatch[3].toLowerCase();
+
+    return {
+      cleanedText: collapseWhitespace(text.replace(twelveHourMatch[0], " ")),
+      time: {
+        hours: meridiem === "am" ? hours % 12 : (hours % 12) + 12,
+        minutes,
+      },
+    };
+  }
+
+  const twentyFourHourMatch = text.match(/\b([01]?\d|2[0-3]):([0-5]\d)\b/);
+  if (twentyFourHourMatch) {
+    return {
+      cleanedText: collapseWhitespace(
+        text.replace(twentyFourHourMatch[0], " "),
+      ),
+      time: {
+        hours: Number(twentyFourHourMatch[1]),
+        minutes: Number(twentyFourHourMatch[2]),
+      },
+    };
+  }
+
+  return {
+    cleanedText: collapseWhitespace(text),
+    time: null,
+  };
 }
 
 export function getPresetDateKey(
@@ -92,17 +202,38 @@ export function getSafeTransactionDateKey(
 export function getCreatedAtForDateKey(
   dateKey: string,
   referenceDate = new Date(),
+  options?: {
+    timeSource?: Date | string;
+  },
 ) {
   const safeDateKey = getSafeTransactionDateKey(dateKey, referenceDate);
+  const timeSource = parseTimeSource(options?.timeSource);
 
-  if (safeDateKey === getLocalDateKey(referenceDate)) {
+  if (safeDateKey === getLocalDateKey(referenceDate) && !timeSource) {
     return referenceDate.toISOString();
   }
 
   const parsed = parseLocalDateKey(safeDateKey);
   if (!parsed) return referenceDate.toISOString();
 
-  return new Date(parsed.year, parsed.month - 1, parsed.day, 12).toISOString();
+  const dateWithTime = new Date(
+    parsed.year,
+    parsed.month - 1,
+    parsed.day,
+    timeSource?.getHours() ?? 12,
+    timeSource?.getMinutes() ?? 0,
+    timeSource?.getSeconds() ?? 0,
+    timeSource?.getMilliseconds() ?? 0,
+  );
+
+  if (
+    safeDateKey === getLocalDateKey(referenceDate) &&
+    dateWithTime.getTime() > referenceDate.getTime()
+  ) {
+    return referenceDate.toISOString();
+  }
+
+  return dateWithTime.toISOString();
 }
 
 export function getTransactionDatePreset(
@@ -134,15 +265,23 @@ export function formatTransactionDateLabel(
   const presetOption = transactionDatePresetOptions.find(
     (option) => option.value === preset,
   );
-
-  if (preset !== "custom") return presetOption?.label ?? "Today";
-
   const date = isoDate ? new Date(isoDate) : referenceDate;
-  return date.toLocaleDateString("en-US", {
+  const safeDate = Number.isNaN(date.getTime()) ? referenceDate : date;
+  const timeLabel = safeDate.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+
+  if (preset !== "custom") {
+    return `${presetOption?.label ?? "Today"}, ${timeLabel}`;
+  }
+
+  return `${safeDate.toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
     year: "numeric",
-  });
+  })}, ${timeLabel}`;
 }
 
 export function prepareTransactionCreatedAt(
@@ -166,5 +305,7 @@ export function prepareTransactionCreatedAt(
   const selectedDate = new Date(selectedCreatedAt);
   if (Number.isNaN(selectedDate.getTime())) return now.toISOString();
 
-  return getCreatedAtForDateKey(getLocalDateKey(selectedDate), now);
+  return getCreatedAtForDateKey(getLocalDateKey(selectedDate), now, {
+    timeSource: selectedDate,
+  });
 }
