@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import DateTimePicker from "@/components/ui/date-time-picker";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import { cn } from "@/lib/utils";
 import {
   formatTransactionDateLabel,
   getCreatedAtForDateKey,
@@ -39,7 +40,12 @@ export default function TransactionDateField() {
             <div className="flex flex-col gap-3">
               <div className="flex items-center justify-between gap-3">
                 <FieldLabel htmlFor={field.name}>Datetime</FieldLabel>
-                <p className="text-muted-foreground text-sm">
+                <p
+                  key={createdAt}
+                  className={cn(
+                    "text-muted-foreground animate-fade-in-up text-sm",
+                  )}
+                >
                   {formatTransactionDateLabel(createdAt)}
                 </p>
               </div>

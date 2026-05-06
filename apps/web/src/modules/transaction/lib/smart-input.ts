@@ -173,12 +173,21 @@ export function parseSmartInput(
   const { cleanedText, time } = extractTimeOfDay(textWithoutRelativeDay);
 
   if (time) {
+    const todayDateKey = getLocalDateKey(referenceDate);
     const dateKey =
       relativeDayOffset === null
-        ? getLocalDateKey(referenceDate)
+        ? todayDateKey
         : getRelativeLocalDateKey(relativeDayOffset, referenceDate);
     const timeSource = new Date(referenceDate);
     timeSource.setHours(time.hours, time.minutes, 0, 0);
+
+    if (
+      dateKey === todayDateKey &&
+      timeSource.getTime() > referenceDate.getTime()
+    ) {
+      warnings.push("Time is in the future, using current time instead");
+    }
+
     datetime = getCreatedAtForDateKey(dateKey, referenceDate, { timeSource });
   } else if (relativeDayOffset !== null) {
     datetime = getRelativeIsoDateTime(relativeDayOffset, referenceDate);

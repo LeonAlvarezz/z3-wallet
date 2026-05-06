@@ -289,6 +289,7 @@
   --spacing-bottom-nav-total-h: var(--bottom-nav-total-h);
 
   --animate-slide-up: slide-up 1s ease forwards;
+  --animate-fade-in-up: fade-in-up 0.3s ease-out;
 
   @keyframes slide-up {
     from {
@@ -299,8 +300,21 @@
       transform: translateY(0);
     }
   }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
   filter: invert(0.5);
 }
+
+/* index.css */

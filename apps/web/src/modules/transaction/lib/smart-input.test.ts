@@ -256,4 +256,38 @@ describe("parseSmartInput", () => {
       new Date(2026, 3, 11, 20, 30, 0, 0).toISOString(),
     );
   });
+
+  it("warns and clamps when a typed time is in the future for today", () => {
+    const referenceDate = new Date(2026, 3, 11, 10, 30, 0, 0);
+
+    const result = parseSmartInput(
+      "+100 salary 8pm",
+      categories,
+      rules,
+      referenceDate,
+    );
+
+    expect(result.note).toBe("salary");
+    expect(result.datetime).toBe(referenceDate.toISOString());
+    expect(result.warnings).toEqual([
+      "Time is in the future, using current time instead",
+    ]);
+  });
+
+  it("does not warn for future-looking times on past dates", () => {
+    const referenceDate = new Date(2026, 3, 11, 10, 30, 0, 0);
+
+    const result = parseSmartInput(
+      "+100 salary yesterday 8pm",
+      categories,
+      rules,
+      referenceDate,
+    );
+
+    expect(result.note).toBe("salary");
+    expect(result.datetime).toBe(
+      new Date(2026, 3, 10, 20, 0, 0, 0).toISOString(),
+    );
+    expect(result.warnings).toEqual([]);
+  });
 });

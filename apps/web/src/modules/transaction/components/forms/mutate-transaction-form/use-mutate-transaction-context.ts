@@ -126,6 +126,8 @@ export const useMutateTransactionForm = (props: Props) => {
     const focusNote = options?.focusNote ?? false;
 
     const result = parseSmartInput(smartText, categories, rules);
+    console.log({ result });
+
     const didParseAnything =
       result.parsed.amount || result.parsed.category || result.parsed.note;
 
@@ -190,7 +192,7 @@ export const useMutateTransactionForm = (props: Props) => {
     setSubmitAttempts((n) => n + 1);
 
     if (!smartAppliedOnce) {
-      applySmartInput({ focusNote: false, showToasts: false });
+      applySmartInput({ focusNote: false, showToasts: true });
       return;
     }
 
@@ -199,10 +201,10 @@ export const useMutateTransactionForm = (props: Props) => {
     //   return;
     // }
 
-    console.log({ payload: form.state.values });
-    toast(JSON.stringify(form.state.values, null, 2));
+    // console.log({ payload: form.state.values });
+    // toast(JSON.stringify(form.state.values, null, 2));
 
-    applySmartInput({ focusNote: false, showToasts: false });
+    applySmartInput({ focusNote: false, showToasts: true });
   };
 
   return {

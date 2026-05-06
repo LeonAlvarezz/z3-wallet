@@ -107,12 +107,7 @@ export function DateTimePicker({
 
     const timeSource = selectedDate ?? new Date();
     const nextDate = new Date(date);
-    nextDate.setHours(
-      timeSource.getHours(),
-      timeSource.getMinutes(),
-      0,
-      0,
-    );
+    nextDate.setHours(timeSource.getHours(), timeSource.getMinutes(), 0, 0);
 
     emitChange(nextDate);
   };
@@ -161,12 +156,7 @@ export function DateTimePicker({
           <div className="space-y-3 p-4">
             <div className="flex items-center justify-between gap-3">
               <Label htmlFor={inputId}>Time</Label>
-              <Button
-                type="button"
-                size="xs"
-                variant="ghost"
-                onClick={setNow}
-              >
+              <Button type="button" size="xs" variant="ghost" onClick={setNow}>
                 <Clock3 className="size-3" />
                 Now
               </Button>

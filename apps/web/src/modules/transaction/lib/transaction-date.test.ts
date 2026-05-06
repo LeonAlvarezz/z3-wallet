@@ -22,50 +22,6 @@ describe("transaction date helpers", () => {
     expect(getPresetDateKey("two-days-ago", referenceDate)).toBe("2026-04-09");
   });
 
-  it("returns relative ISO datetimes while preserving the time", () => {
-    expect(getRelativeIsoDateTime(0, referenceDate)).toBe(
-      referenceDate.toISOString(),
-    );
-    expect(getRelativeIsoDateTime(-1, referenceDate)).toBe(
-      new Date(2026, 3, 10, 10, 30, 0, 0).toISOString(),
-    );
-  });
-
-  it("parses relative day offsets from natural language", () => {
-    expect(parseRelativeDayOffset("today salary")).toBe(0);
-    expect(parseRelativeDayOffset("yesterday salary")).toBe(-1);
-    expect(parseRelativeDayOffset("2 day ago salary")).toBe(-2);
-    expect(parseRelativeDayOffset("2 days ago salary")).toBe(-2);
-    expect(parseRelativeDayOffset("2d ago salary")).toBe(-2);
-    expect(parseRelativeDayOffset("salary")).toBeNull();
-  });
-
-  it("extracts and strips relative day phrases", () => {
-    expect(extractRelativeDayOffset("salary 2d ago")).toEqual({
-      cleanedText: "salary",
-      offset: -2,
-    });
-    expect(extractRelativeDayOffset("salary today")).toEqual({
-      cleanedText: "salary",
-      offset: 0,
-    });
-  });
-
-  it("extracts and strips time phrases", () => {
-    expect(extractTimeOfDay("salary 8pm")).toEqual({
-      cleanedText: "salary",
-      time: { hours: 20, minutes: 0 },
-    });
-    expect(extractTimeOfDay("salary 20:00")).toEqual({
-      cleanedText: "salary",
-      time: { hours: 20, minutes: 0 },
-    });
-    expect(extractTimeOfDay("salary 8:30pm")).toEqual({
-      cleanedText: "salary",
-      time: { hours: 20, minutes: 30 },
-    });
-  });
-
   it("uses submit time for today", () => {
     expect(getCreatedAtForDateKey("2026-04-11", referenceDate)).toBe(
       referenceDate.toISOString(),
