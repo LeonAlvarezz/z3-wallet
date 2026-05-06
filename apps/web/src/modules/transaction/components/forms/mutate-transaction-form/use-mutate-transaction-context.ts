@@ -196,13 +196,10 @@ export const useMutateTransactionForm = (props: Props) => {
       return;
     }
 
-    // if (isFormComplete()) {
-    //   form.handleSubmit();
-    //   return;
-    // }
-
-    // console.log({ payload: form.state.values });
-    // toast(JSON.stringify(form.state.values, null, 2));
+    if (isFormComplete()) {
+      form.handleSubmit();
+      return;
+    }
 
     applySmartInput({ focusNote: false, showToasts: true });
   };
