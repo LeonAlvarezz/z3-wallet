@@ -10,7 +10,7 @@
     "check-types": "tsc --noEmit"
   },
   "peerDependencies": {
-    "typescript": "^5"
+    "typescript": ">=5 <7"
   },
   "dependencies": {
     "@z3-wallet/types": "workspace:*"

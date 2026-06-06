@@ -24,25 +24,26 @@ type UpdateProps = {
 
 type Props = CreateProps | UpdateProps;
 export const useMutateTransactionForm = (props: Props) => {
-  const initialCreatedAtRef = useRef(new Date().toISOString());
+  const [initialCreatedAt] = useState(() => new Date().toISOString());
   const [smartText, setSmartText] = useState("");
   const [loading, setLoading] = useState(false);
   const [smartAppliedOnce, setSmartAppliedOnce] = useState(false);
   const noteTextareaRef = useRef<HTMLTextAreaElement | null>(null);
   const [isCategoryExpanded, setIsCategoryExpanded] = useState(false);
   const [submitAttempts, setSubmitAttempts] = useState(0);
-  const defaultValues: TransactionModel.CreateTransactionDto = props.defaultValue
-    ? {
-        ...props.defaultValue,
-        created_at: props.defaultValue.created_at ?? initialCreatedAtRef.current,
-      }
-    : {
-        amount: 0,
-        category_id: 0,
-        description: "",
-        type: TransactionModel.TransactionTypeEnum.EXPENSE,
-        created_at: initialCreatedAtRef.current,
-      };
+  const defaultValues: TransactionModel.CreateTransactionDto =
+    props.defaultValue
+      ? {
+          ...props.defaultValue,
+          created_at: props.defaultValue.created_at ?? initialCreatedAt,
+        }
+      : {
+          amount: 0,
+          category_id: 0,
+          description: "",
+          type: TransactionModel.TransactionTypeEnum.EXPENSE,
+          created_at: initialCreatedAt,
+        };
   const resetAll = () => {
     form.reset();
     setSmartText("");
@@ -125,6 +126,8 @@ export const useMutateTransactionForm = (props: Props) => {
     const focusNote = options?.focusNote ?? false;
 
     const result = parseSmartInput(smartText, categories, rules);
+    console.log({ result });
+
     const didParseAnything =
       result.parsed.amount || result.parsed.category || result.parsed.note;
 
@@ -150,6 +153,12 @@ export const useMutateTransactionForm = (props: Props) => {
         "description",
         result.note.charAt(0).toUpperCase() + result.note.slice(1),
       );
+    }
+
+    if (result.datetime !== undefined) {
+      console.log({ date: result.datetime });
+
+      form.setFieldValue("created_at", result.datetime);
     }
 
     if (result.type !== undefined) {
@@ -183,7 +192,7 @@ export const useMutateTransactionForm = (props: Props) => {
     setSubmitAttempts((n) => n + 1);
 
     if (!smartAppliedOnce) {
-      applySmartInput({ focusNote: false, showToasts: false });
+      applySmartInput({ focusNote: false, showToasts: true });
       return;
     }
 
@@ -192,7 +201,7 @@ export const useMutateTransactionForm = (props: Props) => {
       return;
     }
 
-    applySmartInput({ focusNote: false, showToasts: false });
+    applySmartInput({ focusNote: false, showToasts: true });
   };
 
   return {

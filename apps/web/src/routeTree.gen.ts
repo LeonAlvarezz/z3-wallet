@@ -24,7 +24,6 @@ import { Route as HomeLayoutProfileEditRouteImport } from './routes/_homeLayout/
 import { Route as HomeLayoutProfileChangePasswordRouteImport } from './routes/_homeLayout/profile/change-password'
 import { Route as HomeLayoutSettingsNotificationsIndexRouteImport } from './routes/_homeLayout/settings/notifications/index'
 import { Route as HomeLayoutSettingsCategoryIndexRouteImport } from './routes/_homeLayout/settings/category/index'
-import { Route as HomeLayoutSettingsBudgetGoalsIndexRouteImport } from './routes/_homeLayout/settings/budget-goals/index'
 import { Route as HomeLayoutSettingsCategoryRuleRouteImport } from './routes/_homeLayout/settings/category/rule'
 
 const ForbiddenRoute = ForbiddenRouteImport.update({
@@ -107,12 +106,6 @@ const HomeLayoutSettingsCategoryIndexRoute =
     path: '/settings/category/',
     getParentRoute: () => HomeLayoutRouteRoute,
   } as any)
-const HomeLayoutSettingsBudgetGoalsIndexRoute =
-  HomeLayoutSettingsBudgetGoalsIndexRouteImport.update({
-    id: '/settings/budget-goals/',
-    path: '/settings/budget-goals/',
-    getParentRoute: () => HomeLayoutRouteRoute,
-  } as any)
 const HomeLayoutSettingsCategoryRuleRoute =
   HomeLayoutSettingsCategoryRuleRouteImport.update({
     id: '/settings/category/rule',
@@ -133,7 +126,6 @@ export interface FileRoutesByFullPath {
   '/profile/': typeof HomeLayoutProfileIndexRoute
   '/transaction/': typeof HomeLayoutTransactionIndexRoute
   '/settings/category/rule': typeof HomeLayoutSettingsCategoryRuleRoute
-  '/settings/budget-goals/': typeof HomeLayoutSettingsBudgetGoalsIndexRoute
   '/settings/category/': typeof HomeLayoutSettingsCategoryIndexRoute
   '/settings/notifications/': typeof HomeLayoutSettingsNotificationsIndexRoute
 }
@@ -150,7 +142,6 @@ export interface FileRoutesByTo {
   '/profile': typeof HomeLayoutProfileIndexRoute
   '/transaction': typeof HomeLayoutTransactionIndexRoute
   '/settings/category/rule': typeof HomeLayoutSettingsCategoryRuleRoute
-  '/settings/budget-goals': typeof HomeLayoutSettingsBudgetGoalsIndexRoute
   '/settings/category': typeof HomeLayoutSettingsCategoryIndexRoute
   '/settings/notifications': typeof HomeLayoutSettingsNotificationsIndexRoute
 }
@@ -170,7 +161,6 @@ export interface FileRoutesById {
   '/_homeLayout/profile/': typeof HomeLayoutProfileIndexRoute
   '/_homeLayout/transaction/': typeof HomeLayoutTransactionIndexRoute
   '/_homeLayout/settings/category/rule': typeof HomeLayoutSettingsCategoryRuleRoute
-  '/_homeLayout/settings/budget-goals/': typeof HomeLayoutSettingsBudgetGoalsIndexRoute
   '/_homeLayout/settings/category/': typeof HomeLayoutSettingsCategoryIndexRoute
   '/_homeLayout/settings/notifications/': typeof HomeLayoutSettingsNotificationsIndexRoute
 }
@@ -189,7 +179,6 @@ export interface FileRouteTypes {
     | '/profile/'
     | '/transaction/'
     | '/settings/category/rule'
-    | '/settings/budget-goals/'
     | '/settings/category/'
     | '/settings/notifications/'
   fileRoutesByTo: FileRoutesByTo
@@ -206,7 +195,6 @@ export interface FileRouteTypes {
     | '/profile'
     | '/transaction'
     | '/settings/category/rule'
-    | '/settings/budget-goals'
     | '/settings/category'
     | '/settings/notifications'
   id:
@@ -225,7 +213,6 @@ export interface FileRouteTypes {
     | '/_homeLayout/profile/'
     | '/_homeLayout/transaction/'
     | '/_homeLayout/settings/category/rule'
-    | '/_homeLayout/settings/budget-goals/'
     | '/_homeLayout/settings/category/'
     | '/_homeLayout/settings/notifications/'
   fileRoutesById: FileRoutesById
@@ -345,13 +332,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HomeLayoutSettingsCategoryIndexRouteImport
       parentRoute: typeof HomeLayoutRouteRoute
     }
-    '/_homeLayout/settings/budget-goals/': {
-      id: '/_homeLayout/settings/budget-goals/'
-      path: '/settings/budget-goals'
-      fullPath: '/settings/budget-goals/'
-      preLoaderRoute: typeof HomeLayoutSettingsBudgetGoalsIndexRouteImport
-      parentRoute: typeof HomeLayoutRouteRoute
-    }
     '/_homeLayout/settings/category/rule': {
       id: '/_homeLayout/settings/category/rule'
       path: '/settings/category/rule'
@@ -370,7 +350,6 @@ interface HomeLayoutRouteRouteChildren {
   HomeLayoutProfileIndexRoute: typeof HomeLayoutProfileIndexRoute
   HomeLayoutTransactionIndexRoute: typeof HomeLayoutTransactionIndexRoute
   HomeLayoutSettingsCategoryRuleRoute: typeof HomeLayoutSettingsCategoryRuleRoute
-  HomeLayoutSettingsBudgetGoalsIndexRoute: typeof HomeLayoutSettingsBudgetGoalsIndexRoute
   HomeLayoutSettingsCategoryIndexRoute: typeof HomeLayoutSettingsCategoryIndexRoute
   HomeLayoutSettingsNotificationsIndexRoute: typeof HomeLayoutSettingsNotificationsIndexRoute
 }
@@ -383,8 +362,6 @@ const HomeLayoutRouteRouteChildren: HomeLayoutRouteRouteChildren = {
   HomeLayoutProfileIndexRoute: HomeLayoutProfileIndexRoute,
   HomeLayoutTransactionIndexRoute: HomeLayoutTransactionIndexRoute,
   HomeLayoutSettingsCategoryRuleRoute: HomeLayoutSettingsCategoryRuleRoute,
-  HomeLayoutSettingsBudgetGoalsIndexRoute:
-    HomeLayoutSettingsBudgetGoalsIndexRoute,
   HomeLayoutSettingsCategoryIndexRoute: HomeLayoutSettingsCategoryIndexRoute,
   HomeLayoutSettingsNotificationsIndexRoute:
     HomeLayoutSettingsNotificationsIndexRoute,

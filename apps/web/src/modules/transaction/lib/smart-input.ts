@@ -1,11 +1,20 @@
 import { normalizeForMatch } from "@/utils/string";
 import {
+  extractRelativeDayOffset,
+  extractTimeOfDay,
+  getCreatedAtForDateKey,
+  getLocalDateKey,
+  getRelativeIsoDateTime,
+  getRelativeLocalDateKey,
+} from "./transaction-date";
+import {
   CategoryRuleModel,
   TransactionModel,
   type CategoryModel,
 } from "@z3-wallet/types";
 
 export type SmartInputParseResult = {
+  datetime: string;
   amount?: number;
   category?: CategoryModel.CategoryDto;
   note?: string;
@@ -142,19 +151,49 @@ export function parseSmartInput(
   text: string,
   categories: CategoryModel.CategoryDto[],
   rules: CategoryRuleModel.CategoryRuleListDto[],
+  referenceDate = new Date(),
 ): SmartInputParseResult {
   const warnings: string[] = [];
   const raw = text.trim();
+  const defaultDatetime = getRelativeIsoDateTime(0, referenceDate);
+  let datetime = defaultDatetime;
 
   if (!raw) {
     return {
+      datetime,
       categorySource: "none",
       parsed: { amount: false, category: false, note: false },
       warnings,
       type: TransactionModel.TransactionTypeEnum.EXPENSE,
     };
   }
-  let tokens = raw.split(/\s+/g).filter(Boolean);
+  const { cleanedText: textWithoutRelativeDay, offset: relativeDayOffset } =
+    extractRelativeDayOffset(raw);
+
+  const { cleanedText, time } = extractTimeOfDay(textWithoutRelativeDay);
+
+  if (time) {
+    const todayDateKey = getLocalDateKey(referenceDate);
+    const dateKey =
+      relativeDayOffset === null
+        ? todayDateKey
+        : getRelativeLocalDateKey(relativeDayOffset, referenceDate);
+    const timeSource = new Date(referenceDate);
+    timeSource.setHours(time.hours, time.minutes, 0, 0);
+
+    if (
+      dateKey === todayDateKey &&
+      timeSource.getTime() > referenceDate.getTime()
+    ) {
+      warnings.push("Time is in the future, using current time instead");
+    }
+
+    datetime = getCreatedAtForDateKey(dateKey, referenceDate, { timeSource });
+  } else if (relativeDayOffset !== null) {
+    datetime = getRelativeIsoDateTime(relativeDayOffset, referenceDate);
+  }
+
+  let tokens = cleanedText.split(/\s+/g).filter(Boolean);
   // 1) Amount: first standalone numeric token (allows $12, 12.50, 1,234)
 
   let amount: number | undefined;
@@ -178,7 +217,12 @@ export function parseSmartInput(
     case TransactionModel.TransactionTypeEnum.TOP_UP: {
       const noteText = tokens.join(" ").trim();
       const note = noteText ? noteText : undefined;
+
+      /**
+       * +500 Salary (today | yesterday | X day ago) (8pm | 8:30 | now | 20:30)
+       */
       return {
+        datetime,
         amount,
         category: undefined,
         note,
@@ -244,6 +288,7 @@ export function parseSmartInput(
       }
 
       return {
+        datetime,
         amount,
         category,
         note,

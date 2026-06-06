@@ -71,8 +71,8 @@ export default function TransactionPage() {
     navigate({
       to: "/transaction",
       search: (prev) => ({
-        ...prev,
         query: nextQuery.length ? nextQuery : undefined,
+        time_frame: prev.time_frame,
       }),
       replace: true,
     });
@@ -104,7 +104,7 @@ export default function TransactionPage() {
                   navigate({
                     to: "/transaction",
                     search: (prev) => ({
-                      ...prev,
+                      query: prev.query,
                       time_frame: value as BaseModel.TimeFrameEnum,
                     }),
                     replace: true,

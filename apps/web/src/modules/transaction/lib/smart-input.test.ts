@@ -150,4 +150,144 @@ describe("parseSmartInput", () => {
     expect(result.parsed.amount).toBe(false);
     expect(result.parsed.note).toBe(true);
   });
+
+  it("supports top-up notes with X day ago", () => {
+    const referenceDate = new Date(2026, 3, 11, 10, 30, 0, 0);
+
+    const result = parseSmartInput(
+      "+100 salary 2 day ago",
+      categories,
+      rules,
+      referenceDate,
+    );
+
+    expect(result.type).toBe(TransactionModel.TransactionTypeEnum.TOP_UP);
+    expect(result.note).toBe("salary");
+    expect(result.datetime).toBe(
+      new Date(2026, 3, 9, 10, 30, 0, 0).toISOString(),
+    );
+  });
+
+  it("supports top-up notes with Xd ago", () => {
+    const referenceDate = new Date(2026, 3, 11, 10, 30, 0, 0);
+
+    const result = parseSmartInput(
+      "+100 salary 2d ago",
+      categories,
+      rules,
+      referenceDate,
+    );
+
+    expect(result.type).toBe(TransactionModel.TransactionTypeEnum.TOP_UP);
+    expect(result.note).toBe("salary");
+    expect(result.datetime).toBe(
+      new Date(2026, 3, 9, 10, 30, 0, 0).toISOString(),
+    );
+  });
+
+  it("strips relative day phrases from expense notes", () => {
+    const referenceDate = new Date(2026, 3, 11, 10, 30, 0, 0);
+
+    const result = parseSmartInput(
+      "5 Starbucks 2d ago",
+      categories,
+      rules,
+      referenceDate,
+    );
+
+    expect(result.amount).toBe(5);
+    expect(result.category?.name).toBe("Coffee");
+    expect(result.categorySource).toBe("rule");
+    expect(result.note).toBe("starbucks");
+    expect(result.datetime).toBe(
+      new Date(2026, 3, 9, 10, 30, 0, 0).toISOString(),
+    );
+  });
+
+  it("supports top-up notes with 8pm", () => {
+    const referenceDate = new Date(2026, 3, 11, 10, 30, 0, 0);
+
+    const result = parseSmartInput(
+      "+100 salary 2d ago 8pm",
+      categories,
+      rules,
+      referenceDate,
+    );
+
+    expect(result.type).toBe(TransactionModel.TransactionTypeEnum.TOP_UP);
+    expect(result.note).toBe("salary");
+    expect(result.datetime).toBe(
+      new Date(2026, 3, 9, 20, 0, 0, 0).toISOString(),
+    );
+  });
+
+  it("supports top-up notes with 20:00", () => {
+    const referenceDate = new Date(2026, 3, 11, 21, 0, 0, 0);
+
+    const result = parseSmartInput(
+      "+100 salary 20:00",
+      categories,
+      rules,
+      referenceDate,
+    );
+
+    expect(result.type).toBe(TransactionModel.TransactionTypeEnum.TOP_UP);
+    expect(result.note).toBe("salary");
+    expect(result.datetime).toBe(
+      new Date(2026, 3, 11, 20, 0, 0, 0).toISOString(),
+    );
+  });
+
+  it("supports expense notes with 8:30pm", () => {
+    const referenceDate = new Date(2026, 3, 11, 23, 0, 0, 0);
+
+    const result = parseSmartInput(
+      "5 Starbucks 8:30pm",
+      categories,
+      rules,
+      referenceDate,
+    );
+
+    expect(result.amount).toBe(5);
+    expect(result.category?.name).toBe("Coffee");
+    expect(result.categorySource).toBe("rule");
+    expect(result.note).toBe("starbucks");
+    expect(result.datetime).toBe(
+      new Date(2026, 3, 11, 20, 30, 0, 0).toISOString(),
+    );
+  });
+
+  it("warns and clamps when a typed time is in the future for today", () => {
+    const referenceDate = new Date(2026, 3, 11, 10, 30, 0, 0);
+
+    const result = parseSmartInput(
+      "+100 salary 8pm",
+      categories,
+      rules,
+      referenceDate,
+    );
+
+    expect(result.note).toBe("salary");
+    expect(result.datetime).toBe(referenceDate.toISOString());
+    expect(result.warnings).toEqual([
+      "Time is in the future, using current time instead",
+    ]);
+  });
+
+  it("does not warn for future-looking times on past dates", () => {
+    const referenceDate = new Date(2026, 3, 11, 10, 30, 0, 0);
+
+    const result = parseSmartInput(
+      "+100 salary yesterday 8pm",
+      categories,
+      rules,
+      referenceDate,
+    );
+
+    expect(result.note).toBe("salary");
+    expect(result.datetime).toBe(
+      new Date(2026, 3, 10, 20, 0, 0, 0).toISOString(),
+    );
+    expect(result.warnings).toEqual([]);
+  });
 });

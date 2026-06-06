@@ -1,4 +1,3 @@
-import { DefaultErrorMessage } from "@z3-wallet/types";
 import { isNotFound } from "@tanstack/react-router";
 
 type RouteErrorLike = {
@@ -25,7 +24,9 @@ function readString(value: unknown) {
 }
 
 function readNumber(value: unknown) {
-  return typeof value === "number" && Number.isFinite(value) ? value : undefined;
+  return typeof value === "number" && Number.isFinite(value)
+    ? value
+    : undefined;
 }
 
 function extractErrorFields(error: unknown): {
@@ -65,18 +66,14 @@ export function parseRouteError(error: unknown): {
   if (isNotFound(error)) {
     return {
       status: 404,
-      message: DefaultErrorMessage.NOT_FOUND,
+      message: "Not Found",
       variant: "not-found",
     };
   }
 
   const { status, code, message } = extractErrorFields(error);
 
-  if (
-    status === 404 ||
-    code === "NOT_FOUND" ||
-    code === "ENDPOINT_NOT_FOUND"
-  ) {
+  if (status === 404 || code === "NOT_FOUND" || code === "ENDPOINT_NOT_FOUND") {
     return { status: 404, code, message, variant: "not-found" };
   }
 

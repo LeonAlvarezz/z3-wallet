@@ -1,8 +1,8 @@
-import { Link } from "@tanstack/react-router";
 import { Skeleton } from "@/components/ui/skeleton";
 import Empty from "@/components/empty/Empty";
 import { TransactionCard } from "@/modules/transaction/components/transaction-card";
 import { useGetRecentTransactions } from "../../hooks/use-get-recent-transactions";
+import { Link } from "@tanstack/react-router";
 
 export default function DashboardRecentSection() {
   const { data: recentTransactionResult, isLoading: isRecentLoading } =
@@ -15,6 +15,7 @@ export default function DashboardRecentSection() {
         <h1 className="font-bold">Recent</h1>
         <Link
           to="/transaction"
+          search={{ query: undefined, time_frame: undefined }}
           className="text-primary text-sm"
           preload={false}
         >

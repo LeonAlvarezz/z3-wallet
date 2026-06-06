@@ -13,6 +13,7 @@ import { AuthService } from "./auth.service";
 import { OpenApiKey } from "../app/openapi";
 import { RedisService } from "@/lib/redis/redis.service";
 import { rateLimitGuard } from "@/lib/rate-limit/rate-limit.guard";
+import {  clearSessionCookie, setSessionCookie } from "./cookie";
 
 export const auth = new Elysia()
   .use(authGuard)
@@ -55,7 +56,7 @@ export const auth = new Elysia()
       "/sign-in",
       async ({ cookie: { session_token }, body }) => {
         const data = await AuthService.signIn(body);
-        session_token.value = data.session_token;
+        setSessionCookie(session_token, data.session_token, data.expires_at);
         await RedisService.setSession(data.session_token, data.user);
         const publicData = UserModel.UserPublicSessionSchema.parse(data);
         return Success(publicData);
@@ -102,7 +103,7 @@ export const auth = new Elysia()
         );
         if (!result.success) return redirect(result.redirect_to);
 
-        session_token.value = result.session.session_token;
+        setSessionCookie(session_token, result.session.session_token, result.session.expires_at );
         await RedisService.setSession(
           result.session.session_token,
           result.session.user,
@@ -146,7 +147,7 @@ export const auth = new Elysia()
         );
         if (!result.success) return redirect(result.redirect_to);
 
-        session_token.value = result.session.session_token;
+        setSessionCookie(session_token, result.session.session_token, result.session.expires_at);
         await RedisService.setSession(
           result.session.session_token,
           result.session.user,
@@ -169,7 +170,7 @@ export const auth = new Elysia()
         if (!session_token.value)
           throw new BadRequestException({ message: "Missing Token" });
         await AuthService.signOut(session_token.value);
-        delete session_token.value;
+        clearSessionCookie(session_token);
         return SimpleSuccess();
       },
       {
