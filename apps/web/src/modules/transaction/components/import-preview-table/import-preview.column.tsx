@@ -29,6 +29,22 @@ const TRANSACTION_TYPE_OPTIONS: EditableSelectCellOption[] = [
   },
 ];
 
+const importPreviewDateFormatter = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+  hour: "numeric",
+  minute: "2-digit",
+});
+
+function formatImportedDate(isoDate: string) {
+  const date = new Date(isoDate);
+
+  if (Number.isNaN(date.getTime())) return "Invalid date";
+
+  return importPreviewDateFormatter.format(date);
+}
+
 export function createImportPreviewColumns({
   onUpdateRow,
   getCategoryError,
@@ -56,6 +72,7 @@ export function createImportPreviewColumns({
       enableSorting: false,
       enableHiding: false,
     },
+
     {
       accessorKey: "amount",
       header: "Amount",
@@ -115,6 +132,18 @@ export function createImportPreviewColumns({
           />
         );
       },
+    },
+    {
+      accessorKey: "created_at",
+      header: "Date",
+      cell: ({ row }) => (
+        <span
+          title={row.original.created_at}
+          className="text-muted-foreground block min-w-36 text-sm whitespace-nowrap"
+        >
+          {formatImportedDate(row.original.created_at)}
+        </span>
+      ),
     },
     {
       accessorKey: "type",
