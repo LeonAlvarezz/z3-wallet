@@ -19,6 +19,7 @@ import { Route as HomeLayoutProfileIndexRouteImport } from './routes/_homeLayout
 import { Route as HomeLayoutDashboardIndexRouteImport } from './routes/_homeLayout/dashboard/index'
 import { Route as PublicLayoutAuthRegisterRouteImport } from './routes/_publicLayout/auth/register'
 import { Route as PublicLayoutAuthLoginRouteImport } from './routes/_publicLayout/auth/login'
+import { Route as HomeLayoutTransactionImportPrototypeRouteImport } from './routes/_homeLayout/transaction/import-prototype'
 import { Route as HomeLayoutTransactionAddRouteImport } from './routes/_homeLayout/transaction/add'
 import { Route as HomeLayoutProfileEditRouteImport } from './routes/_homeLayout/profile/edit'
 import { Route as HomeLayoutProfileChangePasswordRouteImport } from './routes/_homeLayout/profile/change-password'
@@ -77,6 +78,12 @@ const PublicLayoutAuthLoginRoute = PublicLayoutAuthLoginRouteImport.update({
   path: '/auth/login',
   getParentRoute: () => PublicLayoutRouteRoute,
 } as any)
+const HomeLayoutTransactionImportPrototypeRoute =
+  HomeLayoutTransactionImportPrototypeRouteImport.update({
+    id: '/transaction/import-prototype',
+    path: '/transaction/import-prototype',
+    getParentRoute: () => HomeLayoutRouteRoute,
+  } as any)
 const HomeLayoutTransactionAddRoute =
   HomeLayoutTransactionAddRouteImport.update({
     id: '/transaction/add',
@@ -120,6 +127,7 @@ export interface FileRoutesByFullPath {
   '/profile/change-password': typeof HomeLayoutProfileChangePasswordRoute
   '/profile/edit': typeof HomeLayoutProfileEditRoute
   '/transaction/add': typeof HomeLayoutTransactionAddRoute
+  '/transaction/import-prototype': typeof HomeLayoutTransactionImportPrototypeRoute
   '/auth/login': typeof PublicLayoutAuthLoginRoute
   '/auth/register': typeof PublicLayoutAuthRegisterRoute
   '/dashboard/': typeof HomeLayoutDashboardIndexRoute
@@ -136,6 +144,7 @@ export interface FileRoutesByTo {
   '/profile/change-password': typeof HomeLayoutProfileChangePasswordRoute
   '/profile/edit': typeof HomeLayoutProfileEditRoute
   '/transaction/add': typeof HomeLayoutTransactionAddRoute
+  '/transaction/import-prototype': typeof HomeLayoutTransactionImportPrototypeRoute
   '/auth/login': typeof PublicLayoutAuthLoginRoute
   '/auth/register': typeof PublicLayoutAuthRegisterRoute
   '/dashboard': typeof HomeLayoutDashboardIndexRoute
@@ -155,6 +164,7 @@ export interface FileRoutesById {
   '/_homeLayout/profile/change-password': typeof HomeLayoutProfileChangePasswordRoute
   '/_homeLayout/profile/edit': typeof HomeLayoutProfileEditRoute
   '/_homeLayout/transaction/add': typeof HomeLayoutTransactionAddRoute
+  '/_homeLayout/transaction/import-prototype': typeof HomeLayoutTransactionImportPrototypeRoute
   '/_publicLayout/auth/login': typeof PublicLayoutAuthLoginRoute
   '/_publicLayout/auth/register': typeof PublicLayoutAuthRegisterRoute
   '/_homeLayout/dashboard/': typeof HomeLayoutDashboardIndexRoute
@@ -173,6 +183,7 @@ export interface FileRouteTypes {
     | '/profile/change-password'
     | '/profile/edit'
     | '/transaction/add'
+    | '/transaction/import-prototype'
     | '/auth/login'
     | '/auth/register'
     | '/dashboard/'
@@ -189,6 +200,7 @@ export interface FileRouteTypes {
     | '/profile/change-password'
     | '/profile/edit'
     | '/transaction/add'
+    | '/transaction/import-prototype'
     | '/auth/login'
     | '/auth/register'
     | '/dashboard'
@@ -207,6 +219,7 @@ export interface FileRouteTypes {
     | '/_homeLayout/profile/change-password'
     | '/_homeLayout/profile/edit'
     | '/_homeLayout/transaction/add'
+    | '/_homeLayout/transaction/import-prototype'
     | '/_publicLayout/auth/login'
     | '/_publicLayout/auth/register'
     | '/_homeLayout/dashboard/'
@@ -297,6 +310,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicLayoutAuthLoginRouteImport
       parentRoute: typeof PublicLayoutRouteRoute
     }
+    '/_homeLayout/transaction/import-prototype': {
+      id: '/_homeLayout/transaction/import-prototype'
+      path: '/transaction/import-prototype'
+      fullPath: '/transaction/import-prototype'
+      preLoaderRoute: typeof HomeLayoutTransactionImportPrototypeRouteImport
+      parentRoute: typeof HomeLayoutRouteRoute
+    }
     '/_homeLayout/transaction/add': {
       id: '/_homeLayout/transaction/add'
       path: '/transaction/add'
@@ -346,6 +366,7 @@ interface HomeLayoutRouteRouteChildren {
   HomeLayoutProfileChangePasswordRoute: typeof HomeLayoutProfileChangePasswordRoute
   HomeLayoutProfileEditRoute: typeof HomeLayoutProfileEditRoute
   HomeLayoutTransactionAddRoute: typeof HomeLayoutTransactionAddRoute
+  HomeLayoutTransactionImportPrototypeRoute: typeof HomeLayoutTransactionImportPrototypeRoute
   HomeLayoutDashboardIndexRoute: typeof HomeLayoutDashboardIndexRoute
   HomeLayoutProfileIndexRoute: typeof HomeLayoutProfileIndexRoute
   HomeLayoutTransactionIndexRoute: typeof HomeLayoutTransactionIndexRoute
@@ -358,6 +379,8 @@ const HomeLayoutRouteRouteChildren: HomeLayoutRouteRouteChildren = {
   HomeLayoutProfileChangePasswordRoute: HomeLayoutProfileChangePasswordRoute,
   HomeLayoutProfileEditRoute: HomeLayoutProfileEditRoute,
   HomeLayoutTransactionAddRoute: HomeLayoutTransactionAddRoute,
+  HomeLayoutTransactionImportPrototypeRoute:
+    HomeLayoutTransactionImportPrototypeRoute,
   HomeLayoutDashboardIndexRoute: HomeLayoutDashboardIndexRoute,
   HomeLayoutProfileIndexRoute: HomeLayoutProfileIndexRoute,
   HomeLayoutTransactionIndexRoute: HomeLayoutTransactionIndexRoute,

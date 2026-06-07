@@ -8,6 +8,13 @@
       "when": 1774843939914,
       "tag": "0000_shiny_firestar",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1780806444999,
+      "tag": "0001_dry_vulture",
+      "breakpoints": true
     }
   ]
 }
