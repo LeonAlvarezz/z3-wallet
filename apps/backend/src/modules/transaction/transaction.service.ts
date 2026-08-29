@@ -24,6 +24,7 @@ export class TransactionService {
     query: TransactionModel.TransactionFilterDto,
     user_id: number,
   ) {
+
     const data = await TransactionRepository.cPaginate(query, user_id);
     const dates = Array.from(
       new Set(data.map((row) => row.created_at.split("T")[0])),
